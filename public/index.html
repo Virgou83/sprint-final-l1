@@ -34,11 +34,8 @@ body {
   display: grid;
   grid-template-rows: 44px 1fr;
   grid-template-columns: 1fr 220px;
-  grid-template-areas:
-    "header header"
-    "cal    rank";
+  grid-template-areas: "header header" "cal rank";
   height: 100vh;
-  gap: 0;
 }
 
 /* ── HEADER ─────────────────────────────────────────── */
@@ -58,28 +55,15 @@ body {
   letter-spacing: -0.02em;
 }
 .header-title span { color: var(--muted); font-weight: 600; }
-#status {
-  font-size: 11px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--win);
-  animation: blink 2s ease-in-out infinite;
-}
-@keyframes blink {
-  0%,100% { opacity:1; } 50% { opacity:0.3; }
-}
+#status { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--win); animation: blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-/* ── CALENDRIER (gauche) ────────────────────────────── */
+/* ── CALENDRIER ─────────────────────────────────────── */
 #cal {
   grid-area: cal;
   overflow: auto;
-  padding: 12px;
+  padding: 10px;
   background: var(--bg);
 }
 #cal::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -88,33 +72,39 @@ body {
 
 .cal-grid {
   display: grid;
-  grid-template-columns: 56px repeat(8, minmax(80px, 1fr));
+  grid-template-columns: 62px repeat(8, minmax(88px, 1fr));
   gap: 3px;
-  min-width: 720px;
+  min-width: 780px;
 }
 
-/* Club headers */
+/* Header club */
 .ch {
   padding: 6px 4px;
   text-align: center;
   border-radius: var(--r);
   background: var(--bg2);
   border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
 }
-.ch-emoji { font-size: 14px; display: block; }
+.ch img {
+  width: 28px; height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+}
 .ch-name {
   font-family: 'Syne', sans-serif;
   font-size: 10px;
   font-weight: 700;
   color: var(--muted);
-  margin-top: 2px;
 }
 .ch-pts {
   font-family: 'Syne', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   color: var(--text);
-  margin-top: 1px;
 }
 .corner { background: transparent !important; border: none !important; }
 
@@ -129,11 +119,7 @@ body {
   background: var(--bg2);
   border: 1px solid var(--border);
 }
-.jlabel .jn {
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-}
+.jlabel .jn { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; }
 .jlabel .jd { font-size: 9px; color: var(--muted); text-align: center; line-height: 1.2; }
 
 /* Cellule match */
@@ -143,37 +129,45 @@ body {
   text-align: center;
   border: 1px solid var(--border);
   background: var(--bg2);
-  min-height: 44px;
+  min-height: 58px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2px;
   transition: background 0.15s, border-color 0.15s;
   position: relative;
 }
 .cell.clickable { cursor: pointer; }
 .cell.clickable:hover { border-color: rgba(255,255,255,0.15); background: var(--bg3); }
 
-.c-adv { font-size: 10px; color: var(--muted); line-height: 1.2; }
-.c-ha  { font-size: 9px; color: rgba(221,225,236,0.2); }
+/* Blason adversaire */
+.cell img.adv-badge {
+  width: 22px; height: 22px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+  flex-shrink: 0;
+}
+.c-adv { font-size: 9px; color: var(--muted); line-height: 1.2; }
+.c-ha { font-size: 11px; line-height: 1; }
 .c-res {
   font-family: 'Syne', sans-serif;
   font-size: 12px;
   font-weight: 800;
-  margin-top: 2px;
+  line-height: 1;
 }
 
 /* Couleurs résultats */
-.win  { background: rgba(34,197,94,0.1)  !important; border-color: rgba(34,197,94,0.2)  !important; }
-.draw { background: rgba(245,158,11,0.1) !important; border-color: rgba(245,158,11,0.2) !important; }
-.loss { background: rgba(239,68,68,0.1)  !important; border-color: rgba(239,68,68,0.2)  !important; }
-.win  .c-res { color: var(--win);  }
+.win  { background: rgba(34,197,94,0.1)  !important; border-color: rgba(34,197,94,0.25)  !important; }
+.draw { background: rgba(245,158,11,0.1) !important; border-color: rgba(245,158,11,0.25) !important; }
+.loss { background: rgba(239,68,68,0.1)  !important; border-color: rgba(239,68,68,0.25)  !important; }
+.win  .c-res { color: var(--win); }
 .draw .c-res { color: var(--draw); }
 .loss .c-res { color: var(--loss); }
-.win  .c-adv { color: rgba(34,197,94,0.7);  }
-.draw .c-adv { color: rgba(245,158,11,0.7); }
-.loss .c-adv { color: rgba(239,68,68,0.7);  }
-.mirror { border-color: rgba(59,130,246,0.2) !important; }
+.win  .c-adv,.win  .c-ha { opacity: 0.7; }
+.draw .c-adv,.draw .c-ha { opacity: 0.7; }
+.loss .c-adv,.loss .c-ha { opacity: 0.7; }
+.mirror { border-color: rgba(59,130,246,0.25) !important; }
 
 /* Popup saisie */
 .popup {
@@ -188,12 +182,13 @@ body {
   border-radius: var(--r);
   padding: 5px;
   z-index: 200;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
   animation: pop 0.12s ease;
+  white-space: nowrap;
 }
 @keyframes pop {
-  from { opacity:0; transform: translateX(-50%) scale(0.9); }
-  to   { opacity:1; transform: translateX(-50%) scale(1); }
+  from { opacity:0; transform:translateX(-50%) scale(0.9); }
+  to   { opacity:1; transform:translateX(-50%) scale(1); }
 }
 .pb {
   padding: 4px 9px;
@@ -206,12 +201,12 @@ body {
   transition: opacity 0.1s;
 }
 .pb:hover { opacity: 0.85; }
-.pb.v { background: rgba(34,197,94,0.15);  color: var(--win);  border: 1px solid rgba(34,197,94,0.25); }
-.pb.n { background: rgba(245,158,11,0.15); color: var(--draw); border: 1px solid rgba(245,158,11,0.25); }
-.pb.d { background: rgba(239,68,68,0.15);  color: var(--loss); border: 1px solid rgba(239,68,68,0.25); }
+.pb.v { background: rgba(34,197,94,0.15);   color: var(--win);  border: 1px solid rgba(34,197,94,0.3); }
+.pb.n { background: rgba(245,158,11,0.15);  color: var(--draw); border: 1px solid rgba(245,158,11,0.3); }
+.pb.d { background: rgba(239,68,68,0.15);   color: var(--loss); border: 1px solid rgba(239,68,68,0.3); }
 .pb.x { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); font-size:10px; }
 
-/* ── CLASSEMENT (droite) ────────────────────────────── */
+/* ── CLASSEMENT ─────────────────────────────────────── */
 #rank {
   grid-area: rank;
   overflow: hidden;
@@ -219,8 +214,8 @@ body {
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  padding: 12px 10px;
-  gap: 4px;
+  padding: 10px 8px;
+  gap: 3px;
 }
 .rank-title {
   font-family: 'Syne', sans-serif;
@@ -229,29 +224,29 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   padding-left: 2px;
 }
 
 .ri {
   display: grid;
-  grid-template-columns: 22px auto 1fr auto;
+  grid-template-columns: 20px 26px 1fr auto;
   align-items: center;
-  gap: 8px;
-  padding: 7px 8px;
+  gap: 7px;
+  padding: 6px 8px;
   border-radius: var(--r);
   border: 1px solid transparent;
+  border-left: 2px solid transparent;
   transition: transform 0.55s cubic-bezier(0.34,1.56,0.64,1);
   will-change: transform;
   position: relative;
 }
 .ri:hover { background: var(--bg2); }
 
-/* Bordure zone */
-.ri.z-cl   { border-left: 2px solid #3b82f6; }
-.ri.z-cl4  { border-left: 2px solid #0ea5e9; }
-.ri.z-el   { border-left: 2px solid #f59e0b; }
-.ri.z-conf { border-left: 2px solid #8b5cf6; }
+.ri.z-cl   { border-left-color: #3b82f6; }
+.ri.z-cl4  { border-left-color: #0ea5e9; }
+.ri.z-el   { border-left-color: #f59e0b; }
+.ri.z-conf { border-left-color: #8b5cf6; }
 
 .ri-num {
   font-family: 'Syne', sans-serif;
@@ -264,7 +259,11 @@ body {
 .ri-num.s { color: #94a3b8; }
 .ri-num.b { color: #cd7f32; }
 
-.ri-emoji { font-size: 14px; }
+.ri img {
+  width: 22px; height: 22px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+}
 
 .ri-name {
   font-family: 'Syne', sans-serif;
@@ -277,30 +276,28 @@ body {
 
 .ri-pts {
   font-family: 'Syne', sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
   text-align: right;
   position: relative;
   display: inline-block;
 }
-
-/* Animation pts */
 .bump { animation: bump 1s cubic-bezier(0.34,1.56,0.64,1) forwards; }
 @keyframes bump {
-  0%  { transform:scale(1);   color:var(--text); }
-  35% { transform:scale(1.35); color:var(--win); }
-  100%{ transform:scale(1);   color:var(--text); }
+  0%   { transform:scale(1);    color:var(--text); }
+  35%  { transform:scale(1.35); color:var(--win); }
+  100% { transform:scale(1);    color:var(--text); }
 }
 .badge {
   position: absolute;
-  top: -14px; right: 0;
-  font-size: 10px;
+  top: -13px; right: 0;
+  font-size: 9px;
   font-weight: 700;
   color: var(--win);
   background: rgba(34,197,94,0.15);
   border: 1px solid rgba(34,197,94,0.25);
   border-radius: 100px;
-  padding: 1px 6px;
+  padding: 1px 5px;
   white-space: nowrap;
   animation: badgePop 1.6s ease forwards;
   pointer-events: none;
@@ -312,16 +309,9 @@ body {
   100%{ opacity:0; transform:translateY(-6px); }
 }
 
-/* Séparateur zone */
-.zone-sep {
-  height: 1px;
-  background: var(--border);
-  margin: 2px 0;
-}
-
-/* ── GRAPHIQUE (bas, dans le calendrier) ────────────── */
+/* ── GRAPHIQUE ──────────────────────────────────────── */
 #chart-wrap {
-  min-width: 720px;
+  min-width: 780px;
   margin-top: 8px;
   padding: 10px;
   background: var(--bg2);
@@ -337,16 +327,10 @@ body {
   color: var(--muted);
   margin-bottom: 8px;
 }
-#pts-chart { width: 100% !important; height: 140px !important; }
-
-.chart-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  margin-top: 8px;
-}
+#pts-chart { width: 100% !important; height: 130px !important; }
+.chart-legend { display:flex; flex-wrap:wrap; gap:5px 12px; margin-top:8px; }
 .leg { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--muted); }
-.leg-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.leg img { width:14px; height:14px; object-fit:contain; }
 
 /* ── LOADER ─────────────────────────────────────────── */
 #loader {
@@ -358,20 +342,11 @@ body {
   transition: opacity 0.4s, visibility 0.4s;
 }
 #loader.gone { opacity: 0; visibility: hidden; }
-.l-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 20px; font-weight: 800;
-  margin-bottom: 24px;
-}
-.l-bar { width: 160px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.l-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--blue), var(--win));
-  border-radius: 2px;
-  animation: lfill 1.5s ease forwards;
-}
+.l-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:24px; }
+.l-bar { width:160px; height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
+.l-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--win)); border-radius:2px; animation:lfill 1.4s ease forwards; }
 @keyframes lfill { from{width:0} to{width:100%} }
-.l-txt { margin-top: 12px; font-size: 11px; color: var(--muted); }
+.l-txt { margin-top:12px; font-size:11px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -379,34 +354,26 @@ body {
 <div id="loader">
   <div class="l-title">Sprint Final 🏆</div>
   <div class="l-bar"><div class="l-fill"></div></div>
-  <div class="l-txt" id="l-txt">Chargement…</div>
+  <div class="l-txt">Chargement des données…</div>
 </div>
 
 <div id="app">
-
-  <!-- Header -->
   <div id="header">
     <div class="header-title">Sprint Final <span>· Ligue 1 2025/2026 · J24→J34</span></div>
     <div id="status"><div class="dot"></div><span id="status-txt">Connexion…</span></div>
   </div>
-
-  <!-- Calendrier -->
   <div id="cal">
     <div class="cal-grid" id="cal-grid"></div>
-    <!-- Graphique en bas du calendrier -->
     <div id="chart-wrap">
-      <div id="chart-title">📈 Évolution des points</div>
+      <div id="chart-title">Évolution des points</div>
       <canvas id="pts-chart"></canvas>
       <div class="chart-legend" id="chart-legend"></div>
     </div>
   </div>
-
-  <!-- Classement -->
   <div id="rank">
     <div class="rank-title">Classement projeté</div>
     <div id="rank-list"></div>
   </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
@@ -415,17 +382,40 @@ body {
 // DONNÉES
 // ═══════════════════════════════════════════════
 
+const CREST_BASE = "https://crests.football-data.org/";
+
+// IDs football-data.org pour les blasons
+const CREST = {
+  PSG:"524.png", Lens:"546.png", Lyon:"523.png", OM:"516.png",
+  Lille:"521.png", Rennes:"529.png", Strasbourg:"576.png", Monaco:"548.png",
+  // Adversaires hors top 8
+  "Nantes":"543.png", "Toulouse":"632.png", "Brest":"3011.png",
+  "Nice":"522.png", "Lorient":"3012.png", "Metz":"347.png",
+  "Auxerre":"532.png", "Angers":"518.png", "Le Havre":"507.png",
+  "Paris FC":"4087.png",
+};
+
+function crestUrl(team) {
+  return CREST[team] ? CREST_BASE + CREST[team] : "";
+}
+
+function crestImg(team, size=22, cls="") {
+  const url = crestUrl(team);
+  if (!url) return `<span style="font-size:${size*0.6}px">⚽</span>`;
+  return `<img src="${url}" width="${size}" height="${size}" style="object-fit:contain" class="${cls}" alt="${team}" onerror="this.style.display='none'">`;
+}
+
 const CLUBS = ["PSG","Lens","Lyon","OM","Lille","Rennes","Strasbourg","Monaco"];
 
 const META = {
-  PSG:        {e:"🔵",color:"#3b82f6",name:"Paris SG"},
-  Lens:       {e:"🔴",color:"#ef4444",name:"RC Lens"},
-  Lyon:       {e:"🔵",color:"#6366f1",name:"OL Lyon"},
-  OM:         {e:"🔵",color:"#0ea5e9",name:"Marseille"},
-  Lille:      {e:"🔴",color:"#8b5cf6",name:"LOSC"},
-  Rennes:     {e:"⚫",color:"#f59e0b",name:"Rennes"},
-  Strasbourg: {e:"🔵",color:"#14b8a6",name:"Strasbourg"},
-  Monaco:     {e:"🔴",color:"#f43f5e",name:"Monaco"},
+  PSG:        {color:"#3b82f6", name:"Paris SG"},
+  Lens:       {color:"#ef4444", name:"RC Lens"},
+  Lyon:       {color:"#6366f1", name:"OL Lyon"},
+  OM:         {color:"#0ea5e9", name:"Marseille"},
+  Lille:      {color:"#8b5cf6", name:"LOSC"},
+  Rennes:     {color:"#f59e0b", name:"Rennes"},
+  Strasbourg: {color:"#14b8a6", name:"Strasbourg"},
+  Monaco:     {color:"#f43f5e", name:"Monaco"},
 };
 
 const PTS0 = {PSG:54,Lens:52,Lyon:45,OM:40,Lille:37,Rennes:37,Strasbourg:34,Monaco:34};
@@ -472,169 +462,170 @@ const API_MAP = {
 // STATE
 // ═══════════════════════════════════════════════
 
-const R = {}, L = {};
-CLUBS.forEach(c => { R[c] = new Array(11).fill(null); L[c] = new Array(11).fill(false); });
+const R={}, L={};
+CLUBS.forEach(c=>{ R[c]=new Array(11).fill(null); L[c]=new Array(11).fill(false); });
 
-function isMaster(club, j) {
-  for (const [a,b,jj] of DUELS) {
-    if (jj !== j) continue;
-    if (club === a || club === b)
-      return CLUBS.indexOf(a) < CLUBS.indexOf(b) ? club === a : club === b;
+function isMaster(club,j){
+  for(const[a,b,jj]of DUELS){
+    if(jj!==j)continue;
+    if(club===a||club===b) return CLUBS.indexOf(a)<CLUBS.indexOf(b)?club===a:club===b;
   }
   return true;
 }
 
-function calcPts(c) {
-  let p = PTS0[c];
-  R[c].forEach(r => { if(r==="V") p+=3; else if(r==="N") p+=1; });
-  return p;
-}
+function calcPts(c){ let p=PTS0[c]; R[c].forEach(r=>{if(r==="V")p+=3;else if(r==="N")p+=1;}); return p; }
 
-function sorted() {
-  return [...CLUBS].sort((a,b) => {
-    const d = calcPts(b)-calcPts(a);
-    return d !== 0 ? d : PTS0[b]-PTS0[a];
+function sorted(){
+  return [...CLUBS].sort((a,b)=>{
+    const d=calcPts(b)-calcPts(a);
+    return d!==0?d:PTS0[b]-PTS0[a];
   });
 }
 
-function loadStorage() {
-  try {
-    const s = localStorage.getItem("sf_prono");
-    if (!s) return;
-    const d = JSON.parse(s);
-    CLUBS.forEach(c => { if(d[c]) d[c].forEach((v,i) => { if(v && !L[c][i]) R[c][i]=v; }); });
-  } catch(e) {}
+function loadStorage(){
+  try{
+    const s=localStorage.getItem("sf_prono");
+    if(!s)return;
+    const d=JSON.parse(s);
+    CLUBS.forEach(c=>{if(d[c])d[c].forEach((v,i)=>{if(v&&!L[c][i])R[c][i]=v;});});
+  }catch(e){}
 }
 
-function saveStorage() {
-  const d = {};
-  CLUBS.forEach(c => { d[c] = R[c].map((v,i) => L[c][i] ? null : v); });
-  localStorage.setItem("sf_prono", JSON.stringify(d));
+function saveStorage(){
+  const d={};
+  CLUBS.forEach(c=>{d[c]=R[c].map((v,i)=>L[c][i]?null:v);});
+  localStorage.setItem("sf_prono",JSON.stringify(d));
 }
 
 // ═══════════════════════════════════════════════
 // API
 // ═══════════════════════════════════════════════
 
-function mapTeam(n) {
-  if (API_MAP[n]) return API_MAP[n];
-  for (const [k,v] of Object.entries(API_MAP))
-    if (k.toLowerCase().includes(n.toLowerCase()) || n.toLowerCase().includes(k.toLowerCase())) return v;
+function mapTeam(n){
+  if(API_MAP[n])return API_MAP[n];
+  for(const[k,v]of Object.entries(API_MAP))
+    if(k.toLowerCase().includes(n.toLowerCase())||n.toLowerCase().includes(k.toLowerCase()))return v;
   return null;
 }
 
-async function fetchAPI() {
-  try {
-    const r = await fetch("/.netlify/functions/results");
-    if (!r.ok) return false;
-    const data = await r.json();
-    (data.matches||[]).forEach(m => {
-      const j = m.matchday;
-      if (!j || j<24 || m.status!=="FINISHED") return;
-      const jo = j-24; if(jo>10) return;
-      const home = mapTeam(m.homeTeam.name), away = mapTeam(m.awayTeam.name);
-      const sh = m.score?.fullTime?.home, sa = m.score?.fullTime?.away;
-      if (sh===null||sa===null||sh===undefined||sa===undefined) return;
-      if (home) { R[home][jo] = sh>sa?"V":sh<sa?"D":"N"; L[home][jo]=true; }
-      if (away) { R[away][jo] = sa>sh?"V":sa<sh?"D":"N"; L[away][jo]=true; }
+async function fetchAPI(){
+  try{
+    const r=await fetch("/.netlify/functions/results");
+    if(!r.ok)return false;
+    const data=await r.json();
+    (data.matches||[]).forEach(m=>{
+      const j=m.matchday;
+      if(!j||j<24||m.status!=="FINISHED")return;
+      const jo=j-24; if(jo>10)return;
+      const home=mapTeam(m.homeTeam.name),away=mapTeam(m.awayTeam.name);
+      const sh=m.score?.fullTime?.home,sa=m.score?.fullTime?.away;
+      if(sh===null||sa===null||sh===undefined||sa===undefined)return;
+      if(home){R[home][jo]=sh>sa?"V":sh<sa?"D":"N";L[home][jo]=true;}
+      if(away){R[away][jo]=sa>sh?"V":sa<sh?"D":"N";L[away][jo]=true;}
     });
-    // Propager miroirs réels
-    DUELS.forEach(([a,b,j]) => {
-      const master = CLUBS.indexOf(a)<CLUBS.indexOf(b)?a:b;
-      const slave  = master===a?b:a;
-      if (R[master][j] && L[master][j]) {
-        const inv = R[master][j]==="V"?"D":R[master][j]==="D"?"V":"N";
-        R[slave][j]=inv; L[slave][j]=true;
+    DUELS.forEach(([a,b,j])=>{
+      const master=CLUBS.indexOf(a)<CLUBS.indexOf(b)?a:b;
+      const slave=master===a?b:a;
+      if(R[master][j]&&L[master][j]){
+        const inv=R[master][j]==="V"?"D":R[master][j]==="D"?"V":"N";
+        R[slave][j]=inv;L[slave][j]=true;
       }
     });
     return true;
-  } catch(e) { return false; }
+  }catch(e){return false;}
 }
 
 // ═══════════════════════════════════════════════
-// RENDU CALENDRIER
+// CALENDRIER
 // ═══════════════════════════════════════════════
 
-let openPop = null;
-document.addEventListener("click", e => {
-  if (!e.target.closest(".cell") && !e.target.closest(".popup")) closePop();
+let openPop=null;
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".cell")&&!e.target.closest(".popup"))closePop();
 });
-function closePop() { if(openPop){ openPop.remove(); openPop=null; } }
+function closePop(){if(openPop){openPop.remove();openPop=null;}}
 
-function rc(r){ return r==="V"?"win":r==="N"?"draw":r==="D"?"loss":""; }
-function rl(r){ return r||""; }
+function rc(r){return r==="V"?"win":r==="N"?"draw":r==="D"?"loss":"";}
+function rl(r){return r||"";}
+function haIcon(h){return h==="H"?"🏠":"✈️";}
 
-function setRes(club, j, val) {
-  if (L[club][j]) return;
-  const prev = {};  CLUBS.forEach(c=>prev[c]=calcPts(c));
-
-  R[club][j] = val;
-  const mir = CAL[club][j].m;
-  if (mir && !L[mir][j]) {
-    R[mir][j] = val==="V"?"D":val==="D"?"V":val==="N"?"N":null;
-    refreshCell(mir, j);
+function setRes(club,j,val){
+  if(L[club][j])return;
+  const prev={};CLUBS.forEach(c=>prev[c]=calcPts(c));
+  R[club][j]=val;
+  const mir=CAL[club][j].m;
+  if(mir&&!L[mir][j]){
+    R[mir][j]=val==="V"?"D":val==="D"?"V":val==="N"?"N":null;
+    refreshCell(mir,j);
   }
-  refreshCell(club, j);
+  refreshCell(club,j);
   saveStorage();
-  renderRanking(true, prev);
+  renderRanking(true,prev);
   updateChart();
 }
 
-function refreshCell(club, j) {
-  const el = document.getElementById(`c${club}${j}`);
-  if (!el) return;
-  const r = R[club][j], lk = L[club][j], mir = !isMaster(club,j);
-  el.className = "cell " + rc(r) + (!lk?" clickable":"") + ((!lk&&mir&&!r)?" mirror":"");
-  el.querySelector(".c-res").textContent = rl(r);
-  el.querySelector(".c-adv").textContent = CAL[club][j].a;
+function refreshCell(club,j){
+  const el=document.getElementById(`c${club}${j}`);
+  if(!el)return;
+  const r=R[club][j],lk=L[club][j],mir=!isMaster(club,j);
+  el.className="cell "+rc(r)+(!lk?" clickable":"")+(!lk&&mir&&!r?" mirror":"");
+  el.querySelector(".c-res").textContent=rl(r);
 }
 
-function buildCalendar() {
-  const grid = document.getElementById("cal-grid");
-  grid.innerHTML = "";
+function buildCalendar(){
+  const grid=document.getElementById("cal-grid");
+  grid.innerHTML="";
 
   // Corner
-  const corner = document.createElement("div");
-  corner.className = "ch corner jlabel";
+  const corner=document.createElement("div");
+  corner.className="ch corner jlabel";
   grid.appendChild(corner);
 
-  // Club headers
-  CLUBS.forEach(club => {
-    const el = document.createElement("div");
-    el.className = "ch";
-    el.innerHTML = `<span class="ch-emoji">${META[club].e}</span><span class="ch-name">${club}</span><span class="ch-pts" id="chpts-${club}">${PTS0[club]}</span>`;
+  // Headers clubs
+  CLUBS.forEach(club=>{
+    const el=document.createElement("div");
+    el.className="ch";
+    el.innerHTML=`${crestImg(club,28)}<span class="ch-name">${club}</span><span class="ch-pts" id="chpts-${club}">${PTS0[club]}</span>`;
     grid.appendChild(el);
   });
 
-  // Rows
-  JJ.forEach((jj, jOff) => {
-    // Label journée
-    const jl = document.createElement("div");
-    jl.className = "jlabel";
-    jl.innerHTML = `<span class="jn">${jj.id}</span><span class="jd">${jj.d}</span>`;
+  // Lignes journées
+  JJ.forEach((jj,jOff)=>{
+    const jl=document.createElement("div");
+    jl.className="jlabel";
+    jl.innerHTML=`<span class="jn">${jj.id}</span><span class="jd">${jj.d}</span>`;
     grid.appendChild(jl);
 
-    CLUBS.forEach(club => {
-      const cal = CAL[club][jOff];
-      const r = R[club][jOff], lk = L[club][jOff], mir = !isMaster(club,jOff);
-      const cell = document.createElement("div");
-      cell.id = `c${club}${jOff}`;
-      cell.className = "cell " + rc(r) + (!lk?" clickable":"") + ((!lk&&mir&&!r)?" mirror":"");
-      cell.innerHTML = `<span class="c-adv">${cal.a}</span><span class="c-ha">${cal.h==="H"?"Dom":"Ext"}</span><span class="c-res">${rl(r)}</span>`;
+    CLUBS.forEach(club=>{
+      const cal=CAL[club][jOff];
+      const r=R[club][jOff],lk=L[club][jOff],mir=!isMaster(club,jOff);
+      const cell=document.createElement("div");
+      cell.id=`c${club}${jOff}`;
+      cell.className="cell "+rc(r)+(!lk?" clickable":"")+(!lk&&mir&&!r?" mirror":"");
 
-      if (!lk) {
-        cell.addEventListener("click", e => {
+      // Nom réel de l'adversaire pour le blason (OM → Marseille, etc.)
+      const advReal = cal.m || cal.a; // si c'est un club top8, on a son nom interne
+      const advDisplay = cal.a === "Marseille" ? "OM" : cal.a;
+
+      cell.innerHTML=`
+        ${crestImg(advDisplay, 20)}
+        <span class="c-adv">${cal.a}</span>
+        <span class="c-ha">${haIcon(cal.h)}</span>
+        <span class="c-res">${rl(r)}</span>`;
+
+      if(!lk){
+        cell.addEventListener("click",e=>{
           e.stopPropagation();
           closePop();
-          const pop = document.createElement("div");
-          pop.className = "popup";
-          pop.innerHTML = `<button class="pb v">V</button><button class="pb n">N</button><button class="pb d">D</button><button class="pb x">✕</button>`;
-          pop.querySelector(".v").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,"V"); closePop(); };
-          pop.querySelector(".n").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,"N"); closePop(); };
-          pop.querySelector(".d").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,"D"); closePop(); };
-          pop.querySelector(".x").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,null); closePop(); };
+          const pop=document.createElement("div");
+          pop.className="popup";
+          pop.innerHTML=`<button class="pb v">V</button><button class="pb n">N</button><button class="pb d">D</button><button class="pb x">✕</button>`;
+          pop.querySelector(".v").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"V");closePop();};
+          pop.querySelector(".n").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"N");closePop();};
+          pop.querySelector(".d").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"D");closePop();};
+          pop.querySelector(".x").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,null);closePop();};
           cell.appendChild(pop);
-          openPop = pop;
+          openPop=pop;
         });
       }
       grid.appendChild(cell);
@@ -643,127 +634,114 @@ function buildCalendar() {
 }
 
 // ═══════════════════════════════════════════════
-// RENDU CLASSEMENT
+// CLASSEMENT
 // ═══════════════════════════════════════════════
 
-let prevRank = [], prevP = {};
+let prevRank=[],prevP={};
+const ZONE_CLS=["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf"];
 
-const ZONE_CLS = ["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf"];
+function renderRanking(animate=false,prev={}){
+  const list=document.getElementById("rank-list");
+  const s=sorted();
 
-function renderRanking(animate=false, prev={}) {
-  const list = document.getElementById("rank-list");
-  const s = sorted();
-
-  // Créer les éléments si besoin
-  s.forEach((club,i) => {
-    const pts = calcPts(club);
-    let el = document.getElementById("ri-"+club);
-
-    if (!el) {
-      el = document.createElement("div");
-      el.id = "ri-"+club;
+  s.forEach((club,i)=>{
+    const pts=calcPts(club);
+    let el=document.getElementById("ri-"+club);
+    if(!el){
+      el=document.createElement("div");
+      el.id="ri-"+club;
       list.appendChild(el);
     }
-
-    const rank = i+1;
-    const zc = ZONE_CLS[i] || "";
-    const nc = rank===1?"g":rank===2?"s":rank===3?"b":"";
-    el.className = `ri ${zc}`;
-    el.innerHTML = `
+    const rank=i+1;
+    const nc=rank===1?"g":rank===2?"s":rank===3?"b":"";
+    el.className=`ri ${ZONE_CLS[i]||""}`;
+    el.innerHTML=`
       <div class="ri-num ${nc}">${rank}</div>
-      <div class="ri-emoji">${META[club].e}</div>
+      ${crestImg(club,22)}
       <div class="ri-name">${META[club].name}</div>
       <div class="ri-pts" id="rp-${club}">${pts}</div>`;
 
-    // Animation pts
-    const ptsDiff = animate && prev[club] !== undefined ? pts - prev[club] : 0;
-    if (ptsDiff > 0) {
-      const pEl = document.getElementById("rp-"+club);
+    const ptsDiff=animate&&prev[club]!==undefined?pts-prev[club]:0;
+    if(ptsDiff>0){
+      const pEl=document.getElementById("rp-"+club);
       pEl.classList.remove("bump");
       void pEl.offsetWidth;
       pEl.classList.add("bump");
-      const b = document.createElement("span");
-      b.className = "badge";
-      b.textContent = "+"+ptsDiff;
+      const b=document.createElement("span");
+      b.className="badge";
+      b.textContent="+"+ptsDiff;
       pEl.appendChild(b);
-      setTimeout(()=>b.remove(), 1700);
+      setTimeout(()=>b.remove(),1700);
     }
 
-    // Animation glissement
-    const pi = prevRank.indexOf(club);
-    if (animate && pi !== -1 && pi !== i) {
-      const dy = (pi - i) * 38;
-      el.style.transition = "none";
-      el.style.transform = `translateY(${dy}px)`;
-      requestAnimationFrame(() => {
-        el.style.transition = "transform 0.55s cubic-bezier(0.34,1.56,0.64,1)";
-        el.style.transform = "translateY(0)";
+    const pi=prevRank.indexOf(club);
+    if(animate&&pi!==-1&&pi!==i){
+      const dy=(pi-i)*36;
+      el.style.transition="none";
+      el.style.transform=`translateY(${dy}px)`;
+      requestAnimationFrame(()=>{
+        el.style.transition="transform 0.55s cubic-bezier(0.34,1.56,0.64,1)";
+        el.style.transform="translateY(0)";
       });
     }
   });
 
-  // Réordonner DOM
-  s.forEach(club => list.appendChild(document.getElementById("ri-"+club)));
+  s.forEach(club=>list.appendChild(document.getElementById("ri-"+club)));
 
-  // Mettre à jour pts dans les headers du calendrier
-  CLUBS.forEach(c => {
-    const el = document.getElementById("chpts-"+c);
-    if (el) el.textContent = calcPts(c);
+  CLUBS.forEach(c=>{
+    const el=document.getElementById("chpts-"+c);
+    if(el)el.textContent=calcPts(c);
   });
 
-  prevRank = s;
-  prevP = {}; CLUBS.forEach(c=>prevP[c]=calcPts(c));
+  prevRank=s;
+  prevP={};CLUBS.forEach(c=>prevP[c]=calcPts(c));
 }
 
 // ═══════════════════════════════════════════════
 // GRAPHIQUE
 // ═══════════════════════════════════════════════
 
-let chart = null;
+let chart=null;
 
-function chartData() {
-  const labels = ["J23", ...JJ.map(j=>j.id)];
-  const datasets = CLUBS.map(club => {
-    const pts = [PTS0[club]];
-    let cum = PTS0[club];
+const CHART_COLORS={
+  PSG:"#3b82f6",Lens:"#ef4444",Lyon:"#6366f1",OM:"#0ea5e9",
+  Lille:"#8b5cf6",Rennes:"#f59e0b",Strasbourg:"#14b8a6",Monaco:"#f43f5e",
+};
+
+function chartData(){
+  const labels=["J23",...JJ.map(j=>j.id)];
+  const datasets=CLUBS.map(club=>{
+    const pts=[PTS0[club]];
+    let cum=PTS0[club];
     for(let i=0;i<11;i++){
       const r=R[club][i];
-      if(r==="V") cum+=3; else if(r==="N") cum+=1;
+      if(r==="V")cum+=3;else if(r==="N")cum+=1;
       pts.push(cum);
     }
-    return {
-      label: club,
-      data: pts,
-      borderColor: META[club].color,
-      backgroundColor: "transparent",
-      borderWidth: 1.5,
-      pointRadius: 2,
-      pointHoverRadius: 4,
-      tension: 0.3,
+    return{
+      label:club,data:pts,
+      borderColor:CHART_COLORS[club],
+      backgroundColor:"transparent",
+      borderWidth:1.5,pointRadius:2,pointHoverRadius:4,tension:0.3,
     };
   });
-  return {labels, datasets};
+  return{labels,datasets};
 }
 
-function initChart() {
-  const ctx = document.getElementById("pts-chart").getContext("2d");
-  const {labels,datasets} = chartData();
-  chart = new Chart(ctx, {
+function initChart(){
+  const ctx=document.getElementById("pts-chart").getContext("2d");
+  const{labels,datasets}=chartData();
+  chart=new Chart(ctx,{
     type:"line",
     data:{labels,datasets},
     options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      animation:{duration:300},
+      responsive:true,maintainAspectRatio:false,animation:{duration:300},
       interaction:{mode:"index",intersect:false},
       plugins:{
         legend:{display:false},
         tooltip:{
-          backgroundColor:"#1c2030",
-          borderColor:"rgba(255,255,255,0.08)",
-          borderWidth:1,
-          titleColor:"#fff",
-          bodyColor:"rgba(221,225,236,0.6)",
+          backgroundColor:"#1c2030",borderColor:"rgba(255,255,255,0.08)",
+          borderWidth:1,titleColor:"#fff",bodyColor:"rgba(221,225,236,0.6)",
           padding:8,
           callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}pts`}
         }
@@ -774,16 +752,17 @@ function initChart() {
       }
     }
   });
-  const leg = document.getElementById("chart-legend");
+  // Légende avec blasons
+  const leg=document.getElementById("chart-legend");
   CLUBS.forEach(c=>{
-    leg.innerHTML+=`<div class="leg"><div class="leg-dot" style="background:${META[c].color}"></div>${META[c].name}</div>`;
+    leg.innerHTML+=`<div class="leg">${crestImg(c,14)} ${META[c].name}</div>`;
   });
 }
 
-function updateChart() {
-  if(!chart) return;
-  const {labels,datasets} = chartData();
-  chart.data.labels=labels; chart.data.datasets=datasets;
+function updateChart(){
+  if(!chart)return;
+  const{labels,datasets}=chartData();
+  chart.data.labels=labels;chart.data.datasets=datasets;
   chart.update("active");
 }
 
@@ -791,19 +770,18 @@ function updateChart() {
 // INIT
 // ═══════════════════════════════════════════════
 
-async function init() {
+async function init(){
   loadStorage();
-  document.getElementById("l-txt").textContent = "Récupération des résultats…";
-  const ok = await fetchAPI();
-  loadStorage(); // re-applique pronostics sans écraser les vrais résultats
+  const ok=await fetchAPI();
+  loadStorage();
   buildCalendar();
   renderRanking(false);
   initChart();
-  const now = new Date();
-  document.getElementById("status-txt").textContent =
-    (ok?"API en direct · ":"Hors ligne · ") +
+  const now=new Date();
+  document.getElementById("status-txt").textContent=
+    (ok?"API en direct · ":"Hors ligne · ")+
     now.toLocaleDateString("fr-FR")+" "+now.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-  setTimeout(()=>document.getElementById("loader").classList.add("gone"), 1400);
+  setTimeout(()=>document.getElementById("loader").classList.add("gone"),1300);
 }
 
 init();
