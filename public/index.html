@@ -18,7 +18,7 @@
   --draw:   #f59e0b;
   --loss:   #ef4444;
   --blue:   #3b82f6;
-  --r:      7px;
+  --r:      6px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
@@ -32,8 +32,8 @@ body {
 /* ── LAYOUT ─────────────────────────────────────── */
 #app {
   display: grid;
-  grid-template-rows: 42px 1fr;
-  grid-template-columns: 1fr 200px;
+  grid-template-rows: 40px 1fr;
+  grid-template-columns: 1fr 260px;
   grid-template-areas: "header header" "cal rank";
   height: 100vh;
 }
@@ -72,14 +72,14 @@ body {
 
 .cal-grid {
   display: grid;
-  grid-template-columns: 52px repeat(8, minmax(74px, 1fr));
+  grid-template-columns: 48px repeat(8, 1fr);
   gap: 2px;
-  min-width: 680px;
+  min-width: 620px;
 }
 
 /* Header club */
 .ch {
-  padding: 5px 3px;
+  padding: 4px 2px;
   text-align: center;
   border-radius: var(--r);
   background: var(--bg2);
@@ -89,16 +89,16 @@ body {
   align-items: center;
   gap: 2px;
 }
-.ch img { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
-.ch-name { font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700; color: var(--muted); }
-.ch-pts { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 800; }
+.ch img { width: 22px; height: 22px; object-fit: contain; }
+.ch-name { font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700; color: var(--muted); line-height: 1; }
+.ch-pts { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 800; line-height: 1; }
 .corner { background: transparent !important; border: none !important; }
 
 /* Journée label */
 .jlabel {
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 3px 2px;
+  padding: 2px;
   border-radius: var(--r);
   background: var(--bg2);
   border: 1px solid var(--border);
@@ -106,71 +106,74 @@ body {
 .jlabel .jn { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; }
 .jlabel .jd { font-size: 8px; color: var(--muted); text-align: center; line-height: 1.2; }
 
-/* ── CELLULE MATCH ──────────────────────────────── */
-/* Architecture : blason centré + nom petit en dessous + émoji H/A en haut à droite + résultat en bas */
+/* ── CELLULE : compacte, blason centré, tout petit ── */
 .cell {
   border-radius: var(--r);
   border: 1px solid var(--border);
   background: var(--bg2);
-  min-height: 56px;
-  display: grid;
-  grid-template-areas:
-    "ha"
-    "badge"
-    "name"
-    "res";
-  grid-template-rows: 14px 26px 12px 12px;
+  /* hauteur fixe = juste ce qu'il faut */
+  height: 52px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
-  padding: 2px 3px;
-  transition: background 0.15s, border-color 0.15s;
+  justify-content: space-between;
+  padding: 3px 2px 2px;
+  transition: background 0.12s, border-color 0.12s;
   position: relative;
   overflow: visible;
 }
 .cell.clickable { cursor: pointer; }
-.cell.clickable:hover { border-color: rgba(255,255,255,0.18); background: var(--bg3); }
+.cell.clickable:hover { border-color: rgba(255,255,255,0.2); background: var(--bg3); }
 
+/* Ligne du haut : emoji H/A */
 .c-ha {
-  grid-area: ha;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1;
-  align-self: center;
+  display: block;
 }
-.cell img.adv-badge {
-  grid-area: badge;
-  width: 26px; height: 26px;
+/* Blason adversaire — centré, bien visible */
+.cell img.adv-crest {
+  width: 24px;
+  height: 24px;
   object-fit: contain;
-  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+  display: block;
+  flex-shrink: 0;
+}
+/* Bas : nom + résultat sur une ligne */
+.c-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
 }
 .c-adv {
-  grid-area: name;
-  font-size: 8.5px;
+  font-size: 8px;
   color: var(--muted);
-  text-align: center;
   line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
+  max-width: 52px;
 }
 .c-res {
-  grid-area: res;
   font-family: 'Syne', sans-serif;
   font-size: 11px;
   font-weight: 800;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 /* Couleurs résultats */
-.win  { background: rgba(34,197,94,0.12)  !important; border-color: rgba(34,197,94,0.3)   !important; }
-.draw { background: rgba(245,158,11,0.12) !important; border-color: rgba(245,158,11,0.3)  !important; }
-.loss { background: rgba(239,68,68,0.12)  !important; border-color: rgba(239,68,68,0.3)   !important; }
+.win  { background: rgba(34,197,94,0.12)  !important; border-color: rgba(34,197,94,0.3)  !important; }
+.draw { background: rgba(245,158,11,0.12) !important; border-color: rgba(245,158,11,0.3) !important; }
+.loss { background: rgba(239,68,68,0.12)  !important; border-color: rgba(239,68,68,0.3)  !important; }
 .win  .c-res { color: var(--win); }
 .draw .c-res { color: var(--draw); }
 .loss .c-res { color: var(--loss); }
-.win  .c-adv,.win  .c-ha { opacity: 0.65; }
-.draw .c-adv,.draw .c-ha { opacity: 0.65; }
-.loss .c-adv,.loss .c-ha { opacity: 0.65; }
+.win  .c-adv,.win  .c-ha { opacity:0.6; }
+.draw .c-adv,.draw .c-ha { opacity:0.6; }
+.loss .c-adv,.loss .c-ha { opacity:0.6; }
 .mirror { border-color: rgba(59,130,246,0.3) !important; }
 
 /* Popup */
@@ -186,8 +189,8 @@ body {
   border-radius: var(--r);
   padding: 5px;
   z-index: 200;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
-  animation: pop 0.12s ease;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.7);
+  animation: pop 0.1s ease;
   white-space: nowrap;
 }
 @keyframes pop {
@@ -195,22 +198,22 @@ body {
   to   { opacity:1; transform:translateX(-50%) scale(1); }
 }
 .pb {
-  padding: 5px 10px;
-  border-radius: 6px;
+  padding: 5px 12px;
+  border-radius: 5px;
   border: none;
   font-family: 'Syne', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   cursor: pointer;
   transition: opacity 0.1s;
 }
-.pb:hover { opacity: 0.82; }
+.pb:hover { opacity: 0.8; }
 .pb.v { background: rgba(34,197,94,0.15);   color: var(--win);  border: 1px solid rgba(34,197,94,0.3); }
 .pb.n { background: rgba(245,158,11,0.15);  color: var(--draw); border: 1px solid rgba(245,158,11,0.3); }
 .pb.d { background: rgba(239,68,68,0.15);   color: var(--loss); border: 1px solid rgba(239,68,68,0.3); }
-.pb.x { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); font-size:11px; }
+.pb.x { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
 
-/* ── CLASSEMENT ─────────────────────────────────── */
+/* ── CLASSEMENT — plus large, plus lisible ──────── */
 #rank {
   grid-area: rank;
   overflow: hidden;
@@ -218,29 +221,29 @@ body {
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  padding: 8px 7px;
-  gap: 2px;
+  padding: 10px 10px;
+  gap: 0;
 }
 .rank-title {
   font-family: 'Syne', sans-serif;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 4px;
-  padding-left: 2px;
+  margin-bottom: 6px;
 }
 
 .ri {
   display: grid;
-  grid-template-columns: 18px 24px 1fr auto;
+  grid-template-columns: 22px 28px 1fr auto;
   align-items: center;
-  gap: 6px;
-  padding: 5px 7px;
+  gap: 8px;
+  padding: 7px 8px;
   border-radius: var(--r);
   border: 1px solid transparent;
-  border-left: 2px solid transparent;
+  border-left: 3px solid transparent;
+  margin-bottom: 3px;
   transition: transform 0.55s cubic-bezier(0.34,1.56,0.64,1);
   will-change: transform;
   position: relative;
@@ -251,33 +254,65 @@ body {
 .ri.z-el   { border-left-color: #f59e0b; }
 .ri.z-conf { border-left-color: #8b5cf6; }
 
-.ri-num { font-family:'Syne',sans-serif; font-size:12px; font-weight:800; text-align:center; color:var(--muted); }
-.ri-num.g { color:#fbbf24; }
-.ri-num.s { color:#94a3b8; }
-.ri-num.b { color:#cd7f32; }
+.ri-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--muted);
+}
+.ri-num.g { color: #fbbf24; }
+.ri-num.s { color: #94a3b8; }
+.ri-num.b { color: #cd7f32; }
 
-.ri img { width:20px; height:20px; object-fit:contain; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
+.ri img { width: 24px; height: 24px; object-fit: contain; }
 
-.ri-name { font-family:'Syne',sans-serif; font-size:10px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ri-info { overflow: hidden; }
+.ri-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ri-zone {
+  font-size: 9px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-.ri-pts { font-family:'Syne',sans-serif; font-size:15px; font-weight:800; text-align:right; position:relative; display:inline-block; }
+.ri-pts {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: right;
+  position: relative;
+  display: inline-block;
+  min-width: 36px;
+}
 
 .bump { animation: bump 1s cubic-bezier(0.34,1.56,0.64,1) forwards; }
 @keyframes bump {
   0%   { transform:scale(1);    color:var(--text); }
-  35%  { transform:scale(1.35); color:var(--win); }
+  35%  { transform:scale(1.3);  color:var(--win); }
   100% { transform:scale(1);    color:var(--text); }
 }
 .badge {
-  position:absolute; top:-12px; right:0;
-  font-size:9px; font-weight:700;
-  color:var(--win);
-  background:rgba(34,197,94,0.15);
-  border:1px solid rgba(34,197,94,0.25);
-  border-radius:100px; padding:1px 5px;
-  white-space:nowrap;
-  animation:badgePop 1.6s ease forwards;
-  pointer-events:none;
+  position: absolute;
+  top: -14px; right: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--win);
+  background: rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.25);
+  border-radius: 100px;
+  padding: 1px 6px;
+  white-space: nowrap;
+  animation: badgePop 1.6s ease forwards;
+  pointer-events: none;
 }
 @keyframes badgePop {
   0%  { opacity:0; transform:translateY(4px); }
@@ -286,33 +321,44 @@ body {
   100%{ opacity:0; transform:translateY(-6px); }
 }
 
+/* Séparateur zone */
+.zone-sep { height: 1px; background: var(--border); margin: 3px 0 6px; }
+
 /* ── GRAPHIQUE ──────────────────────────────────── */
 #chart-wrap {
-  min-width: 680px;
+  min-width: 620px;
   margin-top: 6px;
   padding: 8px 10px;
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: var(--r);
 }
-#chart-title { font-family:'Syne',sans-serif; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
-#pts-chart { width:100% !important; height:120px !important; }
-.chart-legend { display:flex; flex-wrap:wrap; gap:4px 12px; margin-top:6px; }
-.leg { display:flex; align-items:center; gap:4px; font-size:9px; color:var(--muted); }
-.leg img { width:12px; height:12px; object-fit:contain; }
+#chart-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+#pts-chart { width: 100% !important; height: 120px !important; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; }
+.leg { display: flex; align-items: center; gap: 4px; font-size: 9px; color: var(--muted); }
+.leg img { width: 12px; height: 12px; object-fit: contain; }
 
 /* ── LOADER ─────────────────────────────────────── */
 #loader {
-  position:fixed; inset:0; background:var(--bg);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  z-index:999; transition:opacity .4s,visibility .4s;
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 999; transition: opacity .4s, visibility .4s;
 }
-#loader.gone { opacity:0; visibility:hidden; }
+#loader.gone { opacity: 0; visibility: hidden; }
 .l-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:24px; }
-.l-bar { width:160px; height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
-.l-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--win)); border-radius:2px; animation:lfill 1.4s ease forwards; }
+.l-bar { width: 160px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.l-fill { height: 100%; background: linear-gradient(90deg,var(--blue),var(--win)); border-radius: 2px; animation: lfill 1.4s ease forwards; }
 @keyframes lfill { from{width:0} to{width:100%} }
-.l-txt { margin-top:12px; font-size:11px; color:var(--muted); }
+.l-txt { margin-top: 12px; font-size: 11px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -345,56 +391,48 @@ body {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════
-// BLASONS — deux sources selon disponibilité
+// BLASONS — IDs vérifiés via API football-data.org
 // ═══════════════════════════════════════════════
-
-const CREST = {
-  // Top 8 + Nantes + Nice : football-data.org (fiables)
-  PSG:        "https://crests.football-data.org/524.png",
-  Lens:       "https://crests.football-data.org/546.png",
-  Lyon:       "https://crests.football-data.org/523.png",
-  OM:         "https://crests.football-data.org/516.png",
-  Lille:      "https://crests.football-data.org/521.png",
-  Rennes:     "https://crests.football-data.org/529.png",
-  Strasbourg: "https://crests.football-data.org/576.png",
-  Monaco:     "https://crests.football-data.org/548.png",
-  Nantes:     "https://crests.football-data.org/543.png",
-  Nice:       "https://crests.football-data.org/522.png",
-  // Autres : Wikipedia Commons (SVG→PNG via thumb)
-  "Le Havre":  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/HAC_logo.svg/120px-HAC_logo.svg.png",
-  Toulouse:    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Logo_TFC.svg/120px-Logo_TFC.svg.png",
-  Metz:        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logo_FC_Metz.svg/120px-Logo_FC_Metz.svg.png",
-  Lorient:     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Logo_FC_Lorient.svg/120px-Logo_FC_Lorient.svg.png",
-  Auxerre:     "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/AJ_Auxerre_logo.svg/120px-AJ_Auxerre_logo.svg.png",
-  "Paris FC":  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Logo_Paris_FC.svg/120px-Logo_Paris_FC.svg.png",
-  Brest:       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Stade_brestois_29_logo.svg/120px-Stade_brestois_29_logo.svg.png",
-  Angers:      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logo_SCO_Angers.svg/120px-Logo_SCO_Angers.svg.png",
-  Marseille:   "https://crests.football-data.org/516.png",
+const BASE = "https://crests.football-data.org/";
+const CREST_ID = {
+  // Top 8
+  PSG: 524, Lens: 546, Lyon: 523, OM: 516,
+  Lille: 521, Rennes: 529, Strasbourg: 576, Monaco: 548,
+  // Adversaires — IDs vérifiés
+  Nantes: 543, Nice: 522,
+  "Le Havre": 533, Toulouse: 511, Metz: 545,
+  Lorient: 525, Auxerre: 519, Angers: 532,
+  Brest: 512, "Paris FC": 1045,
+  // Alias
+  Marseille: 516,
 };
 
-function crestUrl(name) { return CREST[name] || ""; }
+function crest(name) {
+  const id = CREST_ID[name];
+  return id ? BASE + id + ".png" : null;
+}
 
-function crestImg(name, size) {
-  const url = crestUrl(name);
-  if (!url) return "";
-  return '<img src="'+url+'" width="'+size+'" height="'+size+'" alt="'+name+'" onerror="this.style.display=\'none\'">';
+function img(name, size, cls) {
+  const url = crest(name);
+  cls = cls || "";
+  if (!url) return '<span style="font-size:'+(size*0.55)+'px;opacity:0.3">⚽</span>';
+  return '<img src="'+url+'" width="'+size+'" height="'+size+'" alt="'+name+'" class="'+cls+'" onerror="this.replaceWith(document.createTextNode(\'⚽\'))">';
 }
 
 // ═══════════════════════════════════════════════
 // DONNÉES
 // ═══════════════════════════════════════════════
-
 const CLUBS = ["PSG","Lens","Lyon","OM","Lille","Rennes","Strasbourg","Monaco"];
 
 const META = {
-  PSG:{color:"#3b82f6",name:"Paris SG"},
-  Lens:{color:"#ef4444",name:"RC Lens"},
-  Lyon:{color:"#6366f1",name:"OL Lyon"},
-  OM:{color:"#0ea5e9",name:"Marseille"},
-  Lille:{color:"#8b5cf6",name:"LOSC"},
-  Rennes:{color:"#f59e0b",name:"Rennes"},
-  Strasbourg:{color:"#14b8a6",name:"Strasbourg"},
-  Monaco:{color:"#f43f5e",name:"Monaco"},
+  PSG:        {color:"#3b82f6", name:"Paris SG",   zone:"Champions League"},
+  Lens:       {color:"#ef4444", name:"RC Lens",     zone:"Champions League"},
+  Lyon:       {color:"#6366f1", name:"OL Lyon",     zone:"Champions League"},
+  OM:         {color:"#0ea5e9", name:"Marseille",   zone:"CL Qualifications"},
+  Lille:      {color:"#8b5cf6", name:"LOSC",        zone:"Europa League"},
+  Rennes:     {color:"#f59e0b", name:"Rennes",      zone:"Conférence"},
+  Strasbourg: {color:"#14b8a6", name:"Strasbourg",  zone:""},
+  Monaco:     {color:"#f43f5e", name:"Monaco",      zone:""},
 };
 
 const PTS0 = {PSG:54,Lens:52,Lyon:45,OM:40,Lille:37,Rennes:37,Strasbourg:34,Monaco:34};
@@ -432,7 +470,7 @@ const API_MAP = {
   "Olympique Lyonnais":"Lyon","Olympique de Lyon":"Lyon",
   "Olympique de Marseille":"OM","Olympique Marseille":"OM","Marseille":"OM",
   "LOSC Lille":"Lille","Lille OSC":"Lille",
-  "Stade Rennais FC":"Rennes","Stade Rennais":"Rennes",
+  "Stade Rennais FC":"Rennes","Stade Rennais":"Rennes","Stade Rennais FC 1901":"Rennes",
   "RC Strasbourg Alsace":"Strasbourg","RC Strasbourg":"Strasbourg",
   "AS Monaco FC":"Monaco","AS Monaco":"Monaco",
 };
@@ -440,32 +478,35 @@ const API_MAP = {
 // ═══════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════
-
-const R={},L={};
-CLUBS.forEach(c=>{R[c]=new Array(11).fill(null);L[c]=new Array(11).fill(false);});
+const R={}, L={};
+CLUBS.forEach(c=>{R[c]=new Array(11).fill(null); L[c]=new Array(11).fill(false);});
 
 function isMaster(club,j){
   for(const[a,b,jj]of DUELS){
     if(jj!==j)continue;
-    if(club===a||club===b)return CLUBS.indexOf(a)<CLUBS.indexOf(b)?club===a:club===b;
+    if(club===a||club===b) return CLUBS.indexOf(a)<CLUBS.indexOf(b)?club===a:club===b;
   }
   return true;
 }
-function calcPts(c){let p=PTS0[c];R[c].forEach(r=>{if(r==="V")p+=3;else if(r==="N")p+=1;});return p;}
-function sorted(){return [...CLUBS].sort((a,b)=>{const d=calcPts(b)-calcPts(a);return d!==0?d:PTS0[b]-PTS0[a];});}
+function calcPts(c){let p=PTS0[c]; R[c].forEach(r=>{if(r==="V")p+=3;else if(r==="N")p+=1;}); return p;}
+function sorted(){return [...CLUBS].sort((a,b)=>{const d=calcPts(b)-calcPts(a); return d!==0?d:PTS0[b]-PTS0[a];});}
 
 function loadStorage(){
-  try{const s=localStorage.getItem("sf_prono");if(!s)return;const d=JSON.parse(s);CLUBS.forEach(c=>{if(d[c])d[c].forEach((v,i)=>{if(v&&!L[c][i])R[c][i]=v;});});}catch(e){}
+  try{
+    const s=localStorage.getItem("sf_prono"); if(!s)return;
+    const d=JSON.parse(s);
+    CLUBS.forEach(c=>{if(d[c])d[c].forEach((v,i)=>{if(v&&!L[c][i])R[c][i]=v;});});
+  }catch(e){}
 }
 function saveStorage(){
-  const d={};CLUBS.forEach(c=>{d[c]=R[c].map((v,i)=>L[c][i]?null:v);});
+  const d={};
+  CLUBS.forEach(c=>{d[c]=R[c].map((v,i)=>L[c][i]?null:v);});
   localStorage.setItem("sf_prono",JSON.stringify(d));
 }
 
 // ═══════════════════════════════════════════════
 // API
 // ═══════════════════════════════════════════════
-
 function mapTeam(n){
   if(API_MAP[n])return API_MAP[n];
   for(const[k,v]of Object.entries(API_MAP))
@@ -481,19 +522,19 @@ async function fetchAPI(){
     (data.matches||[]).forEach(m=>{
       const j=m.matchday;
       if(!j||j<24||m.status!=="FINISHED")return;
-      const jo=j-24;if(jo>10)return;
-      const home=mapTeam(m.homeTeam.name),away=mapTeam(m.awayTeam.name);
-      const sh=m.score?.fullTime?.home,sa=m.score?.fullTime?.away;
+      const jo=j-24; if(jo>10)return;
+      const home=mapTeam(m.homeTeam.name), away=mapTeam(m.awayTeam.name);
+      const sh=m.score?.fullTime?.home, sa=m.score?.fullTime?.away;
       if(sh==null||sa==null)return;
-      if(home){R[home][jo]=sh>sa?"V":sh<sa?"D":"N";L[home][jo]=true;}
-      if(away){R[away][jo]=sa>sh?"V":sa<sh?"D":"N";L[away][jo]=true;}
+      if(home){R[home][jo]=sh>sa?"V":sh<sa?"D":"N"; L[home][jo]=true;}
+      if(away){R[away][jo]=sa>sh?"V":sa<sh?"D":"N"; L[away][jo]=true;}
     });
     DUELS.forEach(([a,b,j])=>{
       const master=CLUBS.indexOf(a)<CLUBS.indexOf(b)?a:b;
       const slave=master===a?b:a;
       if(R[master][j]&&L[master][j]){
         const inv=R[master][j]==="V"?"D":R[master][j]==="D"?"V":"N";
-        R[slave][j]=inv;L[slave][j]=true;
+        R[slave][j]=inv; L[slave][j]=true;
       }
     });
     return true;
@@ -503,13 +544,13 @@ async function fetchAPI(){
 // ═══════════════════════════════════════════════
 // CALENDRIER
 // ═══════════════════════════════════════════════
-
 let openPop=null;
-document.addEventListener("click",e=>{if(!e.target.closest(".cell")&&!e.target.closest(".popup"))closePop();});
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".cell")&&!e.target.closest(".popup"))closePop();
+});
 function closePop(){if(openPop){openPop.remove();openPop=null;}}
 
 function rc(r){return r==="V"?"win":r==="N"?"draw":r==="D"?"loss":"";}
-function rl(r){return r||"";}
 
 function setRes(club,j,val){
   if(L[club][j])return;
@@ -531,7 +572,7 @@ function refreshCell(club,j){
   if(!el)return;
   const r=R[club][j],lk=L[club][j],mir=!isMaster(club,j);
   el.className="cell "+rc(r)+(!lk?" clickable":"")+(!lk&&mir&&!r?" mirror":"");
-  el.querySelector(".c-res").textContent=rl(r);
+  el.querySelector(".c-res").textContent=r||"";
 }
 
 function buildCalendar(){
@@ -547,7 +588,7 @@ function buildCalendar(){
   CLUBS.forEach(club=>{
     const el=document.createElement("div");
     el.className="ch";
-    el.innerHTML=crestImg(club,24)+'<span class="ch-name">'+club+'</span><span class="ch-pts" id="chpts-'+club+'">'+PTS0[club]+'</span>';
+    el.innerHTML=img(club,22)+'<span class="ch-name">'+club+'</span><span class="ch-pts" id="chpts-'+club+'">'+PTS0[club]+'</span>';
     grid.appendChild(el);
   });
 
@@ -565,19 +606,20 @@ function buildCalendar(){
       cell.id="c"+club+jOff;
       cell.className="cell "+rc(r)+(!lk?" clickable":"")+(!lk&&mir&&!r?" mirror":"");
 
-      // Pour le blason : si l'adversaire s'appelle "Marseille" dans le calendrier, on cherche "OM"
-      const advKey = cal.a==="Marseille"?"OM":cal.a==="OM"?"OM":cal.a;
-      const haEmoji = cal.h==="H"?"🏠":"✈️";
+      const advName=cal.a==="Marseille"?"OM":cal.a;
+      const ha=cal.h==="H"?"🏠":"✈️";
 
       cell.innerHTML=
-        '<span class="c-ha">'+haEmoji+'</span>'+
-        crestImg(advKey,26)+
-        '<span class="c-adv">'+cal.a+'</span>'+
-        '<span class="c-res">'+rl(r)+'</span>';
+        '<span class="c-ha">'+ha+'</span>'+
+        img(advName,24,"adv-crest")+
+        '<div class="c-bottom">'+
+          '<span class="c-adv">'+cal.a+'</span>'+
+          '<span class="c-res">'+(r||"")+'</span>'+
+        '</div>';
 
       if(!lk){
         cell.addEventListener("click",e=>{
-          e.stopPropagation();closePop();
+          e.stopPropagation(); closePop();
           const pop=document.createElement("div");
           pop.className="popup";
           pop.innerHTML='<button class="pb v">V</button><button class="pb n">N</button><button class="pb d">D</button><button class="pb x">✕</button>';
@@ -585,7 +627,7 @@ function buildCalendar(){
           pop.querySelector(".n").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"N");closePop();};
           pop.querySelector(".d").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"D");closePop();};
           pop.querySelector(".x").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,null);closePop();};
-          cell.appendChild(pop);openPop=pop;
+          cell.appendChild(pop); openPop=pop;
         });
       }
       grid.appendChild(cell);
@@ -596,12 +638,12 @@ function buildCalendar(){
 // ═══════════════════════════════════════════════
 // CLASSEMENT
 // ═══════════════════════════════════════════════
-
-let prevRank=[],prevP={};
+let prevRank=[], prevP={};
 const ZONE_CLS=["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf"];
+const ZONE_LBL=["Champions League","Champions League","Champions League","CL Qualifs","Europa League","Conférence","",""];
 
 function renderRanking(animate,prev){
-  animate=animate||false;prev=prev||{};
+  animate=animate||false; prev=prev||{};
   const list=document.getElementById("rank-list");
   const s=sorted();
 
@@ -609,27 +651,31 @@ function renderRanking(animate,prev){
     const pts=calcPts(club);
     let el=document.getElementById("ri-"+club);
     if(!el){el=document.createElement("div");el.id="ri-"+club;list.appendChild(el);}
+
     const rank=i+1;
     const nc=rank===1?"g":rank===2?"s":rank===3?"b":"";
     el.className="ri "+(ZONE_CLS[i]||"");
     el.innerHTML=
       '<div class="ri-num '+nc+'">'+rank+'</div>'+
-      crestImg(club,20)+
-      '<div class="ri-name">'+META[club].name+'</div>'+
+      img(club,24)+
+      '<div class="ri-info">'+
+        '<div class="ri-name">'+META[club].name+'</div>'+
+        '<div class="ri-zone">'+(ZONE_LBL[i]||"")+'</div>'+
+      '</div>'+
       '<div class="ri-pts" id="rp-'+club+'">'+pts+'</div>';
 
     const diff=animate&&prev[club]!==undefined?pts-prev[club]:0;
     if(diff>0){
       const pEl=document.getElementById("rp-"+club);
-      pEl.classList.remove("bump");void pEl.offsetWidth;pEl.classList.add("bump");
+      pEl.classList.remove("bump"); void pEl.offsetWidth; pEl.classList.add("bump");
       const b=document.createElement("span");b.className="badge";b.textContent="+"+diff;
-      pEl.appendChild(b);setTimeout(()=>b.remove(),1700);
+      pEl.appendChild(b); setTimeout(()=>b.remove(),1700);
     }
 
     const pi=prevRank.indexOf(club);
     if(animate&&pi!==-1&&pi!==i){
-      const dy=(pi-i)*34;
-      el.style.transition="none";el.style.transform="translateY("+dy+"px)";
+      const dy=(pi-i)*38;
+      el.style.transition="none"; el.style.transform="translateY("+dy+"px)";
       requestAnimationFrame(()=>{
         el.style.transition="transform .55s cubic-bezier(0.34,1.56,0.64,1)";
         el.style.transform="translateY(0)";
@@ -639,22 +685,21 @@ function renderRanking(animate,prev){
 
   s.forEach(club=>list.appendChild(document.getElementById("ri-"+club)));
   CLUBS.forEach(c=>{const el=document.getElementById("chpts-"+c);if(el)el.textContent=calcPts(c);});
-  prevRank=s;prevP={};CLUBS.forEach(c=>prevP[c]=calcPts(c));
+  prevRank=s; prevP={}; CLUBS.forEach(c=>prevP[c]=calcPts(c));
 }
 
 // ═══════════════════════════════════════════════
 // GRAPHIQUE
 // ═══════════════════════════════════════════════
-
 let chart=null;
-const CHART_COLORS={PSG:"#3b82f6",Lens:"#ef4444",Lyon:"#6366f1",OM:"#0ea5e9",Lille:"#8b5cf6",Rennes:"#f59e0b",Strasbourg:"#14b8a6",Monaco:"#f43f5e"};
+const COLORS={PSG:"#3b82f6",Lens:"#ef4444",Lyon:"#6366f1",OM:"#0ea5e9",Lille:"#8b5cf6",Rennes:"#f59e0b",Strasbourg:"#14b8a6",Monaco:"#f43f5e"};
 
 function chartData(){
   const labels=["J23",...JJ.map(j=>j.id)];
   const datasets=CLUBS.map(club=>{
-    const pts=[PTS0[club]];let cum=PTS0[club];
+    const pts=[PTS0[club]]; let cum=PTS0[club];
     for(let i=0;i<11;i++){const r=R[club][i];if(r==="V")cum+=3;else if(r==="N")cum+=1;pts.push(cum);}
-    return{label:club,data:pts,borderColor:CHART_COLORS[club],backgroundColor:"transparent",borderWidth:1.5,pointRadius:2,pointHoverRadius:4,tension:0.3};
+    return{label:club,data:pts,borderColor:COLORS[club],backgroundColor:"transparent",borderWidth:1.5,pointRadius:2,pointHoverRadius:4,tension:0.3};
   });
   return{labels,datasets};
 }
@@ -678,19 +723,18 @@ function initChart(){
     }
   });
   const leg=document.getElementById("chart-legend");
-  CLUBS.forEach(c=>{leg.innerHTML+='<div class="leg">'+crestImg(c,12)+" "+META[c].name+'</div>';});
+  CLUBS.forEach(c=>{leg.innerHTML+='<div class="leg">'+img(c,12)+" "+META[c].name+"</div>";});
 }
 
 function updateChart(){
   if(!chart)return;
   const{labels,datasets}=chartData();
-  chart.data.labels=labels;chart.data.datasets=datasets;chart.update("active");
+  chart.data.labels=labels; chart.data.datasets=datasets; chart.update("active");
 }
 
 // ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
-
 async function init(){
   loadStorage();
   const ok=await fetchAPI();
