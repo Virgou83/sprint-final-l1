@@ -3,727 +3,451 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sprint Final · Ligue 1 2025/2026</title>
+<title>Sprint Final · L1 2025/2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════
-   VARIABLES & RESET
-═══════════════════════════════════════════════════ */
 :root {
-  --bg:        #07090f;
-  --bg2:       #0d1117;
-  --glass:     rgba(255,255,255,0.045);
-  --glass-b:   rgba(255,255,255,0.09);
-  --border:    rgba(255,255,255,0.08);
-  --border-h:  rgba(255,255,255,0.18);
-  --text:      #e8eaf0;
-  --muted:     rgba(232,234,240,0.45);
-  --win:       #22c55e;
-  --win-bg:    rgba(34,197,94,0.15);
-  --draw:      #f59e0b;
-  --draw-bg:   rgba(245,158,11,0.15);
-  --loss:      #ef4444;
-  --loss-bg:   rgba(239,68,68,0.15);
-  --gold:      #fbbf24;
-  --silver:    #94a3b8;
-  --bronze:    #cd7f32;
-  --blue:      #3b82f6;
-  --blue-bg:   rgba(59,130,246,0.15);
-  --accent:    #6366f1;
-  --r: 16px;
+  --bg:     #0b0e14;
+  --bg2:    #111520;
+  --bg3:    #181d28;
+  --border: rgba(255,255,255,0.07);
+  --text:   #dde1ec;
+  --muted:  rgba(221,225,236,0.4);
+  --win:    #22c55e;
+  --draw:   #f59e0b;
+  --loss:   #ef4444;
+  --blue:   #3b82f6;
+  --r:      8px;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
+html, body { height: 100%; overflow: hidden; }
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ═══════════════════════════════════════════════════
-   BACKGROUND AMBIANCE
-═══════════════════════════════════════════════════ */
-.bg-orbs {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.12;
-  animation: drift 20s ease-in-out infinite;
-}
-.orb-1 { width: 600px; height: 600px; background: #6366f1; top: -200px; left: -100px; animation-delay: 0s; }
-.orb-2 { width: 500px; height: 500px; background: #0ea5e9; bottom: -150px; right: -100px; animation-delay: -7s; }
-.orb-3 { width: 400px; height: 400px; background: #8b5cf6; top: 40%; left: 40%; animation-delay: -14s; }
-
-@keyframes drift {
-  0%, 100% { transform: translate(0,0) scale(1); }
-  33%       { transform: translate(40px,-30px) scale(1.05); }
-  66%       { transform: translate(-20px,20px) scale(0.95); }
-}
-
-/* ═══════════════════════════════════════════════════
-   LAYOUT
-═══════════════════════════════════════════════════ */
-.wrapper {
-  position: relative;
-  z-index: 1;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px 80px;
-}
-
-/* ═══════════════════════════════════════════════════
-   HEADER
-═══════════════════════════════════════════════════ */
-header {
-  padding: 48px 0 40px;
-  text-align: center;
-}
-.header-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 6px 16px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  backdrop-filter: blur(12px);
-}
-.pulse {
-  width: 6px; height: 6px;
-  background: var(--win);
-  border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.4; transform: scale(0.8); }
-}
-h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.5) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.header-sub {
-  margin-top: 10px;
-  font-size: 15px;
-  color: var(--muted);
-  font-weight: 300;
-}
-.last-update {
-  margin-top: 14px;
-  font-size: 12px;
-  color: rgba(232,234,240,0.3);
-}
-
-/* ═══════════════════════════════════════════════════
-   GLASS CARD
-═══════════════════════════════════════════════════ */
-.glass {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-/* ═══════════════════════════════════════════════════
-   SECTION TITLES
-═══════════════════════════════════════════════════ */
-.section-title {
-  font-family: 'Syne', sans-serif;
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 20px;
 }
 
-/* ═══════════════════════════════════════════════════
-   CLASSEMENT
-═══════════════════════════════════════════════════ */
-#ranking-section { margin-bottom: 48px; }
+/* ── LAYOUT ─────────────────────────────────────────── */
+#app {
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 1fr 220px;
+  grid-template-areas:
+    "header header"
+    "cal    rank";
+  height: 100vh;
+  gap: 0;
+}
 
-#ranking-list {
+/* ── HEADER ─────────────────────────────────────────── */
+#header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.header-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.header-title span { color: var(--muted); font-weight: 600; }
+#status {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--win);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%,100% { opacity:1; } 50% { opacity:0.3; }
+}
+
+/* ── CALENDRIER (gauche) ────────────────────────────── */
+#cal {
+  grid-area: cal;
+  overflow: auto;
+  padding: 12px;
+  background: var(--bg);
+}
+#cal::-webkit-scrollbar { width: 4px; height: 4px; }
+#cal::-webkit-scrollbar-track { background: transparent; }
+#cal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: 56px repeat(8, minmax(80px, 1fr));
+  gap: 3px;
+  min-width: 720px;
+}
+
+/* Club headers */
+.ch {
+  padding: 6px 4px;
+  text-align: center;
+  border-radius: var(--r);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+.ch-emoji { font-size: 14px; display: block; }
+.ch-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.ch-pts {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 1px;
+}
+.corner { background: transparent !important; border: none !important; }
+
+/* Journée label */
+.jlabel {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.rank-item {
-  display: grid;
-  grid-template-columns: 40px 1fr auto auto;
   align-items: center;
-  gap: 16px;
-  padding: 14px 20px;
-  border-radius: 12px;
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  will-change: transform;
+  justify-content: center;
+  padding: 4px 2px;
+  border-radius: var(--r);
+  background: var(--bg2);
+  border: 1px solid var(--border);
 }
-.rank-item:hover {
-  background: var(--glass-b);
-  border-color: var(--border-h);
-}
-
-.rank-num {
+.jlabel .jn {
   font-family: 'Syne', sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  text-align: center;
-  color: var(--muted);
-}
-.rank-num.gold   { color: var(--gold); }
-.rank-num.silver { color: var(--silver); }
-.rank-num.bronze { color: var(--bronze); }
-
-.rank-club {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.club-badge {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.rank-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
+  font-size: 11px;
   font-weight: 700;
 }
-.rank-zone {
-  font-size: 10px;
-  color: var(--muted);
-  font-weight: 400;
+.jlabel .jd { font-size: 9px; color: var(--muted); text-align: center; line-height: 1.2; }
+
+/* Cellule match */
+.cell {
+  border-radius: var(--r);
+  padding: 5px 4px;
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+}
+.cell.clickable { cursor: pointer; }
+.cell.clickable:hover { border-color: rgba(255,255,255,0.15); background: var(--bg3); }
+
+.c-adv { font-size: 10px; color: var(--muted); line-height: 1.2; }
+.c-ha  { font-size: 9px; color: rgba(221,225,236,0.2); }
+.c-res {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
   margin-top: 2px;
 }
 
-.rank-pts-col {
-  text-align: right;
+/* Couleurs résultats */
+.win  { background: rgba(34,197,94,0.1)  !important; border-color: rgba(34,197,94,0.2)  !important; }
+.draw { background: rgba(245,158,11,0.1) !important; border-color: rgba(245,158,11,0.2) !important; }
+.loss { background: rgba(239,68,68,0.1)  !important; border-color: rgba(239,68,68,0.2)  !important; }
+.win  .c-res { color: var(--win);  }
+.draw .c-res { color: var(--draw); }
+.loss .c-res { color: var(--loss); }
+.win  .c-adv { color: rgba(34,197,94,0.7);  }
+.draw .c-adv { color: rgba(245,158,11,0.7); }
+.loss .c-adv { color: rgba(239,68,68,0.7);  }
+.mirror { border-color: rgba(59,130,246,0.2) !important; }
+
+/* Popup saisie */
+.popup {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  background: #1c2030;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--r);
+  padding: 5px;
+  z-index: 200;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  animation: pop 0.12s ease;
 }
-.rank-pts {
+@keyframes pop {
+  from { opacity:0; transform: translateX(-50%) scale(0.9); }
+  to   { opacity:1; transform: translateX(-50%) scale(1); }
+}
+.pb {
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: none;
   font-family: 'Syne', sans-serif;
-  font-size: 22px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.1s;
+}
+.pb:hover { opacity: 0.85; }
+.pb.v { background: rgba(34,197,94,0.15);  color: var(--win);  border: 1px solid rgba(34,197,94,0.25); }
+.pb.n { background: rgba(245,158,11,0.15); color: var(--draw); border: 1px solid rgba(245,158,11,0.25); }
+.pb.d { background: rgba(239,68,68,0.15);  color: var(--loss); border: 1px solid rgba(239,68,68,0.25); }
+.pb.x { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); font-size:10px; }
+
+/* ── CLASSEMENT (droite) ────────────────────────────── */
+#rank {
+  grid-area: rank;
+  overflow: hidden;
+  border-left: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  padding: 12px 10px;
+  gap: 4px;
+}
+.rank-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+.ri {
+  display: grid;
+  grid-template-columns: 22px auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: var(--r);
+  border: 1px solid transparent;
+  transition: transform 0.55s cubic-bezier(0.34,1.56,0.64,1);
+  will-change: transform;
+  position: relative;
+}
+.ri:hover { background: var(--bg2); }
+
+/* Bordure zone */
+.ri.z-cl   { border-left: 2px solid #3b82f6; }
+.ri.z-cl4  { border-left: 2px solid #0ea5e9; }
+.ri.z-el   { border-left: 2px solid #f59e0b; }
+.ri.z-conf { border-left: 2px solid #8b5cf6; }
+
+.ri-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
   font-weight: 800;
-  transition: color 0.4s;
+  text-align: center;
+  color: var(--muted);
+}
+.ri-num.g { color: #fbbf24; }
+.ri-num.s { color: #94a3b8; }
+.ri-num.b { color: #cd7f32; }
+
+.ri-emoji { font-size: 14px; }
+
+.ri-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ri-pts {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: right;
   position: relative;
   display: inline-block;
 }
 
-.rank-delta {
-  font-size: 10px;
-  text-align: right;
-  color: var(--muted);
-  margin-top: 2px;
+/* Animation pts */
+.bump { animation: bump 1s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+@keyframes bump {
+  0%  { transform:scale(1);   color:var(--text); }
+  35% { transform:scale(1.35); color:var(--win); }
+  100%{ transform:scale(1);   color:var(--text); }
 }
-
-.rank-proj {
-  text-align: right;
-}
-.proj-label {
-  font-size: 10px;
-  color: var(--muted);
-}
-.proj-val {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.5);
-}
-
-/* Séparateurs de zone */
-.rank-item.zone-cl   { border-left: 3px solid #3b82f6; }
-.rank-item.zone-cl4  { border-left: 3px solid #0ea5e9; }
-.rank-item.zone-el   { border-left: 3px solid #f59e0b; }
-.rank-item.zone-conf { border-left: 3px solid #8b5cf6; }
-.rank-item.zone-out  { border-left: 3px solid transparent; }
-
-/* Animation +pts */
-.pts-bump {
-  animation: ptsBump 1.2s cubic-bezier(0.34,1.56,0.64,1) forwards;
-}
-@keyframes ptsBump {
-  0%   { transform: scale(1);    color: var(--text); }
-  30%  { transform: scale(1.4);  color: var(--win); }
-  60%  { transform: scale(1.15); color: var(--win); }
-  100% { transform: scale(1);    color: var(--text); }
-}
-
-.pts-badge {
+.badge {
   position: absolute;
-  top: -18px;
-  right: 0;
-  font-size: 11px;
+  top: -14px; right: 0;
+  font-size: 10px;
   font-weight: 700;
   color: var(--win);
-  background: var(--win-bg);
-  border: 1px solid rgba(34,197,94,0.3);
+  background: rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.25);
   border-radius: 100px;
-  padding: 2px 7px;
+  padding: 1px 6px;
   white-space: nowrap;
-  animation: badgePop 1.8s ease forwards;
+  animation: badgePop 1.6s ease forwards;
   pointer-events: none;
 }
 @keyframes badgePop {
-  0%   { opacity: 0; transform: translateY(6px) scale(0.8); }
-  20%  { opacity: 1; transform: translateY(0) scale(1); }
-  70%  { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-8px); }
+  0%  { opacity:0; transform:translateY(4px); }
+  20% { opacity:1; transform:translateY(0); }
+  70% { opacity:1; }
+  100%{ opacity:0; transform:translateY(-6px); }
 }
 
-/* ═══════════════════════════════════════════════════
-   CALENDRIER
-═══════════════════════════════════════════════════ */
-#calendar-section { margin-bottom: 48px; }
+/* Séparateur zone */
+.zone-sep {
+  height: 1px;
+  background: var(--border);
+  margin: 2px 0;
+}
 
-.calendar-scroll {
-  overflow-x: auto;
-  padding-bottom: 8px;
+/* ── GRAPHIQUE (bas, dans le calendrier) ────────────── */
+#chart-wrap {
+  min-width: 720px;
+  margin-top: 8px;
+  padding: 10px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
 }
-.calendar-scroll::-webkit-scrollbar { height: 4px; }
-.calendar-scroll::-webkit-scrollbar-track { background: transparent; }
-.calendar-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-.calendar-grid {
-  display: grid;
-  min-width: 900px;
-}
-.cal-header {
-  display: grid;
-  grid-template-columns: 80px repeat(8, 1fr);
-  gap: 6px;
-  margin-bottom: 6px;
-}
-.cal-club-head {
-  padding: 10px 8px;
-  text-align: center;
-  border-radius: 10px;
-}
-.cal-club-head .badge-emoji { font-size: 20px; display: block; margin-bottom: 4px; }
-.cal-club-head .badge-name {
+#chart-title {
   font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--muted);
-}
-.cal-corner { background: transparent !important; }
-
-.cal-row {
-  display: grid;
-  grid-template-columns: 80px repeat(8, 1fr);
-  gap: 6px;
-  margin-bottom: 6px;
-}
-.cal-jday {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  border-radius: 10px;
-}
-.cal-jday .jnum {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-}
-.cal-jday .jdate {
   font-size: 10px;
-  color: var(--muted);
-  margin-top: 2px;
-  text-align: center;
-  line-height: 1.3;
-}
-
-.cal-cell {
-  border-radius: 10px;
-  padding: 8px 6px;
-  text-align: center;
-  cursor: default;
-  transition: all 0.2s;
-  position: relative;
-  min-height: 52px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.cal-cell.clickable {
-  cursor: pointer;
-}
-.cal-cell.clickable:hover {
-  background: var(--glass-b) !important;
-  border-color: var(--border-h) !important;
-  transform: translateY(-1px);
-}
-
-.cal-adv {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--muted);
-  line-height: 1.3;
-}
-.cal-ha {
-  font-size: 9px;
-  color: rgba(232,234,240,0.3);
-  margin-top: 1px;
-}
-.cal-result {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  margin-top: 3px;
-}
-
-/* États colorés */
-.cal-cell.win  { background: var(--win-bg);  border: 1px solid rgba(34,197,94,0.2);  }
-.cal-cell.draw { background: var(--draw-bg); border: 1px solid rgba(245,158,11,0.2); }
-.cal-cell.loss { background: var(--loss-bg); border: 1px solid rgba(239,68,68,0.2);  }
-.cal-cell.win  .cal-result { color: var(--win);  }
-.cal-cell.draw .cal-result { color: var(--draw); }
-.cal-cell.loss .cal-result { color: var(--loss); }
-.cal-cell.win  .cal-adv { color: rgba(34,197,94,0.8);  }
-.cal-cell.draw .cal-adv { color: rgba(245,158,11,0.8); }
-.cal-cell.loss .cal-adv { color: rgba(239,68,68,0.8);  }
-
-.cal-cell.future { background: var(--glass); border: 1px solid var(--border); }
-.cal-cell.mirror { background: var(--blue-bg); border: 1px solid rgba(59,130,246,0.2); }
-
-/* Popup saisie pronostic */
-.pick-popup {
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 4px;
-  background: #1a1d27;
-  border: 1px solid var(--border-h);
-  border-radius: 10px;
-  padding: 6px;
-  z-index: 100;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  white-space: nowrap;
-  animation: popIn 0.15s cubic-bezier(0.34,1.56,0.64,1);
-}
-@keyframes popIn {
-  from { opacity: 0; transform: translateX(-50%) scale(0.85); }
-  to   { opacity: 1; transform: translateX(-50%) scale(1); }
-}
-.pick-btn {
-  padding: 5px 10px;
-  border-radius: 7px;
-  border: none;
-  font-family: 'Syne', sans-serif;
-  font-size: 12px;
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.15s;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
 }
-.pick-btn:hover { transform: scale(1.08); }
-.pick-btn.v { background: var(--win-bg);  color: var(--win);  border: 1px solid rgba(34,197,94,0.3); }
-.pick-btn.n { background: var(--draw-bg); color: var(--draw); border: 1px solid rgba(245,158,11,0.3); }
-.pick-btn.d { background: var(--loss-bg); color: var(--loss); border: 1px solid rgba(239,68,68,0.3); }
-.pick-btn.clear { background: var(--glass); color: var(--muted); border: 1px solid var(--border); font-size: 11px; }
-
-/* ═══════════════════════════════════════════════════
-   GRAPHIQUE
-═══════════════════════════════════════════════════ */
-#chart-section { margin-bottom: 48px; }
-.chart-wrap { padding: 24px; }
-
-#pts-chart {
-  width: 100%;
-  height: 260px;
-}
+#pts-chart { width: 100% !important; height: 140px !important; }
 
 .chart-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 20px;
-  margin-top: 20px;
+  gap: 6px 14px;
+  margin-top: 8px;
 }
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--muted);
-}
-.legend-dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.leg { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--muted); }
+.leg-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 
-/* ═══════════════════════════════════════════════════
-   LOADER
-═══════════════════════════════════════════════════ */
+/* ── LOADER ─────────────────────────────────────────── */
 #loader {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  transition: opacity 0.5s, visibility 0.5s;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 999;
+  transition: opacity 0.4s, visibility 0.4s;
 }
-#loader.hidden { opacity: 0; visibility: hidden; }
-.loader-logo {
+#loader.gone { opacity: 0; visibility: hidden; }
+.l-title {
   font-family: 'Syne', sans-serif;
-  font-size: 28px;
-  font-weight: 800;
-  margin-bottom: 32px;
-  background: linear-gradient(135deg, #fff, rgba(255,255,255,0.4));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 20px; font-weight: 800;
+  margin-bottom: 24px;
 }
-.loader-bar {
-  width: 200px;
-  height: 2px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.loader-fill {
+.l-bar { width: 160px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.l-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #0ea5e9);
+  background: linear-gradient(90deg, var(--blue), var(--win));
   border-radius: 2px;
-  animation: load 1.8s ease-in-out forwards;
+  animation: lfill 1.5s ease forwards;
 }
-@keyframes load {
-  from { width: 0%; }
-  to   { width: 100%; }
-}
-.loader-text {
-  margin-top: 16px;
-  font-size: 12px;
-  color: var(--muted);
-  animation: blink 1.5s ease-in-out infinite;
-}
-@keyframes blink {
-  0%,100% { opacity: 0.5; }
-  50%      { opacity: 1; }
-}
-
-/* ═══════════════════════════════════════════════════
-   SLIDE-IN ANIMATION
-═══════════════════════════════════════════════════ */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.6s ease forwards;
-}
-@keyframes fadeIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-.fade-in:nth-child(1) { animation-delay: 0.1s; }
-.fade-in:nth-child(2) { animation-delay: 0.2s; }
-.fade-in:nth-child(3) { animation-delay: 0.3s; }
-
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .wrapper { padding: 0 16px 60px; }
-  h1 { font-size: 1.8rem; }
-  .rank-item { grid-template-columns: 36px 1fr auto; }
-  .rank-proj { display: none; }
-}
+@keyframes lfill { from{width:0} to{width:100%} }
+.l-txt { margin-top: 12px; font-size: 11px; color: var(--muted); }
 </style>
 </head>
 <body>
 
-<!-- Loader -->
 <div id="loader">
-  <div class="loader-logo">Sprint Final 🏆</div>
-  <div class="loader-bar"><div class="loader-fill"></div></div>
-  <div class="loader-text">Chargement des données Ligue 1…</div>
+  <div class="l-title">Sprint Final 🏆</div>
+  <div class="l-bar"><div class="l-fill"></div></div>
+  <div class="l-txt" id="l-txt">Chargement…</div>
 </div>
 
-<!-- Background -->
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-
-<div class="wrapper">
+<div id="app">
 
   <!-- Header -->
-  <header class="fade-in">
-    <div class="header-badge">
-      <div class="pulse"></div>
-      Ligue 1 McDonald's · 2025/2026
-    </div>
-    <h1>Sprint Final</h1>
-    <p class="header-sub">Top 8 · Candidats Europe · J24 → J34</p>
-    <p class="last-update" id="last-update"></p>
-  </header>
-
-  <!-- Classement -->
-  <section id="ranking-section" class="fade-in">
-    <p class="section-title">📊 Classement projeté</p>
-    <div id="ranking-list"></div>
-  </section>
+  <div id="header">
+    <div class="header-title">Sprint Final <span>· Ligue 1 2025/2026 · J24→J34</span></div>
+    <div id="status"><div class="dot"></div><span id="status-txt">Connexion…</span></div>
+  </div>
 
   <!-- Calendrier -->
-  <section id="calendar-section" class="fade-in">
-    <p class="section-title">🗓️ Calendrier & Pronostics</p>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">
-      Résultats réels verrouillés automatiquement · Cliquez sur un match futur pour pronostiquer
-    </p>
-    <div class="calendar-scroll">
-      <div class="calendar-grid" id="calendar-grid"></div>
-    </div>
-  </section>
-
-  <!-- Graphique -->
-  <section id="chart-section" class="fade-in">
-    <p class="section-title">📈 Évolution des points</p>
-    <div class="glass chart-wrap">
+  <div id="cal">
+    <div class="cal-grid" id="cal-grid"></div>
+    <!-- Graphique en bas du calendrier -->
+    <div id="chart-wrap">
+      <div id="chart-title">📈 Évolution des points</div>
       <canvas id="pts-chart"></canvas>
       <div class="chart-legend" id="chart-legend"></div>
     </div>
-  </section>
+  </div>
+
+  <!-- Classement -->
+  <div id="rank">
+    <div class="rank-title">Classement projeté</div>
+    <div id="rank-list"></div>
+  </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
-// ═══════════════════════════════════════════════════════════════════════
-// DONNÉES STATIQUES
-// ═══════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// DONNÉES
+// ═══════════════════════════════════════════════
 
 const CLUBS = ["PSG","Lens","Lyon","OM","Lille","Rennes","Strasbourg","Monaco"];
 
-const CLUB_META = {
-  PSG:        { emoji:"🔵", color:"#001F5B", name:"Paris SG" },
-  Lens:       { emoji:"🔴", color:"#8B0000", name:"RC Lens" },
-  Lyon:       { emoji:"🔵", color:"#003A8C", name:"OL Lyon" },
-  OM:         { emoji:"🔵", color:"#0067B0", name:"Marseille" },
-  Lille:      { emoji:"🔴", color:"#5B0000", name:"LOSC Lille" },
-  Rennes:     { emoji:"⚫", color:"#BB0000", name:"Rennes" },
-  Strasbourg: { emoji:"🔵", color:"#003189", name:"Strasbourg" },
-  Monaco:     { emoji:"🔴", color:"#A0001C", name:"Monaco" },
+const META = {
+  PSG:        {e:"🔵",color:"#3b82f6",name:"Paris SG"},
+  Lens:       {e:"🔴",color:"#ef4444",name:"RC Lens"},
+  Lyon:       {e:"🔵",color:"#6366f1",name:"OL Lyon"},
+  OM:         {e:"🔵",color:"#0ea5e9",name:"Marseille"},
+  Lille:      {e:"🔴",color:"#8b5cf6",name:"LOSC"},
+  Rennes:     {e:"⚫",color:"#f59e0b",name:"Rennes"},
+  Strasbourg: {e:"🔵",color:"#14b8a6",name:"Strasbourg"},
+  Monaco:     {e:"🔴",color:"#f43f5e",name:"Monaco"},
 };
 
-// Couleurs pour le graphique
-const CHART_COLORS = {
-  PSG:"#6366f1", Lens:"#ef4444", Lyon:"#3b82f6", OM:"#0ea5e9",
-  Lille:"#8b5cf6", Rennes:"#f59e0b", Strasbourg:"#14b8a6", Monaco:"#f43f5e",
+const PTS0 = {PSG:54,Lens:52,Lyon:45,OM:40,Lille:37,Rennes:37,Strasbourg:34,Monaco:34};
+
+const CAL = {
+  PSG:        [{a:"Le Havre",h:"A",m:null},{a:"Monaco",h:"H",m:"Monaco"},{a:"Nantes",h:"H",m:null},{a:"Nice",h:"A",m:null},{a:"Toulouse",h:"H",m:null},{a:"Lens",h:"A",m:"Lens"},{a:"Lyon",h:"H",m:"Lyon"},{a:"Metz",h:"A",m:null},{a:"Lorient",h:"H",m:null},{a:"Auxerre",h:"H",m:null},{a:"Paris FC",h:"A",m:null}],
+  Lens:       [{a:"Strasbourg",h:"A",m:"Strasbourg"},{a:"Metz",h:"H",m:null},{a:"Lorient",h:"A",m:null},{a:"Angers",h:"H",m:null},{a:"Lille",h:"A",m:"Lille"},{a:"PSG",h:"H",m:"PSG"},{a:"Toulouse",h:"H",m:null},{a:"Brest",h:"A",m:null},{a:"Nice",h:"A",m:null},{a:"Nantes",h:"H",m:null},{a:"Lyon",h:"A",m:"Lyon"}],
+  Lyon:       [{a:"Marseille",h:"A",m:"OM"},{a:"Paris FC",h:"H",m:null},{a:"Le Havre",h:"A",m:null},{a:"Monaco",h:"H",m:"Monaco"},{a:"Angers",h:"A",m:null},{a:"Lorient",h:"H",m:null},{a:"PSG",h:"A",m:"PSG"},{a:"Auxerre",h:"H",m:null},{a:"Rennes",h:"H",m:"Rennes"},{a:"Toulouse",h:"A",m:null},{a:"Lens",h:"H",m:"Lens"}],
+  OM:         [{a:"Lyon",h:"H",m:"Lyon"},{a:"Toulouse",h:"A",m:null},{a:"Auxerre",h:"H",m:null},{a:"Lille",h:"H",m:"Lille"},{a:"Monaco",h:"A",m:"Monaco"},{a:"Metz",h:"H",m:null},{a:"Lorient",h:"A",m:null},{a:"Nice",h:"H",m:null},{a:"Nantes",h:"A",m:null},{a:"Le Havre",h:"A",m:null},{a:"Rennes",h:"H",m:"Rennes"}],
+  Lille:      [{a:"Nantes",h:"H",m:null},{a:"Lorient",h:"H",m:null},{a:"Rennes",h:"A",m:"Rennes"},{a:"Marseille",h:"A",m:"OM"},{a:"Lens",h:"H",m:"Lens"},{a:"Toulouse",h:"A",m:null},{a:"Nice",h:"A",m:null},{a:"Paris FC",h:"A",m:null},{a:"Le Havre",h:"H",m:null},{a:"Monaco",h:"A",m:"Monaco"},{a:"Auxerre",h:"H",m:null}],
+  Rennes:     [{a:"Toulouse",h:"H",m:null},{a:"Nice",h:"A",m:null},{a:"Lille",h:"H",m:"Lille"},{a:"Metz",h:"H",m:null},{a:"Brest",h:"A",m:null},{a:"Angers",h:"H",m:null},{a:"Strasbourg",h:"A",m:"Strasbourg"},{a:"Nantes",h:"H",m:null},{a:"Lyon",h:"A",m:"Lyon"},{a:"Paris FC",h:"H",m:null},{a:"OM",h:"A",m:"OM"}],
+  Strasbourg: [{a:"Lens",h:"H",m:"Lens"},{a:"Auxerre",h:"A",m:null},{a:"Paris FC",h:"H",m:null},{a:"Nantes",h:"A",m:null},{a:"Nice",h:"H",m:null},{a:"Brest",h:"H",m:null},{a:"Rennes",h:"H",m:"Rennes"},{a:"Lorient",h:"H",m:null},{a:"Toulouse",h:"A",m:null},{a:"Angers",h:"H",m:null},{a:"Monaco",h:"H",m:"Monaco"}],
+  Monaco:     [{a:"Angers",h:"H",m:null},{a:"PSG",h:"A",m:"PSG"},{a:"Brest",h:"H",m:null},{a:"Lyon",h:"A",m:"Lyon"},{a:"Marseille",h:"H",m:"OM"},{a:"Paris FC",h:"A",m:null},{a:"Auxerre",h:"H",m:null},{a:"Toulouse",h:"A",m:null},{a:"Metz",h:"A",m:null},{a:"Lille",h:"H",m:"Lille"},{a:"Strasbourg",h:"A",m:"Strasbourg"}],
 };
 
-const PTS_J23 = { PSG:54, Lens:52, Lyon:45, OM:40, Lille:37, Rennes:37, Strasbourg:34, Monaco:34 };
-
-// Calendrier complet J24→J34
-// format: { adv, ha:"H"|"A", mirror:club|null }
-const CALENDAR = {
-  PSG:        [
-    {adv:"Le Havre",ha:"A",mirror:null},{adv:"Monaco",ha:"H",mirror:"Monaco"},
-    {adv:"Nantes",ha:"H",mirror:null},{adv:"Nice",ha:"A",mirror:null},
-    {adv:"Toulouse",ha:"H",mirror:null},{adv:"Lens",ha:"A",mirror:"Lens"},
-    {adv:"Lyon",ha:"H",mirror:"Lyon"},{adv:"Metz",ha:"A",mirror:null},
-    {adv:"Lorient",ha:"H",mirror:null},{adv:"Auxerre",ha:"D",mirror:null},
-    {adv:"Paris FC",ha:"A",mirror:null}
-  ],
-  Lens:       [
-    {adv:"Strasbourg",ha:"A",mirror:"Strasbourg"},{adv:"Metz",ha:"H",mirror:null},
-    {adv:"Lorient",ha:"A",mirror:null},{adv:"Angers",ha:"H",mirror:null},
-    {adv:"Lille",ha:"A",mirror:"Lille"},{adv:"PSG",ha:"H",mirror:"PSG"},
-    {adv:"Toulouse",ha:"H",mirror:null},{adv:"Brest",ha:"A",mirror:null},
-    {adv:"Nice",ha:"A",mirror:null},{adv:"Nantes",ha:"H",mirror:null},
-    {adv:"Lyon",ha:"A",mirror:"Lyon"}
-  ],
-  Lyon:       [
-    {adv:"Marseille",ha:"A",mirror:"OM"},{adv:"Paris FC",ha:"H",mirror:null},
-    {adv:"Le Havre",ha:"A",mirror:null},{adv:"Monaco",ha:"H",mirror:"Monaco"},
-    {adv:"Angers",ha:"A",mirror:null},{adv:"Lorient",ha:"H",mirror:null},
-    {adv:"PSG",ha:"A",mirror:"PSG"},{adv:"Auxerre",ha:"H",mirror:null},
-    {adv:"Rennes",ha:"H",mirror:"Rennes"},{adv:"Toulouse",ha:"A",mirror:null},
-    {adv:"Lens",ha:"H",mirror:"Lens"}
-  ],
-  OM:         [
-    {adv:"Lyon",ha:"H",mirror:"Lyon"},{adv:"Toulouse",ha:"A",mirror:null},
-    {adv:"Auxerre",ha:"H",mirror:null},{adv:"Lille",ha:"H",mirror:"Lille"},
-    {adv:"Monaco",ha:"A",mirror:"Monaco"},{adv:"Metz",ha:"H",mirror:null},
-    {adv:"Lorient",ha:"A",mirror:null},{adv:"Nice",ha:"H",mirror:null},
-    {adv:"Nantes",ha:"A",mirror:null},{adv:"Le Havre",ha:"A",mirror:null},
-    {adv:"Rennes",ha:"H",mirror:"Rennes"}
-  ],
-  Lille:      [
-    {adv:"Nantes",ha:"H",mirror:null},{adv:"Lorient",ha:"H",mirror:null},
-    {adv:"Rennes",ha:"A",mirror:"Rennes"},{adv:"Marseille",ha:"A",mirror:"OM"},
-    {adv:"Lens",ha:"H",mirror:"Lens"},{adv:"Toulouse",ha:"A",mirror:null},
-    {adv:"Nice",ha:"A",mirror:null},{adv:"Paris FC",ha:"A",mirror:null},
-    {adv:"Le Havre",ha:"H",mirror:null},{adv:"Monaco",ha:"A",mirror:"Monaco"},
-    {adv:"Auxerre",ha:"H",mirror:null}
-  ],
-  Rennes:     [
-    {adv:"Toulouse",ha:"H",mirror:null},{adv:"Nice",ha:"A",mirror:null},
-    {adv:"Lille",ha:"H",mirror:"Lille"},{adv:"Metz",ha:"H",mirror:null},
-    {adv:"Brest",ha:"A",mirror:null},{adv:"Angers",ha:"H",mirror:null},
-    {adv:"Strasbourg",ha:"A",mirror:"Strasbourg"},{adv:"Nantes",ha:"H",mirror:null},
-    {adv:"Lyon",ha:"A",mirror:"Lyon"},{adv:"Paris FC",ha:"H",mirror:null},
-    {adv:"OM",ha:"A",mirror:"OM"}
-  ],
-  Strasbourg: [
-    {adv:"Lens",ha:"H",mirror:"Lens"},{adv:"Auxerre",ha:"A",mirror:null},
-    {adv:"Paris FC",ha:"H",mirror:null},{adv:"Nantes",ha:"A",mirror:null},
-    {adv:"Nice",ha:"H",mirror:null},{adv:"Brest",ha:"H",mirror:null},
-    {adv:"Rennes",ha:"H",mirror:"Rennes"},{adv:"Lorient",ha:"H",mirror:null},
-    {adv:"Toulouse",ha:"A",mirror:null},{adv:"Angers",ha:"H",mirror:null},
-    {adv:"Monaco",ha:"H",mirror:"Monaco"}
-  ],
-  Monaco:     [
-    {adv:"Angers",ha:"H",mirror:null},{adv:"PSG",ha:"A",mirror:"PSG"},
-    {adv:"Brest",ha:"H",mirror:null},{adv:"Lyon",ha:"A",mirror:"Lyon"},
-    {adv:"Marseille",ha:"H",mirror:"OM"},{adv:"Paris FC",ha:"A",mirror:null},
-    {adv:"Auxerre",ha:"H",mirror:null},{adv:"Toulouse",ha:"A",mirror:null},
-    {adv:"Metz",ha:"A",mirror:null},{adv:"Lille",ha:"H",mirror:"Lille"},
-    {adv:"Strasbourg",ha:"A",mirror:"Strasbourg"}
-  ],
-};
-
-const JOURNEES = [
-  {id:"J24",date:"1 Mars"},{id:"J25",date:"8 Mars"},{id:"J26",date:"15 Mars"},
-  {id:"J27",date:"22 Mars"},{id:"J28",date:"5 Avr."},{id:"J29",date:"12 Avr."},
-  {id:"J30",date:"19 Avr."},{id:"J31",date:"26 Avr."},{id:"J32",date:"3 Mai"},
-  {id:"J33",date:"10 Mai"},{id:"J34",date:"17 Mai"},
+const JJ = [
+  {id:"J24",d:"1 Mars"},{id:"J25",d:"8 Mars"},{id:"J26",d:"15 Mars"},
+  {id:"J27",d:"22 Mars"},{id:"J28",d:"5 Avr."},{id:"J29",d:"12 Avr."},
+  {id:"J30",d:"19 Avr."},{id:"J31",d:"26 Avr."},{id:"J32",d:"3 Mai"},
+  {id:"J33",d:"10 Mai"},{id:"J34",d:"17 Mai"},
 ];
 
-// Duels internes — maître = club avec index plus petit
 const DUELS = [
   ["OM","Lyon",0],["PSG","Monaco",1],["Rennes","Lille",2],
   ["OM","Lille",3],["Lyon","Monaco",3],["Lens","Lille",4],
@@ -733,63 +457,7 @@ const DUELS = [
   ["Lens","Lyon",10],["Strasbourg","Monaco",10],
 ];
 
-function isMaster(club, jOffset) {
-  for (const [a,b,j] of DUELS) {
-    if (j !== jOffset) continue;
-    if (club === a || club === b) {
-      return CLUBS.indexOf(a) < CLUBS.indexOf(b) ? club === a : club === b;
-    }
-  }
-  return true; // pas un duel interne
-}
-
-function getMirrorClub(club, jOffset) {
-  return CALENDAR[club][jOffset].mirror;
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════════════════
-
-// results[club][jOffset] = "V"|"N"|"D"|null
-// locked[club][jOffset] = true si résultat réel verrouillé
-const results = {};
-const locked  = {};
-CLUBS.forEach(c => {
-  results[c] = new Array(11).fill(null);
-  locked[c]  = new Array(11).fill(false);
-});
-
-// Charger pronostics depuis localStorage
-function loadPronostics() {
-  try {
-    const saved = localStorage.getItem("sprintfinal_pronostics");
-    if (saved) {
-      const data = JSON.parse(saved);
-      CLUBS.forEach(c => {
-        if (data[c]) {
-          data[c].forEach((v, i) => {
-            if (v && !locked[c][i]) results[c][i] = v;
-          });
-        }
-      });
-    }
-  } catch(e) {}
-}
-
-function savePronostics() {
-  const data = {};
-  CLUBS.forEach(c => {
-    data[c] = results[c].map((v,i) => locked[c][i] ? null : v);
-  });
-  localStorage.setItem("sprintfinal_pronostics", JSON.stringify(data));
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// API FOOTBALL-DATA
-// ═══════════════════════════════════════════════════════════════════════
-
-const API_NAME_MAP = {
+const API_MAP = {
   "Paris Saint-Germain FC":"PSG","Paris Saint-Germain":"PSG","Paris SG":"PSG",
   "RC Lens":"Lens","Racing Club De Lens":"Lens","Racing Club de Lens":"Lens",
   "Olympique Lyonnais":"Lyon","Olympique de Lyon":"Lyon",
@@ -800,485 +468,342 @@ const API_NAME_MAP = {
   "AS Monaco FC":"Monaco","AS Monaco":"Monaco",
 };
 
-function mapTeam(name) {
-  if (API_NAME_MAP[name]) return API_NAME_MAP[name];
-  for (const [k,v] of Object.entries(API_NAME_MAP)) {
-    if (k.toLowerCase() === name.toLowerCase()) return v;
-    if (k.toLowerCase().includes(name.toLowerCase()) || name.toLowerCase().includes(k.toLowerCase())) return v;
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+
+const R = {}, L = {};
+CLUBS.forEach(c => { R[c] = new Array(11).fill(null); L[c] = new Array(11).fill(false); });
+
+function isMaster(club, j) {
+  for (const [a,b,jj] of DUELS) {
+    if (jj !== j) continue;
+    if (club === a || club === b)
+      return CLUBS.indexOf(a) < CLUBS.indexOf(b) ? club === a : club === b;
   }
+  return true;
+}
+
+function calcPts(c) {
+  let p = PTS0[c];
+  R[c].forEach(r => { if(r==="V") p+=3; else if(r==="N") p+=1; });
+  return p;
+}
+
+function sorted() {
+  return [...CLUBS].sort((a,b) => {
+    const d = calcPts(b)-calcPts(a);
+    return d !== 0 ? d : PTS0[b]-PTS0[a];
+  });
+}
+
+function loadStorage() {
+  try {
+    const s = localStorage.getItem("sf_prono");
+    if (!s) return;
+    const d = JSON.parse(s);
+    CLUBS.forEach(c => { if(d[c]) d[c].forEach((v,i) => { if(v && !L[c][i]) R[c][i]=v; }); });
+  } catch(e) {}
+}
+
+function saveStorage() {
+  const d = {};
+  CLUBS.forEach(c => { d[c] = R[c].map((v,i) => L[c][i] ? null : v); });
+  localStorage.setItem("sf_prono", JSON.stringify(d));
+}
+
+// ═══════════════════════════════════════════════
+// API
+// ═══════════════════════════════════════════════
+
+function mapTeam(n) {
+  if (API_MAP[n]) return API_MAP[n];
+  for (const [k,v] of Object.entries(API_MAP))
+    if (k.toLowerCase().includes(n.toLowerCase()) || n.toLowerCase().includes(k.toLowerCase())) return v;
   return null;
 }
 
-async function fetchResults() {
+async function fetchAPI() {
   try {
-    const resp = await fetch("/.netlify/functions/results");
-    if (!resp.ok) throw new Error("API error");
-    const data = await resp.json();
-    const matches = data.matches || [];
-
-    matches.forEach(m => {
-      const jday = m.matchday;
-      if (!jday || jday < 24 || m.status !== "FINISHED") return;
-      const jOff = jday - 24;
-      if (jOff > 10) return;
-
-      const home = mapTeam(m.homeTeam.name);
-      const away = mapTeam(m.awayTeam.name);
-      const sh = m.score?.fullTime?.home;
-      const sa = m.score?.fullTime?.away;
-      if (sh === null || sa === null) return;
-
-      if (home) {
-        results[home][jOff] = sh > sa ? "V" : sh < sa ? "D" : "N";
-        locked[home][jOff] = true;
-      }
-      if (away) {
-        results[away][jOff] = sa > sh ? "V" : sa < sh ? "D" : "N";
-        locked[away][jOff] = true;
-      }
+    const r = await fetch("/.netlify/functions/results");
+    if (!r.ok) return false;
+    const data = await r.json();
+    (data.matches||[]).forEach(m => {
+      const j = m.matchday;
+      if (!j || j<24 || m.status!=="FINISHED") return;
+      const jo = j-24; if(jo>10) return;
+      const home = mapTeam(m.homeTeam.name), away = mapTeam(m.awayTeam.name);
+      const sh = m.score?.fullTime?.home, sa = m.score?.fullTime?.away;
+      if (sh===null||sa===null||sh===undefined||sa===undefined) return;
+      if (home) { R[home][jo] = sh>sa?"V":sh<sa?"D":"N"; L[home][jo]=true; }
+      if (away) { R[away][jo] = sa>sh?"V":sa<sh?"D":"N"; L[away][jo]=true; }
     });
-
-    // Propager les miroirs pour les résultats réels
+    // Propager miroirs réels
     DUELS.forEach(([a,b,j]) => {
-      const master = CLUBS.indexOf(a) < CLUBS.indexOf(b) ? a : b;
-      const slave  = master === a ? b : a;
-      if (results[master][j] && locked[master][j]) {
-        const inv = results[master][j] === "V" ? "D" : results[master][j] === "D" ? "V" : "N";
-        results[slave][j] = inv;
-        locked[slave][j]  = true;
+      const master = CLUBS.indexOf(a)<CLUBS.indexOf(b)?a:b;
+      const slave  = master===a?b:a;
+      if (R[master][j] && L[master][j]) {
+        const inv = R[master][j]==="V"?"D":R[master][j]==="D"?"V":"N";
+        R[slave][j]=inv; L[slave][j]=true;
       }
     });
-
     return true;
-  } catch(e) {
-    console.warn("API non disponible, affichage hors ligne", e);
-    return false;
+  } catch(e) { return false; }
+}
+
+// ═══════════════════════════════════════════════
+// RENDU CALENDRIER
+// ═══════════════════════════════════════════════
+
+let openPop = null;
+document.addEventListener("click", e => {
+  if (!e.target.closest(".cell") && !e.target.closest(".popup")) closePop();
+});
+function closePop() { if(openPop){ openPop.remove(); openPop=null; } }
+
+function rc(r){ return r==="V"?"win":r==="N"?"draw":r==="D"?"loss":""; }
+function rl(r){ return r||""; }
+
+function setRes(club, j, val) {
+  if (L[club][j]) return;
+  const prev = {};  CLUBS.forEach(c=>prev[c]=calcPts(c));
+
+  R[club][j] = val;
+  const mir = CAL[club][j].m;
+  if (mir && !L[mir][j]) {
+    R[mir][j] = val==="V"?"D":val==="D"?"V":val==="N"?"N":null;
+    refreshCell(mir, j);
   }
+  refreshCell(club, j);
+  saveStorage();
+  renderRanking(true, prev);
+  updateChart();
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// CALCUL POINTS
-// ═══════════════════════════════════════════════════════════════════════
+function refreshCell(club, j) {
+  const el = document.getElementById(`c${club}${j}`);
+  if (!el) return;
+  const r = R[club][j], lk = L[club][j], mir = !isMaster(club,j);
+  el.className = "cell " + rc(r) + (!lk?" clickable":"") + ((!lk&&mir&&!r)?" mirror":"");
+  el.querySelector(".c-res").textContent = rl(r);
+  el.querySelector(".c-adv").textContent = CAL[club][j].a;
+}
 
-function calcPts(club) {
-  let pts = PTS_J23[club];
-  results[club].forEach(r => {
-    if (r === "V") pts += 3;
-    else if (r === "N") pts += 1;
+function buildCalendar() {
+  const grid = document.getElementById("cal-grid");
+  grid.innerHTML = "";
+
+  // Corner
+  const corner = document.createElement("div");
+  corner.className = "ch corner jlabel";
+  grid.appendChild(corner);
+
+  // Club headers
+  CLUBS.forEach(club => {
+    const el = document.createElement("div");
+    el.className = "ch";
+    el.innerHTML = `<span class="ch-emoji">${META[club].e}</span><span class="ch-name">${club}</span><span class="ch-pts" id="chpts-${club}">${PTS0[club]}</span>`;
+    grid.appendChild(el);
   });
-  return pts;
-}
 
-function getMaxPts(club) {
-  let pts = PTS_J23[club];
-  results[club].forEach((r, i) => {
-    if (r === "V") pts += 3;
-    else if (r === "N") pts += 1;
-    else if (r === null) pts += 3; // tous les matchs restants en victoire
+  // Rows
+  JJ.forEach((jj, jOff) => {
+    // Label journée
+    const jl = document.createElement("div");
+    jl.className = "jlabel";
+    jl.innerHTML = `<span class="jn">${jj.id}</span><span class="jd">${jj.d}</span>`;
+    grid.appendChild(jl);
+
+    CLUBS.forEach(club => {
+      const cal = CAL[club][jOff];
+      const r = R[club][jOff], lk = L[club][jOff], mir = !isMaster(club,jOff);
+      const cell = document.createElement("div");
+      cell.id = `c${club}${jOff}`;
+      cell.className = "cell " + rc(r) + (!lk?" clickable":"") + ((!lk&&mir&&!r)?" mirror":"");
+      cell.innerHTML = `<span class="c-adv">${cal.a}</span><span class="c-ha">${cal.h==="H"?"Dom":"Ext"}</span><span class="c-res">${rl(r)}</span>`;
+
+      if (!lk) {
+        cell.addEventListener("click", e => {
+          e.stopPropagation();
+          closePop();
+          const pop = document.createElement("div");
+          pop.className = "popup";
+          pop.innerHTML = `<button class="pb v">V</button><button class="pb n">N</button><button class="pb d">D</button><button class="pb x">✕</button>`;
+          pop.querySelector(".v").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,"V"); closePop(); };
+          pop.querySelector(".n").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,"N"); closePop(); };
+          pop.querySelector(".d").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,"D"); closePop(); };
+          pop.querySelector(".x").onclick = ev => { ev.stopPropagation(); setRes(club,jOff,null); closePop(); };
+          cell.appendChild(pop);
+          openPop = pop;
+        });
+      }
+      grid.appendChild(cell);
+    });
   });
-  return pts;
 }
 
-function getSortedRanking() {
-  return [...CLUBS].sort((a,b) => {
-    const diff = calcPts(b) - calcPts(a);
-    if (diff !== 0) return diff;
-    // Tie-break : points J23 (ordre initial)
-    return PTS_J23[b] - PTS_J23[a];
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 // RENDU CLASSEMENT
-// ═══════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 
-let prevRanking = [];
-let prevPts = {};
+let prevRank = [], prevP = {};
 
-const ZONES = {
-  1:"zone-cl", 2:"zone-cl", 3:"zone-cl",
-  4:"zone-cl4", 5:"zone-el", 6:"zone-conf",
-};
+const ZONE_CLS = ["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf"];
 
-function renderRanking(animate=false) {
-  const list = document.getElementById("ranking-list");
-  const ranking = getSortedRanking();
+function renderRanking(animate=false, prev={}) {
+  const list = document.getElementById("rank-list");
+  const s = sorted();
 
-  ranking.forEach((club, i) => {
-    const rank = i + 1;
-    const pts  = calcPts(club);
-    const maxP = getMaxPts(club);
-    const zone = ZONES[rank] || "zone-out";
-    const meta = CLUB_META[club];
+  // Créer les éléments si besoin
+  s.forEach((club,i) => {
+    const pts = calcPts(club);
+    let el = document.getElementById("ri-"+club);
 
-    const prevPt = prevPts[club];
-    const ptsDiff = (prevPt !== undefined && animate) ? pts - prevPt : 0;
-
-    let el = document.getElementById("rank-" + club);
     if (!el) {
       el = document.createElement("div");
-      el.id = "rank-" + club;
-      el.className = "rank-item glass " + zone;
-      el.innerHTML = `
-        <div class="rank-num ${rank===1?'gold':rank===2?'silver':rank===3?'bronze':''}" id="rnum-${club}">${rank}</div>
-        <div class="rank-club">
-          <div class="club-badge" style="background:${meta.color}22;border:1px solid ${meta.color}44">${meta.emoji}</div>
-          <div>
-            <div class="rank-name">${meta.name}</div>
-            <div class="rank-zone">${getZoneLabel(rank)}</div>
-          </div>
-        </div>
-        <div class="rank-pts-col">
-          <div class="rank-pts" id="rpts-${club}">${pts}</div>
-          <div class="rank-delta" id="rdelta-${club}">J23: ${PTS_J23[club]} pts</div>
-        </div>
-        <div class="rank-proj">
-          <div class="proj-label">max</div>
-          <div class="proj-val" id="rmax-${club}">${maxP}</div>
-        </div>
-      `;
+      el.id = "ri-"+club;
       list.appendChild(el);
-    } else {
-      // Mise à jour des valeurs
-      document.getElementById("rnum-"+club).textContent = rank;
-      document.getElementById("rnum-"+club).className = "rank-num " + (rank===1?'gold':rank===2?'silver':rank===3?'bronze':'');
-      document.getElementById("rmax-"+club).textContent = maxP;
-      el.className = "rank-item glass " + zone;
-
-      const ptsEl = document.getElementById("rpts-"+club);
-      ptsEl.textContent = pts;
-
-      // Animation +pts
-      if (ptsDiff > 0) {
-        ptsEl.classList.remove("pts-bump");
-        void ptsEl.offsetWidth;
-        ptsEl.classList.add("pts-bump");
-
-        const badge = document.createElement("span");
-        badge.className = "pts-badge";
-        badge.textContent = "+" + ptsDiff;
-        ptsEl.appendChild(badge);
-        setTimeout(() => badge.remove(), 1900);
-      }
     }
 
-    // Animation de glissement si changement de position
-    const prevIdx = prevRanking.indexOf(club);
-    if (prevIdx !== -1 && prevIdx !== i && animate) {
+    const rank = i+1;
+    const zc = ZONE_CLS[i] || "";
+    const nc = rank===1?"g":rank===2?"s":rank===3?"b":"";
+    el.className = `ri ${zc}`;
+    el.innerHTML = `
+      <div class="ri-num ${nc}">${rank}</div>
+      <div class="ri-emoji">${META[club].e}</div>
+      <div class="ri-name">${META[club].name}</div>
+      <div class="ri-pts" id="rp-${club}">${pts}</div>`;
+
+    // Animation pts
+    const ptsDiff = animate && prev[club] !== undefined ? pts - prev[club] : 0;
+    if (ptsDiff > 0) {
+      const pEl = document.getElementById("rp-"+club);
+      pEl.classList.remove("bump");
+      void pEl.offsetWidth;
+      pEl.classList.add("bump");
+      const b = document.createElement("span");
+      b.className = "badge";
+      b.textContent = "+"+ptsDiff;
+      pEl.appendChild(b);
+      setTimeout(()=>b.remove(), 1700);
+    }
+
+    // Animation glissement
+    const pi = prevRank.indexOf(club);
+    if (animate && pi !== -1 && pi !== i) {
+      const dy = (pi - i) * 38;
       el.style.transition = "none";
-      el.style.transform = "translateY(" + ((prevIdx - i) * 62) + "px)";
-      el.style.zIndex = "10";
+      el.style.transform = `translateY(${dy}px)`;
       requestAnimationFrame(() => {
-        el.style.transition = "transform 0.7s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s";
+        el.style.transition = "transform 0.55s cubic-bezier(0.34,1.56,0.64,1)";
         el.style.transform = "translateY(0)";
-        el.style.boxShadow = "0 0 0 2px rgba(255,255,255,0.1)";
-        setTimeout(() => {
-          el.style.zIndex = "";
-          el.style.boxShadow = "";
-        }, 700);
       });
     }
   });
 
-  // Réordonner le DOM
-  const sorted = ranking.map(c => document.getElementById("rank-"+c)).filter(Boolean);
-  sorted.forEach(el => list.appendChild(el));
+  // Réordonner DOM
+  s.forEach(club => list.appendChild(document.getElementById("ri-"+club)));
 
-  prevRanking = ranking;
-  prevPts = {};
-  CLUBS.forEach(c => prevPts[c] = calcPts(c));
-}
-
-function getZoneLabel(rank) {
-  if (rank <= 3) return "Ligue des Champions";
-  if (rank === 4) return "CL Qualifications";
-  if (rank === 5) return "Europa League";
-  if (rank === 6) return "Conférence Playoffs";
-  return "";
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// RENDU CALENDRIER
-// ═══════════════════════════════════════════════════════════════════════
-
-let openPopup = null;
-
-function closePopup() {
-  if (openPopup) {
-    openPopup.remove();
-    openPopup = null;
-  }
-}
-
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".cal-cell") && !e.target.closest(".pick-popup")) {
-    closePopup();
-  }
-});
-
-function resultClass(r) {
-  if (r === "V") return "win";
-  if (r === "N") return "draw";
-  if (r === "D") return "loss";
-  return "";
-}
-function resultLabel(r) {
-  if (r === "V") return "V";
-  if (r === "N") return "N";
-  if (r === "D") return "D";
-  return "";
-}
-
-function setResult(club, jOff, val, animate=true) {
-  if (locked[club][jOff]) return;
-
-  const prevP = {};
-  CLUBS.forEach(c => prevP[c] = calcPts(c));
-
-  results[club][jOff] = val;
-
-  // Propager aux cellules miroir
-  const mirrorClub = getMirrorClub(club, jOff);
-  if (mirrorClub && !locked[mirrorClub][jOff]) {
-    const inv = val === "V" ? "D" : val === "D" ? "V" : val === "N" ? "N" : null;
-    results[mirrorClub][jOff] = inv;
-    updateCell(mirrorClub, jOff);
-  }
-
-  updateCell(club, jOff);
-  savePronostics();
-
-  // Recalcul pts pour animation
-  if (animate) {
-    prevPts = prevP;
-    renderRanking(true);
-    updateChart();
-  }
-}
-
-function updateCell(club, jOff) {
-  const cellId = "cell-"+club+"-"+jOff;
-  const el = document.getElementById(cellId);
-  if (!el) return;
-
-  const r = results[club][jOff];
-  const isLocked = locked[club][jOff];
-  const isMirrorCell = !isMaster(club, jOff);
-  const cal = CALENDAR[club][jOff];
-
-  el.className = "cal-cell glass " + resultClass(r) +
-    (isLocked ? "" : isMirrorCell ? " mirror" : " future") +
-    (!isLocked ? " clickable" : "");
-
-  const advEl = el.querySelector(".cal-adv");
-  const resEl = el.querySelector(".cal-result");
-  if (advEl) advEl.textContent = cal.adv;
-  if (resEl) resEl.textContent = resultLabel(r);
-}
-
-function renderCalendar() {
-  const grid = document.getElementById("calendar-grid");
-  grid.innerHTML = "";
-
-  // Header
-  const header = document.createElement("div");
-  header.className = "cal-header";
-  header.innerHTML = `<div class="cal-corner glass cal-jday"></div>`;
-  CLUBS.forEach(club => {
-    const meta = CLUB_META[club];
-    header.innerHTML += `
-      <div class="cal-club-head glass" style="border-left:3px solid ${meta.color}44">
-        <span class="badge-emoji">${meta.emoji}</span>
-        <span class="badge-name">${club}</span>
-      </div>`;
+  // Mettre à jour pts dans les headers du calendrier
+  CLUBS.forEach(c => {
+    const el = document.getElementById("chpts-"+c);
+    if (el) el.textContent = calcPts(c);
   });
-  grid.appendChild(header);
 
-  // Lignes journées
-  JOURNEES.forEach((j, jOff) => {
-    const row = document.createElement("div");
-    row.className = "cal-row";
-
-    row.innerHTML = `
-      <div class="cal-jday glass">
-        <span class="jnum">${j.id}</span>
-        <span class="jdate">${j.date}</span>
-      </div>`;
-
-    CLUBS.forEach(club => {
-      const cal = CALENDAR[club][jOff];
-      const r   = results[club][jOff];
-      const isLocked = locked[club][jOff];
-      const isMir = !isMaster(club, jOff);
-
-      const cell = document.createElement("div");
-      cell.id = "cell-"+club+"-"+jOff;
-      cell.className = "cal-cell glass " + resultClass(r) +
-        (isLocked ? "" : isMir ? " mirror" : " future") +
-        (!isLocked ? " clickable" : "");
-
-      cell.innerHTML = `
-        <span class="cal-adv">${cal.adv}</span>
-        <span class="cal-ha">${cal.ha === "H" ? "Dom." : "Ext."}</span>
-        <span class="cal-result">${resultLabel(r)}</span>
-      `;
-
-      if (!isLocked) {
-        cell.addEventListener("click", (e) => {
-          e.stopPropagation();
-          closePopup();
-
-          const popup = document.createElement("div");
-          popup.className = "pick-popup";
-          popup.innerHTML = `
-            <button class="pick-btn v">V</button>
-            <button class="pick-btn n">N</button>
-            <button class="pick-btn d">D</button>
-            <button class="pick-btn clear">✕</button>
-          `;
-          popup.querySelector(".v").onclick = (ev) => { ev.stopPropagation(); setResult(club,jOff,"V"); closePopup(); };
-          popup.querySelector(".n").onclick = (ev) => { ev.stopPropagation(); setResult(club,jOff,"N"); closePopup(); };
-          popup.querySelector(".d").onclick = (ev) => { ev.stopPropagation(); setResult(club,jOff,"D"); closePopup(); };
-          popup.querySelector(".clear").onclick = (ev) => { ev.stopPropagation(); setResult(club,jOff,null); closePopup(); };
-
-          cell.appendChild(popup);
-          openPopup = popup;
-        });
-      }
-
-      row.appendChild(cell);
-    });
-
-    grid.appendChild(row);
-  });
+  prevRank = s;
+  prevP = {}; CLUBS.forEach(c=>prevP[c]=calcPts(c));
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// GRAPHIQUE ÉVOLUTION
-// ═══════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// GRAPHIQUE
+// ═══════════════════════════════════════════════
 
-let chartInstance = null;
+let chart = null;
 
-function buildChartData() {
-  // Pour chaque journée J24..J34, calculer les pts cumulés
-  // en partant des pts J23 et en ajoutant les résultats journée par journée
-  const labels = ["J23", ...JOURNEES.map(j => j.id)];
-
+function chartData() {
+  const labels = ["J23", ...JJ.map(j=>j.id)];
   const datasets = CLUBS.map(club => {
-    const pts = [PTS_J23[club]];
-    let cumul = PTS_J23[club];
-    for (let i = 0; i < 11; i++) {
-      const r = results[club][i];
-      if (r === "V") cumul += 3;
-      else if (r === "N") cumul += 1;
-      // On ajoute le point même si null (on garde le dernier cumul)
-      pts.push(cumul);
+    const pts = [PTS0[club]];
+    let cum = PTS0[club];
+    for(let i=0;i<11;i++){
+      const r=R[club][i];
+      if(r==="V") cum+=3; else if(r==="N") cum+=1;
+      pts.push(cum);
     }
     return {
       label: club,
       data: pts,
-      borderColor: CHART_COLORS[club],
-      backgroundColor: CHART_COLORS[club] + "22",
-      borderWidth: 2,
-      pointRadius: 3,
-      pointHoverRadius: 6,
-      tension: 0.4,
-      fill: false,
+      borderColor: META[club].color,
+      backgroundColor: "transparent",
+      borderWidth: 1.5,
+      pointRadius: 2,
+      pointHoverRadius: 4,
+      tension: 0.3,
     };
   });
-
-  return { labels, datasets };
-}
-
-function updateChart() {
-  if (!chartInstance) return;
-  const { labels, datasets } = buildChartData();
-  chartInstance.data.labels  = labels;
-  chartInstance.data.datasets = datasets;
-  chartInstance.update("active");
+  return {labels, datasets};
 }
 
 function initChart() {
   const ctx = document.getElementById("pts-chart").getContext("2d");
-  const { labels, datasets } = buildChartData();
-
-  chartInstance = new Chart(ctx, {
-    type: "line",
-    data: { labels, datasets },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: "index", intersect: false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: "#1a1d27",
-          borderColor: "rgba(255,255,255,0.1)",
-          borderWidth: 1,
-          titleColor: "#fff",
-          bodyColor: "rgba(232,234,240,0.7)",
-          padding: 12,
-          callbacks: {
-            label: ctx => ` ${ctx.dataset.label} : ${ctx.raw} pts`
-          }
+  const {labels,datasets} = chartData();
+  chart = new Chart(ctx, {
+    type:"line",
+    data:{labels,datasets},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:{duration:300},
+      interaction:{mode:"index",intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:"#1c2030",
+          borderColor:"rgba(255,255,255,0.08)",
+          borderWidth:1,
+          titleColor:"#fff",
+          bodyColor:"rgba(221,225,236,0.6)",
+          padding:8,
+          callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}pts`}
         }
       },
-      scales: {
-        x: {
-          grid: { color: "rgba(255,255,255,0.04)" },
-          ticks: { color: "rgba(232,234,240,0.4)", font: { size: 11 } },
-        },
-        y: {
-          grid: { color: "rgba(255,255,255,0.04)" },
-          ticks: { color: "rgba(232,234,240,0.4)", font: { size: 11 } },
-        }
+      scales:{
+        x:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"rgba(221,225,236,0.35)",font:{size:9}}},
+        y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"rgba(221,225,236,0.35)",font:{size:9}}}
       }
     }
   });
-
-  // Légende custom
-  const legend = document.getElementById("chart-legend");
-  CLUBS.forEach(club => {
-    legend.innerHTML += `
-      <div class="legend-item">
-        <div class="legend-dot" style="background:${CHART_COLORS[club]}"></div>
-        ${CLUB_META[club].name}
-      </div>`;
+  const leg = document.getElementById("chart-legend");
+  CLUBS.forEach(c=>{
+    leg.innerHTML+=`<div class="leg"><div class="leg-dot" style="background:${META[c].color}"></div>${META[c].name}</div>`;
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════
+function updateChart() {
+  if(!chart) return;
+  const {labels,datasets} = chartData();
+  chart.data.labels=labels; chart.data.datasets=datasets;
+  chart.update("active");
+}
+
+// ═══════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
 
 async function init() {
-  // 1. Charger pronostics sauvegardés
-  loadPronostics();
-
-  // 2. Sauvegarder les pts avant API pour détecter changements
-  CLUBS.forEach(c => prevPts[c] = calcPts(c));
-
-  // 3. Appeler l'API
-  const apiOk = await fetchResults();
-
-  // 4. Re-charger pronostics (les vrais résultats ne les écrasent pas)
-  loadPronostics();
-
-  // 5. Render
-  renderCalendar();
+  loadStorage();
+  document.getElementById("l-txt").textContent = "Récupération des résultats…";
+  const ok = await fetchAPI();
+  loadStorage(); // re-applique pronostics sans écraser les vrais résultats
+  buildCalendar();
   renderRanking(false);
   initChart();
-
-  // Mise à jour
   const now = new Date();
-  document.getElementById("last-update").textContent =
-    "Mis à jour le " + now.toLocaleDateString("fr-FR") + " à " + now.toLocaleTimeString("fr-FR", {hour:"2-digit",minute:"2-digit"}) +
-    (apiOk ? " · Données API en direct" : " · Mode hors ligne");
-
-  // 6. Masquer le loader
-  setTimeout(() => {
-    document.getElementById("loader").classList.add("hidden");
-  }, 1800);
+  document.getElementById("status-txt").textContent =
+    (ok?"API en direct · ":"Hors ligne · ") +
+    now.toLocaleDateString("fr-FR")+" "+now.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+  setTimeout(()=>document.getElementById("loader").classList.add("gone"), 1400);
 }
 
 init();
