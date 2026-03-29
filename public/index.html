@@ -8,17 +8,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:     #0b0e14;
-  --bg2:    #111520;
-  --bg3:    #181d28;
-  --border: rgba(255,255,255,0.07);
-  --text:   #dde1ec;
-  --muted:  rgba(221,225,236,0.4);
-  --win:    #22c55e;
-  --draw:   #f59e0b;
-  --loss:   #ef4444;
-  --blue:   #3b82f6;
-  --r:      6px;
+  --bg:      #f5f3ee;
+  --bg2:     #edeae3;
+  --bg3:     #e4e1d8;
+  --border:  rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.14);
+  --text:    #1a1a1a;
+  --muted:   rgba(26,26,26,0.45);
+  --win:     #16a34a;
+  --win-bg:  rgba(22,163,74,0.1);
+  --draw:    #b45309;
+  --draw-bg: rgba(180,83,9,0.1);
+  --loss:    #dc2626;
+  --loss-bg: rgba(220,38,38,0.1);
+  --blue:    #2563eb;
+  --r:       7px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
@@ -29,11 +33,11 @@ body {
   font-size: 13px;
 }
 
-/* ── LAYOUT ─────────────────────────────────────── */
+/* ── LAYOUT 60/40 ───────────────────────────────── */
 #app {
   display: grid;
-  grid-template-rows: 40px 1fr;
-  grid-template-columns: 1fr 260px;
+  grid-template-rows: 42px 1fr;
+  grid-template-columns: 60fr 40fr;
   grid-template-areas: "header header" "cal rank";
   height: 100vh;
 }
@@ -44,7 +48,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 16px;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
 }
@@ -53,6 +57,7 @@ body {
   font-size: 14px;
   font-weight: 800;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 .header-title span { color: var(--muted); font-weight: 600; }
 #status { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
@@ -65,16 +70,17 @@ body {
   overflow: auto;
   padding: 8px;
   background: var(--bg);
+  border-right: 1px solid var(--border);
 }
 #cal::-webkit-scrollbar { width: 3px; height: 3px; }
 #cal::-webkit-scrollbar-track { background: transparent; }
-#cal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+#cal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
 .cal-grid {
   display: grid;
   grid-template-columns: 48px repeat(8, 1fr);
   gap: 2px;
-  min-width: 620px;
+  min-width: 580px;
 }
 
 /* Header club */
@@ -90,9 +96,9 @@ body {
   gap: 2px;
 }
 .ch img { width: 22px; height: 22px; object-fit: contain; }
-.ch-name { font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700; color: var(--muted); line-height: 1; }
-.ch-pts { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 800; line-height: 1; }
-.corner { background: transparent !important; border: none !important; }
+.ch-name { font-family:'Syne',sans-serif; font-size:9px; font-weight:700; color:var(--muted); line-height:1; }
+.ch-pts  { font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:var(--text); line-height:1; }
+.corner  { background:transparent !important; border:none !important; }
 
 /* Journée label */
 .jlabel {
@@ -103,15 +109,14 @@ body {
   background: var(--bg2);
   border: 1px solid var(--border);
 }
-.jlabel .jn { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; }
-.jlabel .jd { font-size: 8px; color: var(--muted); text-align: center; line-height: 1.2; }
+.jlabel .jn { font-family:'Syne',sans-serif; font-size:10px; font-weight:700; color:var(--text); }
+.jlabel .jd { font-size:8px; color:var(--muted); text-align:center; line-height:1.2; }
 
-/* ── CELLULE : compacte, blason centré, tout petit ── */
+/* ── CELLULE ────────────────────────────────────── */
 .cell {
   border-radius: var(--r);
   border: 1px solid var(--border);
   background: var(--bg2);
-  /* hauteur fixe = juste ce qu'il faut */
   height: 52px;
   display: flex;
   flex-direction: column;
@@ -121,60 +126,28 @@ body {
   transition: background 0.12s, border-color 0.12s;
   position: relative;
   overflow: visible;
+  cursor: default;
 }
 .cell.clickable { cursor: pointer; }
-.cell.clickable:hover { border-color: rgba(255,255,255,0.2); background: var(--bg3); }
+.cell.clickable:hover { border-color: var(--border2); background: var(--bg3); }
 
-/* Ligne du haut : emoji H/A */
-.c-ha {
-  font-size: 12px;
-  line-height: 1;
-  display: block;
-}
-/* Blason adversaire — centré, bien visible */
-.cell img.adv-crest {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  display: block;
-  flex-shrink: 0;
-}
-/* Bas : nom + résultat sur une ligne */
-.c-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  width: 100%;
-}
-.c-adv {
-  font-size: 8px;
-  color: var(--muted);
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 52px;
-}
-.c-res {
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1;
-  flex-shrink: 0;
-}
+.c-ha  { font-size:12px; line-height:1; display:block; }
+.cell img.adv-crest { width:24px; height:24px; object-fit:contain; display:block; flex-shrink:0; }
+.c-bottom { display:flex; align-items:center; justify-content:center; gap:3px; width:100%; }
+.c-adv { font-size:8px; color:var(--muted); line-height:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px; }
+.c-res { font-family:'Syne',sans-serif; font-size:11px; font-weight:800; line-height:1; flex-shrink:0; }
 
 /* Couleurs résultats */
-.win  { background: rgba(34,197,94,0.12)  !important; border-color: rgba(34,197,94,0.3)  !important; }
-.draw { background: rgba(245,158,11,0.12) !important; border-color: rgba(245,158,11,0.3) !important; }
-.loss { background: rgba(239,68,68,0.12)  !important; border-color: rgba(239,68,68,0.3)  !important; }
-.win  .c-res { color: var(--win); }
-.draw .c-res { color: var(--draw); }
-.loss .c-res { color: var(--loss); }
+.win  { background: var(--win-bg)  !important; border-color: rgba(22,163,74,0.25)  !important; }
+.draw { background: var(--draw-bg) !important; border-color: rgba(180,83,9,0.25) !important; }
+.loss { background: var(--loss-bg) !important; border-color: rgba(220,38,38,0.25)  !important; }
+.win  .c-res { color:var(--win); }
+.draw .c-res { color:var(--draw); }
+.loss .c-res { color:var(--loss); }
 .win  .c-adv,.win  .c-ha { opacity:0.6; }
 .draw .c-adv,.draw .c-ha { opacity:0.6; }
 .loss .c-adv,.loss .c-ha { opacity:0.6; }
-.mirror { border-color: rgba(59,130,246,0.3) !important; }
+.mirror { border-color: rgba(37,99,235,0.3) !important; background: rgba(37,99,235,0.05) !important; }
 
 /* Popup */
 .popup {
@@ -184,12 +157,12 @@ body {
   transform: translateX(-50%);
   display: flex;
   gap: 3px;
-  background: #1c2030;
-  border: 1px solid rgba(255,255,255,0.14);
+  background: #fff;
+  border: 1px solid var(--border2);
   border-radius: var(--r);
   padding: 5px;
   z-index: 200;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.7);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
   animation: pop 0.1s ease;
   white-space: nowrap;
 }
@@ -200,29 +173,27 @@ body {
 .pb {
   padding: 5px 12px;
   border-radius: 5px;
-  border: none;
+  border: 1px solid transparent;
   font-family: 'Syne', sans-serif;
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
   transition: opacity 0.1s;
 }
-.pb:hover { opacity: 0.8; }
-.pb.v { background: rgba(34,197,94,0.15);   color: var(--win);  border: 1px solid rgba(34,197,94,0.3); }
-.pb.n { background: rgba(245,158,11,0.15);  color: var(--draw); border: 1px solid rgba(245,158,11,0.3); }
-.pb.d { background: rgba(239,68,68,0.15);   color: var(--loss); border: 1px solid rgba(239,68,68,0.3); }
-.pb.x { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+.pb:hover { opacity: 0.75; }
+.pb.v { background:var(--win-bg);  color:var(--win);  border-color:rgba(22,163,74,0.3); }
+.pb.n { background:var(--draw-bg); color:var(--draw); border-color:rgba(180,83,9,0.3); }
+.pb.d { background:var(--loss-bg); color:var(--loss); border-color:rgba(220,38,38,0.3); }
+.pb.x { background:rgba(0,0,0,0.04); color:var(--muted); border-color:var(--border); }
 
-/* ── CLASSEMENT — plus large, plus lisible ──────── */
+/* ── CLASSEMENT 40% ─────────────────────────────── */
 #rank {
   grid-area: rank;
   overflow: hidden;
-  border-left: 1px solid var(--border);
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  padding: 10px 10px;
-  gap: 0;
+  padding: 10px 12px;
 }
 .rank-title {
   font-family: 'Syne', sans-serif;
@@ -231,15 +202,15 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .ri {
   display: grid;
-  grid-template-columns: 22px 28px 1fr auto;
+  grid-template-columns: 24px 30px 1fr auto;
   align-items: center;
   gap: 8px;
-  padding: 7px 8px;
+  padding: 8px 10px;
   border-radius: var(--r);
   border: 1px solid transparent;
   border-left: 3px solid transparent;
@@ -247,118 +218,101 @@ body {
   transition: transform 0.55s cubic-bezier(0.34,1.56,0.64,1);
   will-change: transform;
   position: relative;
+  background: var(--bg2);
 }
-.ri:hover { background: var(--bg2); }
-.ri.z-cl   { border-left-color: #3b82f6; }
+
+.ri.z-cl   { border-left-color: #2563eb; }
 .ri.z-cl4  { border-left-color: #0ea5e9; }
-.ri.z-el   { border-left-color: #f59e0b; }
-.ri.z-conf { border-left-color: #8b5cf6; }
+.ri.z-el   { border-left-color: #d97706; }
+.ri.z-conf { border-left-color: #7c3aed; }
 
-.ri-num {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-  text-align: center;
-  color: var(--muted);
-}
-.ri-num.g { color: #fbbf24; }
-.ri-num.s { color: #94a3b8; }
-.ri-num.b { color: #cd7f32; }
+.ri-num { font-family:'Syne',sans-serif; font-size:14px; font-weight:800; text-align:center; color:var(--muted); }
+.ri-num.g { color:#ca8a04; }
+.ri-num.s { color:#64748b; }
+.ri-num.b { color:#92400e; }
 
-.ri img { width: 24px; height: 24px; object-fit: contain; }
+.ri img { width:26px; height:26px; object-fit:contain; }
 
-.ri-info { overflow: hidden; }
-.ri-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.ri-zone {
-  font-size: 9px;
-  color: var(--muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.ri-info { overflow:hidden; }
+.ri-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text); }
+.ri-zone { font-size:9px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px; }
 
 .ri-pts {
   font-family: 'Syne', sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   text-align: right;
   position: relative;
   display: inline-block;
-  min-width: 36px;
+  min-width: 42px;
+  color: var(--text);
 }
 
-.bump { animation: bump 1s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-@keyframes bump {
+/* Animations pts +/- */
+.bump-up {
+  animation: bumpUp 1s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes bumpUp {
   0%   { transform:scale(1);    color:var(--text); }
   35%  { transform:scale(1.3);  color:var(--win); }
   100% { transform:scale(1);    color:var(--text); }
 }
+.bump-down {
+  animation: bumpDown 1s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes bumpDown {
+  0%   { transform:scale(1);    color:var(--text); }
+  35%  { transform:scale(1.3);  color:var(--loss); }
+  100% { transform:scale(1);    color:var(--text); }
+}
+
 .badge {
   position: absolute;
-  top: -14px; right: 0;
+  top: -15px; right: 0;
   font-size: 10px;
   font-weight: 700;
-  color: var(--win);
-  background: rgba(34,197,94,0.15);
-  border: 1px solid rgba(34,197,94,0.25);
   border-radius: 100px;
-  padding: 1px 6px;
+  padding: 1px 7px;
   white-space: nowrap;
-  animation: badgePop 1.6s ease forwards;
+  animation: badgePop 1.8s ease forwards;
   pointer-events: none;
 }
+.badge.pos { color:var(--win);  background:var(--win-bg);  border:1px solid rgba(22,163,74,0.25); }
+.badge.neg { color:var(--loss); background:var(--loss-bg); border:1px solid rgba(220,38,38,0.25); }
 @keyframes badgePop {
   0%  { opacity:0; transform:translateY(4px); }
   20% { opacity:1; transform:translateY(0); }
-  70% { opacity:1; }
-  100%{ opacity:0; transform:translateY(-6px); }
+  75% { opacity:1; }
+  100%{ opacity:0; transform:translateY(-8px); }
 }
-
-/* Séparateur zone */
-.zone-sep { height: 1px; background: var(--border); margin: 3px 0 6px; }
 
 /* ── GRAPHIQUE ──────────────────────────────────── */
 #chart-wrap {
-  min-width: 620px;
+  min-width: 580px;
   margin-top: 6px;
   padding: 8px 10px;
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: var(--r);
 }
-#chart-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-#pts-chart { width: 100% !important; height: 120px !important; }
-.chart-legend { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; }
-.leg { display: flex; align-items: center; gap: 4px; font-size: 9px; color: var(--muted); }
-.leg img { width: 12px; height: 12px; object-fit: contain; }
+#chart-title { font-family:'Syne',sans-serif; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+#pts-chart { width:100% !important; height:120px !important; }
+.chart-legend { display:flex; flex-wrap:wrap; gap:4px 10px; margin-top:6px; }
+.leg { display:flex; align-items:center; gap:4px; font-size:9px; color:var(--muted); }
+.leg img { width:12px; height:12px; object-fit:contain; }
 
 /* ── LOADER ─────────────────────────────────────── */
 #loader {
-  position: fixed; inset: 0; background: var(--bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 999; transition: opacity .4s, visibility .4s;
+  position:fixed; inset:0; background:var(--bg);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  z-index:999; transition:opacity .4s,visibility .4s;
 }
-#loader.gone { opacity: 0; visibility: hidden; }
-.l-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:24px; }
-.l-bar { width: 160px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.l-fill { height: 100%; background: linear-gradient(90deg,var(--blue),var(--win)); border-radius: 2px; animation: lfill 1.4s ease forwards; }
+#loader.gone { opacity:0; visibility:hidden; }
+.l-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:24px; color:var(--text); }
+.l-bar { width:160px; height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
+.l-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--win)); border-radius:2px; animation:lfill 1.4s ease forwards; }
 @keyframes lfill { from{width:0} to{width:100%} }
-.l-txt { margin-top: 12px; font-size: 11px; color: var(--muted); }
+.l-txt { margin-top:12px; font-size:11px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -390,54 +344,43 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
-// ═══════════════════════════════════════════════
-// BLASONS — IDs vérifiés via API football-data.org
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// BLASONS — IDs vérifiés via API
+// ═══════════════════════════════════════
 const BASE = "https://crests.football-data.org/";
-const CREST_ID = {
-  // Top 8
-  PSG: 524, Lens: 546, Lyon: 523, OM: 516,
-  Lille: 521, Rennes: 529, Strasbourg: 576, Monaco: 548,
-  // Adversaires — IDs vérifiés
-  Nantes: 543, Nice: 522,
-  "Le Havre": 533, Toulouse: 511, Metz: 545,
-  Lorient: 525, Auxerre: 519, Angers: 532,
-  Brest: 512, "Paris FC": 1045,
-  // Alias
-  Marseille: 516,
+const CID = {
+  PSG:524, Lens:546, Lyon:523, OM:516, Lille:521,
+  Rennes:529, Strasbourg:576, Monaco:548,
+  Nantes:543, Nice:522, "Le Havre":533, Toulouse:511,
+  Metz:545, Lorient:525, Auxerre:519, Angers:532,
+  Brest:512, "Paris FC":1045, Marseille:516,
 };
-
-function crest(name) {
-  const id = CREST_ID[name];
-  return id ? BASE + id + ".png" : null;
+function crestUrl(n){ return CID[n]?BASE+CID[n]+".png":null; }
+function img(n,s,cls){
+  const u=crestUrl(n); cls=cls||"";
+  if(!u)return '<span style="font-size:'+(s*.5)+'px;opacity:.3">⚽</span>';
+  return '<img src="'+u+'" width="'+s+'" height="'+s+'" alt="'+n+'" class="'+cls+'" onerror="this.style.display=\'none\'">';
 }
 
-function img(name, size, cls) {
-  const url = crest(name);
-  cls = cls || "";
-  if (!url) return '<span style="font-size:'+(size*0.55)+'px;opacity:0.3">⚽</span>';
-  return '<img src="'+url+'" width="'+size+'" height="'+size+'" alt="'+name+'" class="'+cls+'" onerror="this.replaceWith(document.createTextNode(\'⚽\'))">';
-}
-
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 // DONNÉES
-// ═══════════════════════════════════════════════
-const CLUBS = ["PSG","Lens","Lyon","OM","Lille","Rennes","Strasbourg","Monaco"];
-
-const META = {
-  PSG:        {color:"#3b82f6", name:"Paris SG",   zone:"Champions League"},
-  Lens:       {color:"#ef4444", name:"RC Lens",     zone:"Champions League"},
-  Lyon:       {color:"#6366f1", name:"OL Lyon",     zone:"Champions League"},
-  OM:         {color:"#0ea5e9", name:"Marseille",   zone:"CL Qualifications"},
-  Lille:      {color:"#8b5cf6", name:"LOSC",        zone:"Europa League"},
-  Rennes:     {color:"#f59e0b", name:"Rennes",      zone:"Conférence"},
-  Strasbourg: {color:"#14b8a6", name:"Strasbourg",  zone:""},
-  Monaco:     {color:"#f43f5e", name:"Monaco",      zone:""},
+// ═══════════════════════════════════════
+const CLUBS=["PSG","Lens","Lyon","OM","Lille","Rennes","Strasbourg","Monaco"];
+const META={
+  PSG:       {name:"Paris SG",   color:"#3b82f6"},
+  Lens:      {name:"RC Lens",    color:"#ef4444"},
+  Lyon:      {name:"OL Lyon",    color:"#6366f1"},
+  OM:        {name:"Marseille",  color:"#0ea5e9"},
+  Lille:     {name:"LOSC",       color:"#8b5cf6"},
+  Rennes:    {name:"Rennes",     color:"#f59e0b"},
+  Strasbourg:{name:"Strasbourg", color:"#14b8a6"},
+  Monaco:    {name:"Monaco",     color:"#f43f5e"},
 };
+const ZONE_CLS  =["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf","",""];
+const ZONE_LBL  =["Champions League","Champions League","Champions League","CL Qualifs","Europa League","Conférence","",""];
+const PTS0={PSG:54,Lens:52,Lyon:45,OM:40,Lille:37,Rennes:37,Strasbourg:34,Monaco:34};
 
-const PTS0 = {PSG:54,Lens:52,Lyon:45,OM:40,Lille:37,Rennes:37,Strasbourg:34,Monaco:34};
-
-const CAL = {
+const CAL={
   PSG:       [{a:"Le Havre",h:"A",m:null},{a:"Monaco",h:"H",m:"Monaco"},{a:"Nantes",h:"H",m:null},{a:"Nice",h:"A",m:null},{a:"Toulouse",h:"H",m:null},{a:"Lens",h:"A",m:"Lens"},{a:"Lyon",h:"H",m:"Lyon"},{a:"Metz",h:"A",m:null},{a:"Lorient",h:"H",m:null},{a:"Auxerre",h:"H",m:null},{a:"Paris FC",h:"A",m:null}],
   Lens:      [{a:"Strasbourg",h:"A",m:"Strasbourg"},{a:"Metz",h:"H",m:null},{a:"Lorient",h:"A",m:null},{a:"Angers",h:"H",m:null},{a:"Lille",h:"A",m:"Lille"},{a:"PSG",h:"H",m:"PSG"},{a:"Toulouse",h:"H",m:null},{a:"Brest",h:"A",m:null},{a:"Nice",h:"A",m:null},{a:"Nantes",h:"H",m:null},{a:"Lyon",h:"A",m:"Lyon"}],
   Lyon:      [{a:"Marseille",h:"A",m:"OM"},{a:"Paris FC",h:"H",m:null},{a:"Le Havre",h:"A",m:null},{a:"Monaco",h:"H",m:"Monaco"},{a:"Angers",h:"A",m:null},{a:"Lorient",h:"H",m:null},{a:"PSG",h:"A",m:"PSG"},{a:"Auxerre",h:"H",m:null},{a:"Rennes",h:"H",m:"Rennes"},{a:"Toulouse",h:"A",m:null},{a:"Lens",h:"H",m:"Lens"}],
@@ -448,14 +391,14 @@ const CAL = {
   Monaco:    [{a:"Angers",h:"H",m:null},{a:"PSG",h:"A",m:"PSG"},{a:"Brest",h:"H",m:null},{a:"Lyon",h:"A",m:"Lyon"},{a:"Marseille",h:"H",m:"OM"},{a:"Paris FC",h:"A",m:null},{a:"Auxerre",h:"H",m:null},{a:"Toulouse",h:"A",m:null},{a:"Metz",h:"A",m:null},{a:"Lille",h:"H",m:"Lille"},{a:"Strasbourg",h:"A",m:"Strasbourg"}],
 };
 
-const JJ = [
+const JJ=[
   {id:"J24",d:"1 Mars"},{id:"J25",d:"8 Mars"},{id:"J26",d:"15 Mars"},
   {id:"J27",d:"22 Mars"},{id:"J28",d:"5 Avr."},{id:"J29",d:"12 Avr."},
   {id:"J30",d:"19 Avr."},{id:"J31",d:"26 Avr."},{id:"J32",d:"3 Mai"},
   {id:"J33",d:"10 Mai"},{id:"J34",d:"17 Mai"},
 ];
 
-const DUELS = [
+const DUELS=[
   ["OM","Lyon",0],["PSG","Monaco",1],["Rennes","Lille",2],
   ["OM","Lille",3],["Lyon","Monaco",3],["Lens","Lille",4],
   ["OM","Monaco",4],["PSG","Lens",5],["PSG","Lyon",6],
@@ -464,7 +407,7 @@ const DUELS = [
   ["Lens","Lyon",10],["Strasbourg","Monaco",10],
 ];
 
-const API_MAP = {
+const API_MAP={
   "Paris Saint-Germain FC":"PSG","Paris Saint-Germain":"PSG","Paris SG":"PSG",
   "RC Lens":"Lens","Racing Club De Lens":"Lens","Racing Club de Lens":"Lens",
   "Olympique Lyonnais":"Lyon","Olympique de Lyon":"Lyon",
@@ -475,38 +418,52 @@ const API_MAP = {
   "AS Monaco FC":"Monaco","AS Monaco":"Monaco",
 };
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════
-const R={}, L={};
-CLUBS.forEach(c=>{R[c]=new Array(11).fill(null); L[c]=new Array(11).fill(false);});
+// ═══════════════════════════════════════
+const R={},L={};
+CLUBS.forEach(c=>{R[c]=new Array(11).fill(null);L[c]=new Array(11).fill(false);});
 
 function isMaster(club,j){
   for(const[a,b,jj]of DUELS){
     if(jj!==j)continue;
-    if(club===a||club===b) return CLUBS.indexOf(a)<CLUBS.indexOf(b)?club===a:club===b;
+    if(club===a||club===b)return CLUBS.indexOf(a)<CLUBS.indexOf(b)?club===a:club===b;
   }
   return true;
 }
-function calcPts(c){let p=PTS0[c]; R[c].forEach(r=>{if(r==="V")p+=3;else if(r==="N")p+=1;}); return p;}
-function sorted(){return [...CLUBS].sort((a,b)=>{const d=calcPts(b)-calcPts(a); return d!==0?d:PTS0[b]-PTS0[a];});}
+function calcPts(c){let p=PTS0[c];R[c].forEach(r=>{if(r==="V")p+=3;else if(r==="N")p+=1;});return p;}
+function sorted(){return[...CLUBS].sort((a,b)=>{const d=calcPts(b)-calcPts(a);return d!==0?d:PTS0[b]-PTS0[a];});}
+
+// ── localStorage robuste ──────────────────────────
+const LS_KEY="sf_prono_v2";
+
+function saveStorage(){
+  // On ne sauvegarde que les pronostics (pas les résultats réels verrouillés)
+  const d={};
+  CLUBS.forEach(c=>{
+    d[c]=R[c].map((v,i)=>L[c][i]?null:v);
+  });
+  try{ localStorage.setItem(LS_KEY,JSON.stringify(d)); }catch(e){}
+}
 
 function loadStorage(){
   try{
-    const s=localStorage.getItem("sf_prono"); if(!s)return;
+    const s=localStorage.getItem(LS_KEY);
+    if(!s)return;
     const d=JSON.parse(s);
-    CLUBS.forEach(c=>{if(d[c])d[c].forEach((v,i)=>{if(v&&!L[c][i])R[c][i]=v;});});
+    CLUBS.forEach(c=>{
+      if(!d[c])return;
+      d[c].forEach((v,i)=>{
+        // On écrase seulement si la cellule n'est pas encore verrouillée par l'API
+        if(v!==null&&!L[c][i]) R[c][i]=v;
+      });
+    });
   }catch(e){}
 }
-function saveStorage(){
-  const d={};
-  CLUBS.forEach(c=>{d[c]=R[c].map((v,i)=>L[c][i]?null:v);});
-  localStorage.setItem("sf_prono",JSON.stringify(d));
-}
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 // API
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 function mapTeam(n){
   if(API_MAP[n])return API_MAP[n];
   for(const[k,v]of Object.entries(API_MAP))
@@ -522,40 +479,43 @@ async function fetchAPI(){
     (data.matches||[]).forEach(m=>{
       const j=m.matchday;
       if(!j||j<24||m.status!=="FINISHED")return;
-      const jo=j-24; if(jo>10)return;
-      const home=mapTeam(m.homeTeam.name), away=mapTeam(m.awayTeam.name);
-      const sh=m.score?.fullTime?.home, sa=m.score?.fullTime?.away;
+      const jo=j-24;if(jo>10)return;
+      const home=mapTeam(m.homeTeam.name),away=mapTeam(m.awayTeam.name);
+      const sh=m.score?.fullTime?.home,sa=m.score?.fullTime?.away;
       if(sh==null||sa==null)return;
-      if(home){R[home][jo]=sh>sa?"V":sh<sa?"D":"N"; L[home][jo]=true;}
-      if(away){R[away][jo]=sa>sh?"V":sa<sh?"D":"N"; L[away][jo]=true;}
+      if(home){R[home][jo]=sh>sa?"V":sh<sa?"D":"N";L[home][jo]=true;}
+      if(away){R[away][jo]=sa>sh?"V":sa<sh?"D":"N";L[away][jo]=true;}
     });
+    // Propagation miroirs réels
     DUELS.forEach(([a,b,j])=>{
       const master=CLUBS.indexOf(a)<CLUBS.indexOf(b)?a:b;
       const slave=master===a?b:a;
       if(R[master][j]&&L[master][j]){
         const inv=R[master][j]==="V"?"D":R[master][j]==="D"?"V":"N";
-        R[slave][j]=inv; L[slave][j]=true;
+        R[slave][j]=inv;L[slave][j]=true;
       }
     });
     return true;
   }catch(e){return false;}
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 // CALENDRIER
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 let openPop=null;
 document.addEventListener("click",e=>{
   if(!e.target.closest(".cell")&&!e.target.closest(".popup"))closePop();
 });
 function closePop(){if(openPop){openPop.remove();openPop=null;}}
-
 function rc(r){return r==="V"?"win":r==="N"?"draw":r==="D"?"loss":"";}
 
 function setRes(club,j,val){
   if(L[club][j])return;
+  // Snapshot AVANT le changement pour calculer le delta
   const prev={};CLUBS.forEach(c=>prev[c]=calcPts(c));
+
   R[club][j]=val;
+  // Propagation miroir
   const mir=CAL[club][j].m;
   if(mir&&!L[mir][j]){
     R[mir][j]=val==="V"?"D":val==="D"?"V":val==="N"?"N":null;
@@ -578,48 +538,37 @@ function refreshCell(club,j){
 function buildCalendar(){
   const grid=document.getElementById("cal-grid");
   grid.innerHTML="";
-
   // Corner
   const corner=document.createElement("div");
   corner.className="ch corner jlabel";
   grid.appendChild(corner);
-
   // Headers clubs
   CLUBS.forEach(club=>{
     const el=document.createElement("div");
     el.className="ch";
-    el.innerHTML=img(club,22)+'<span class="ch-name">'+club+'</span><span class="ch-pts" id="chpts-'+club+'">'+PTS0[club]+'</span>';
+    el.innerHTML=img(club,22)+'<span class="ch-name">'+club+'</span><span class="ch-pts" id="chpts-'+club+'">'+calcPts(club)+'</span>';
     grid.appendChild(el);
   });
-
   // Lignes journées
   JJ.forEach((jj,jOff)=>{
     const jl=document.createElement("div");
     jl.className="jlabel";
     jl.innerHTML='<span class="jn">'+jj.id+'</span><span class="jd">'+jj.d+'</span>';
     grid.appendChild(jl);
-
     CLUBS.forEach(club=>{
       const cal=CAL[club][jOff];
       const r=R[club][jOff],lk=L[club][jOff],mir=!isMaster(club,jOff);
       const cell=document.createElement("div");
       cell.id="c"+club+jOff;
       cell.className="cell "+rc(r)+(!lk?" clickable":"")+(!lk&&mir&&!r?" mirror":"");
-
       const advName=cal.a==="Marseille"?"OM":cal.a;
-      const ha=cal.h==="H"?"🏠":"✈️";
-
       cell.innerHTML=
-        '<span class="c-ha">'+ha+'</span>'+
+        '<span class="c-ha">'+(cal.h==="H"?"🏠":"✈️")+'</span>'+
         img(advName,24,"adv-crest")+
-        '<div class="c-bottom">'+
-          '<span class="c-adv">'+cal.a+'</span>'+
-          '<span class="c-res">'+(r||"")+'</span>'+
-        '</div>';
-
+        '<div class="c-bottom"><span class="c-adv">'+cal.a+'</span><span class="c-res">'+(r||"")+'</span></div>';
       if(!lk){
         cell.addEventListener("click",e=>{
-          e.stopPropagation(); closePop();
+          e.stopPropagation();closePop();
           const pop=document.createElement("div");
           pop.className="popup";
           pop.innerHTML='<button class="pb v">V</button><button class="pb n">N</button><button class="pb d">D</button><button class="pb x">✕</button>';
@@ -627,7 +576,7 @@ function buildCalendar(){
           pop.querySelector(".n").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"N");closePop();};
           pop.querySelector(".d").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"D");closePop();};
           pop.querySelector(".x").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,null);closePop();};
-          cell.appendChild(pop); openPop=pop;
+          cell.appendChild(pop);openPop=pop;
         });
       }
       grid.appendChild(cell);
@@ -635,15 +584,13 @@ function buildCalendar(){
   });
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 // CLASSEMENT
-// ═══════════════════════════════════════════════
-let prevRank=[], prevP={};
-const ZONE_CLS=["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf"];
-const ZONE_LBL=["Champions League","Champions League","Champions League","CL Qualifs","Europa League","Conférence","",""];
+// ═══════════════════════════════════════
+let prevRank=[];
 
 function renderRanking(animate,prev){
-  animate=animate||false; prev=prev||{};
+  animate=animate||false;prev=prev||{};
   const list=document.getElementById("rank-list");
   const s=sorted();
 
@@ -657,25 +604,32 @@ function renderRanking(animate,prev){
     el.className="ri "+(ZONE_CLS[i]||"");
     el.innerHTML=
       '<div class="ri-num '+nc+'">'+rank+'</div>'+
-      img(club,24)+
+      img(club,26)+
       '<div class="ri-info">'+
         '<div class="ri-name">'+META[club].name+'</div>'+
         '<div class="ri-zone">'+(ZONE_LBL[i]||"")+'</div>'+
       '</div>'+
       '<div class="ri-pts" id="rp-'+club+'">'+pts+'</div>';
 
+    // Animation +/- pts
     const diff=animate&&prev[club]!==undefined?pts-prev[club]:0;
-    if(diff>0){
+    if(diff!==0){
       const pEl=document.getElementById("rp-"+club);
-      pEl.classList.remove("bump"); void pEl.offsetWidth; pEl.classList.add("bump");
-      const b=document.createElement("span");b.className="badge";b.textContent="+"+diff;
-      pEl.appendChild(b); setTimeout(()=>b.remove(),1700);
+      pEl.classList.remove("bump-up","bump-down");
+      void pEl.offsetWidth;
+      pEl.classList.add(diff>0?"bump-up":"bump-down");
+      const b=document.createElement("span");
+      b.className="badge "+(diff>0?"pos":"neg");
+      b.textContent=(diff>0?"+":"")+diff;
+      pEl.appendChild(b);
+      setTimeout(()=>b.remove(),1900);
     }
 
+    // Glissement si changement de position
     const pi=prevRank.indexOf(club);
     if(animate&&pi!==-1&&pi!==i){
-      const dy=(pi-i)*38;
-      el.style.transition="none"; el.style.transform="translateY("+dy+"px)";
+      const dy=(pi-i)*41;
+      el.style.transition="none";el.style.transform="translateY("+dy+"px)";
       requestAnimationFrame(()=>{
         el.style.transition="transform .55s cubic-bezier(0.34,1.56,0.64,1)";
         el.style.transform="translateY(0)";
@@ -684,20 +638,23 @@ function renderRanking(animate,prev){
   });
 
   s.forEach(club=>list.appendChild(document.getElementById("ri-"+club)));
-  CLUBS.forEach(c=>{const el=document.getElementById("chpts-"+c);if(el)el.textContent=calcPts(c);});
-  prevRank=s; prevP={}; CLUBS.forEach(c=>prevP[c]=calcPts(c));
+  CLUBS.forEach(c=>{
+    const el=document.getElementById("chpts-"+c);
+    if(el)el.textContent=calcPts(c);
+  });
+  prevRank=s;
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 // GRAPHIQUE
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
 let chart=null;
 const COLORS={PSG:"#3b82f6",Lens:"#ef4444",Lyon:"#6366f1",OM:"#0ea5e9",Lille:"#8b5cf6",Rennes:"#f59e0b",Strasbourg:"#14b8a6",Monaco:"#f43f5e"};
 
 function chartData(){
   const labels=["J23",...JJ.map(j=>j.id)];
   const datasets=CLUBS.map(club=>{
-    const pts=[PTS0[club]]; let cum=PTS0[club];
+    const pts=[PTS0[club]];let cum=PTS0[club];
     for(let i=0;i<11;i++){const r=R[club][i];if(r==="V")cum+=3;else if(r==="N")cum+=1;pts.push(cum);}
     return{label:club,data:pts,borderColor:COLORS[club],backgroundColor:"transparent",borderWidth:1.5,pointRadius:2,pointHoverRadius:4,tension:0.3};
   });
@@ -714,11 +671,15 @@ function initChart(){
       interaction:{mode:"index",intersect:false},
       plugins:{
         legend:{display:false},
-        tooltip:{backgroundColor:"#1c2030",borderColor:"rgba(255,255,255,0.08)",borderWidth:1,titleColor:"#fff",bodyColor:"rgba(221,225,236,0.6)",padding:8,callbacks:{label:c=>" "+c.dataset.label+": "+c.raw+"pts"}}
+        tooltip:{
+          backgroundColor:"#fff",borderColor:COLORS.border,borderWidth:1,
+          titleColor:"#1a1a1a",bodyColor:"rgba(26,26,26,0.6)",padding:8,
+          callbacks:{label:c=>" "+c.dataset.label+": "+c.raw+"pts"}
+        }
       },
       scales:{
-        x:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"rgba(221,225,236,0.35)",font:{size:9}}},
-        y:{grid:{color:"rgba(255,255,255,0.03)"},ticks:{color:"rgba(221,225,236,0.35)",font:{size:9}}}
+        x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"rgba(26,26,26,0.4)",font:{size:9}}},
+        y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"rgba(26,26,26,0.4)",font:{size:9}}}
       }
     }
   });
@@ -729,23 +690,33 @@ function initChart(){
 function updateChart(){
   if(!chart)return;
   const{labels,datasets}=chartData();
-  chart.data.labels=labels; chart.data.datasets=datasets; chart.update("active");
+  chart.data.labels=labels;chart.data.datasets=datasets;chart.update("active");
 }
 
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// INIT — ordre critique pour la mémoire
+// ═══════════════════════════════════════
 async function init(){
+  // 1. Charger les pronostics sauvegardés EN PREMIER
   loadStorage();
+
+  // 2. Appeler l'API (écrase uniquement les résultats réels)
   const ok=await fetchAPI();
+
+  // 3. Recharger les pronostics pour les journées non verrouillées
+  //    (l'API peut avoir écrasé certaines cellules → on remet les pronostics)
   loadStorage();
+
+  // 4. Construire l'interface
   buildCalendar();
   renderRanking(false,{});
   initChart();
+
   const now=new Date();
   document.getElementById("status-txt").textContent=
     (ok?"API en direct · ":"Hors ligne · ")+
     now.toLocaleDateString("fr-FR")+" "+now.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+
   setTimeout(()=>document.getElementById("loader").classList.add("gone"),1300);
 }
 init();
