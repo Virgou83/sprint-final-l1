@@ -26,303 +26,360 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 13px;
-}
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
 
-/* ── LAYOUT 60/40 ───────────────────────────────── */
-#app {
-  display: grid;
-  grid-template-rows: 42px 1fr;
-  grid-template-columns: 60fr 40fr;
-  grid-template-areas: "header header" "cal rank";
-  height: 100vh;
-}
+/* ── LAYOUT ── */
+#app { display:grid; grid-template-rows:42px 1fr; grid-template-columns:60fr 40fr; grid-template-areas:"header header" "cal rank"; height:100vh; }
 
-/* ── HEADER ─────────────────────────────────────── */
-#header {
-  grid-area: header;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-.header-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
-.header-title span { color: var(--muted); font-weight: 600; }
-#status { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--win); animation: blink 2s ease-in-out infinite; }
+/* ── HEADER ── */
+#header { grid-area:header; display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid var(--border); background:var(--bg); }
+.header-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:800; letter-spacing:-0.02em; }
+.header-title span { color:var(--muted); font-weight:600; }
+#status { font-size:11px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--win); animation:blink 2s ease-in-out infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-/* ── CALENDRIER ─────────────────────────────────── */
-#cal {
-  grid-area: cal;
-  overflow: auto;
-  padding: 8px;
-  background: var(--bg);
-  border-right: 1px solid var(--border);
-}
-#cal::-webkit-scrollbar { width: 3px; height: 3px; }
-#cal::-webkit-scrollbar-track { background: transparent; }
-#cal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+/* ── CALENDRIER ── */
+#cal { grid-area:cal; overflow:auto; padding:8px; background:var(--bg); border-right:1px solid var(--border); }
+#cal::-webkit-scrollbar { width:3px; height:3px; }
+#cal::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.cal-grid { display:grid; grid-template-columns:48px repeat(8,1fr); gap:2px; min-width:580px; }
 
-.cal-grid {
-  display: grid;
-  grid-template-columns: 48px repeat(8, 1fr);
-  gap: 2px;
-  min-width: 580px;
-}
-
-/* Header club */
-.ch {
-  padding: 4px 2px;
-  text-align: center;
-  border-radius: var(--r);
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-.ch img { width: 22px; height: 22px; object-fit: contain; }
+.ch { padding:4px 2px; text-align:center; border-radius:var(--r); background:var(--bg2); border:1px solid var(--border); display:flex; flex-direction:column; align-items:center; gap:2px; }
+.ch img { width:22px; height:22px; object-fit:contain; }
 .ch-name { font-family:'Syne',sans-serif; font-size:9px; font-weight:700; color:var(--muted); line-height:1; }
 .ch-pts  { font-family:'Syne',sans-serif; font-size:12px; font-weight:800; color:var(--text); line-height:1; }
 .corner  { background:transparent !important; border:none !important; }
 
-/* Journée label */
-.jlabel {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 2px;
-  border-radius: var(--r);
-  background: var(--bg2);
-  border: 1px solid var(--border);
-}
+.jlabel { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2px; border-radius:var(--r); background:var(--bg2); border:1px solid var(--border); }
 .jlabel .jn { font-family:'Syne',sans-serif; font-size:10px; font-weight:700; color:var(--text); }
 .jlabel .jd { font-size:8px; color:var(--muted); text-align:center; line-height:1.2; }
 
-/* ── CELLULE ────────────────────────────────────── */
-.cell {
-  border-radius: var(--r);
-  border: 1px solid var(--border);
-  background: var(--bg2);
-  height: 52px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3px 2px 2px;
-  transition: background 0.12s, border-color 0.12s;
-  position: relative;
-  overflow: visible;
-  cursor: default;
-}
-.cell.clickable { cursor: pointer; }
-.cell.clickable:hover { border-color: var(--border2); background: var(--bg3); }
-
+.cell { border-radius:var(--r); border:1px solid var(--border); background:var(--bg2); height:52px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:3px 2px 2px; transition:background 0.12s,border-color 0.12s; position:relative; overflow:visible; cursor:default; }
+.cell.clickable { cursor:pointer; }
+.cell.clickable:hover { border-color:var(--border2); background:var(--bg3); }
 .c-ha  { font-size:12px; line-height:1; display:block; }
 .cell img.adv-crest { width:24px; height:24px; object-fit:contain; display:block; flex-shrink:0; }
 .c-bottom { display:flex; align-items:center; justify-content:center; gap:3px; width:100%; }
 .c-adv { font-size:8px; color:var(--muted); line-height:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px; }
 .c-res { font-family:'Syne',sans-serif; font-size:11px; font-weight:800; line-height:1; flex-shrink:0; }
 
-/* Couleurs résultats */
-.win  { background: var(--win-bg)  !important; border-color: rgba(22,163,74,0.25)  !important; }
-.draw { background: var(--draw-bg) !important; border-color: rgba(180,83,9,0.25) !important; }
-.loss { background: var(--loss-bg) !important; border-color: rgba(220,38,38,0.25)  !important; }
+.win  { background:var(--win-bg)  !important; border-color:rgba(22,163,74,0.25)  !important; }
+.draw { background:var(--draw-bg) !important; border-color:rgba(180,83,9,0.25)   !important; }
+.loss { background:var(--loss-bg) !important; border-color:rgba(220,38,38,0.25)  !important; }
 .win  .c-res { color:var(--win); }
 .draw .c-res { color:var(--draw); }
 .loss .c-res { color:var(--loss); }
-.win  .c-adv,.win  .c-ha { opacity:0.6; }
-.draw .c-adv,.draw .c-ha { opacity:0.6; }
-.loss .c-adv,.loss .c-ha { opacity:0.6; }
-.mirror { border-color: rgba(37,99,235,0.3) !important; background: rgba(37,99,235,0.05) !important; }
+.win  .c-adv,.win  .c-ha,.draw .c-adv,.draw .c-ha,.loss .c-adv,.loss .c-ha { opacity:0.6; }
+.mirror { border-color:rgba(37,99,235,0.3) !important; background:rgba(37,99,235,0.05) !important; }
 
-/* Popup */
-.popup {
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 3px;
-  background: #fff;
-  border: 1px solid var(--border2);
-  border-radius: var(--r);
-  padding: 5px;
-  z-index: 200;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-  animation: pop 0.1s ease;
-  white-space: nowrap;
-}
-@keyframes pop {
-  from { opacity:0; transform:translateX(-50%) scale(0.88); }
-  to   { opacity:1; transform:translateX(-50%) scale(1); }
-}
-.pb {
-  padding: 5px 12px;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: opacity 0.1s;
-}
-.pb:hover { opacity: 0.75; }
+.popup { position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%); display:flex; gap:3px; background:#fff; border:1px solid var(--border2); border-radius:var(--r); padding:5px; z-index:200; box-shadow:0 4px 20px rgba(0,0,0,0.12); animation:pop 0.1s ease; white-space:nowrap; }
+@keyframes pop { from{opacity:0;transform:translateX(-50%) scale(0.88)} to{opacity:1;transform:translateX(-50%) scale(1)} }
+.pb { padding:5px 12px; border-radius:5px; border:1px solid transparent; font-family:'Syne',sans-serif; font-size:13px; font-weight:800; cursor:pointer; transition:opacity 0.1s; }
+.pb:hover { opacity:0.75; }
 .pb.v { background:var(--win-bg);  color:var(--win);  border-color:rgba(22,163,74,0.3); }
 .pb.n { background:var(--draw-bg); color:var(--draw); border-color:rgba(180,83,9,0.3); }
 .pb.d { background:var(--loss-bg); color:var(--loss); border-color:rgba(220,38,38,0.3); }
 .pb.x { background:rgba(0,0,0,0.04); color:var(--muted); border-color:var(--border); }
 
-/* ── CLASSEMENT 40% ─────────────────────────────── */
-#rank {
-  grid-area: rank;
-  overflow: hidden;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  padding: 10px 12px;
-}
-.rank-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 8px;
-}
-
-.ri {
-  display: grid;
-  grid-template-columns: 24px 30px 1fr auto;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: var(--r);
-  border: 1px solid transparent;
-  border-left: 3px solid transparent;
-  margin-bottom: 3px;
-  transition: transform 0.55s cubic-bezier(0.34,1.56,0.64,1);
-  will-change: transform;
-  position: relative;
-  background: var(--bg2);
-}
-
-.ri.z-cl   { border-left-color: #2563eb; }
-.ri.z-cl4  { border-left-color: #0ea5e9; }
-.ri.z-el   { border-left-color: #d97706; }
-.ri.z-conf { border-left-color: #7c3aed; }
-
+/* ── CLASSEMENT ── */
+#rank { grid-area:rank; overflow:hidden; background:var(--bg); display:flex; flex-direction:column; padding:10px 12px; }
+.rank-title { font-family:'Syne',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.ri { display:grid; grid-template-columns:24px 30px 1fr auto; align-items:center; gap:8px; padding:8px 10px; border-radius:var(--r); border:1px solid transparent; border-left:3px solid transparent; margin-bottom:3px; transition:transform 0.55s cubic-bezier(0.34,1.56,0.64,1); will-change:transform; position:relative; background:var(--bg2); }
+.ri.z-cl   { border-left-color:#2563eb; }
+.ri.z-cl4  { border-left-color:#0ea5e9; }
+.ri.z-el   { border-left-color:#d97706; }
+.ri.z-conf { border-left-color:#7c3aed; }
 .ri-num { font-family:'Syne',sans-serif; font-size:14px; font-weight:800; text-align:center; color:var(--muted); }
 .ri-num.g { color:#ca8a04; }
 .ri-num.s { color:#64748b; }
 .ri-num.b { color:#92400e; }
-
 .ri img { width:26px; height:26px; object-fit:contain; }
-
 .ri-info { overflow:hidden; }
 .ri-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text); }
 .ri-zone { font-size:9px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px; }
-
-.ri-pts {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  text-align: right;
-  position: relative;
-  display: inline-block;
-  min-width: 42px;
-  color: var(--text);
-}
-
-/* Animations pts +/- */
-.bump-up {
-  animation: bumpUp 1s cubic-bezier(0.34,1.56,0.64,1) forwards;
-}
-@keyframes bumpUp {
-  0%   { transform:scale(1);    color:var(--text); }
-  35%  { transform:scale(1.3);  color:var(--win); }
-  100% { transform:scale(1);    color:var(--text); }
-}
-.bump-down {
-  animation: bumpDown 1s cubic-bezier(0.34,1.56,0.64,1) forwards;
-}
-@keyframes bumpDown {
-  0%   { transform:scale(1);    color:var(--text); }
-  35%  { transform:scale(1.3);  color:var(--loss); }
-  100% { transform:scale(1);    color:var(--text); }
-}
-
-.badge {
-  position: absolute;
-  top: -15px; right: 0;
-  font-size: 10px;
-  font-weight: 700;
-  border-radius: 100px;
-  padding: 1px 7px;
-  white-space: nowrap;
-  animation: badgePop 1.8s ease forwards;
-  pointer-events: none;
-}
+.ri-pts { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; text-align:right; position:relative; display:inline-block; min-width:42px; color:var(--text); }
+.bump-up   { animation:bumpUp   1s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.bump-down { animation:bumpDown 1s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+@keyframes bumpUp   { 0%{transform:scale(1);color:var(--text)} 35%{transform:scale(1.3);color:var(--win)}  100%{transform:scale(1);color:var(--text)} }
+@keyframes bumpDown { 0%{transform:scale(1);color:var(--text)} 35%{transform:scale(1.3);color:var(--loss)} 100%{transform:scale(1);color:var(--text)} }
+.badge { position:absolute; top:-15px; right:0; font-size:10px; font-weight:700; border-radius:100px; padding:1px 7px; white-space:nowrap; animation:badgePop 1.8s ease forwards; pointer-events:none; }
 .badge.pos { color:var(--win);  background:var(--win-bg);  border:1px solid rgba(22,163,74,0.25); }
 .badge.neg { color:var(--loss); background:var(--loss-bg); border:1px solid rgba(220,38,38,0.25); }
-@keyframes badgePop {
-  0%  { opacity:0; transform:translateY(4px); }
-  20% { opacity:1; transform:translateY(0); }
-  75% { opacity:1; }
-  100%{ opacity:0; transform:translateY(-8px); }
-}
+@keyframes badgePop { 0%{opacity:0;transform:translateY(4px)} 20%{opacity:1;transform:translateY(0)} 75%{opacity:1} 100%{opacity:0;transform:translateY(-8px)} }
 
-/* ── GRAPHIQUE ──────────────────────────────────── */
-#chart-wrap {
-  min-width: 580px;
-  margin-top: 6px;
-  padding: 8px 10px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-}
+/* ── GRAPHIQUE ── */
+#chart-wrap { min-width:580px; margin-top:6px; padding:8px 10px; background:var(--bg2); border:1px solid var(--border); border-radius:var(--r); }
 #chart-title { font-family:'Syne',sans-serif; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
 #pts-chart { width:100% !important; height:120px !important; }
 .chart-legend { display:flex; flex-wrap:wrap; gap:4px 10px; margin-top:6px; }
 .leg { display:flex; align-items:center; gap:4px; font-size:9px; color:var(--muted); }
 .leg img { width:12px; height:12px; object-fit:contain; }
 
-/* ── LOADER ─────────────────────────────────────── */
-#loader {
-  position:fixed; inset:0; background:var(--bg);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  z-index:999; transition:opacity .4s,visibility .4s;
-}
+/* ── LOADER ── */
+#loader { position:fixed; inset:0; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:999; transition:opacity .4s,visibility .4s; }
 #loader.gone { opacity:0; visibility:hidden; }
 .l-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; margin-bottom:24px; color:var(--text); }
 .l-bar { width:160px; height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
 .l-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--win)); border-radius:2px; animation:lfill 1.4s ease forwards; }
 @keyframes lfill { from{width:0} to{width:100%} }
 .l-txt { margin-top:12px; font-size:11px; color:var(--muted); }
+
+/* ════════════════════════════════════════════
+   ANIMATIONS DE MISE À JOUR
+════════════════════════════════════════════ */
+
+/* Écran plein générique */
+.anim-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.anim-screen.hidden { display: none; }
+
+/* Émojis qui défilent en diagonale */
+.emoji-bg {
+  position: absolute;
+  inset: -200px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.emoji-row {
+  display: flex;
+  gap: 48px;
+  white-space: nowrap;
+  animation: scrollDiag 6s linear infinite;
+  margin-bottom: 8px;
+  opacity: 0.15;
+  font-size: 36px;
+  transform: rotate(-25deg);
+}
+@keyframes scrollDiag {
+  from { transform: rotate(-25deg) translateX(0); }
+  to   { transform: rotate(-25deg) translateX(-200px); }
+}
+
+/* Contenu au premier plan */
+.anim-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px;
+}
+
+/* ── Écran 1 : Mise à jour ── */
+#screen-update {
+  background: #1a1a2e;
+}
+#screen-update .anim-content .upd-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+}
+#screen-update .anim-content .upd-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem,8vw,5rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  animation: fadeUp 0.6s ease forwards;
+}
+#screen-update .anim-content .upd-count {
+  margin-top: 16px;
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── Écran 2 : Résultat individuel ── */
+#screen-result {
+  background: #0f1923;
+}
+.res-journee {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 20px;
+}
+.res-match {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.res-club {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.res-club img { width: 64px; height: 64px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
+.res-club-name { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:rgba(255,255,255,0.7); }
+.res-score {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem,10vw,6rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  animation: zoomIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes zoomIn {
+  from { opacity:0; transform:scale(0.6); }
+  to   { opacity:1; transform:scale(1); }
+}
+.res-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 8px 24px;
+  border-radius: 100px;
+  letter-spacing: 0.1em;
+  animation: fadeUp 0.4s 0.3s ease both;
+}
+.res-badge.win  { background:rgba(22,163,74,0.2);  color:#4ade80; border:1px solid rgba(22,163,74,0.4); }
+.res-badge.draw { background:rgba(180,83,9,0.2);   color:#fbbf24; border:1px solid rgba(180,83,9,0.4); }
+.res-badge.loss { background:rgba(220,38,38,0.2);  color:#f87171; border:1px solid rgba(220,38,38,0.4); }
+
+.res-prono {
+  margin-top: 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  animation: fadeUp 0.4s 0.4s ease both;
+}
+.res-prono .prono-wrong { color: #f87171; }
+.res-prono .prono-right { color: #4ade80; }
+
+/* ── Écran 3 : Classement ── */
+#screen-ranking {
+  background: #0f1a0f;
+}
+.rank-anim-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 24px;
+}
+.rank-anim-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 280px;
+}
+.rank-anim-item {
+  display: grid;
+  grid-template-columns: 28px 36px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  border-left: 3px solid transparent;
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.rank-anim-item.show {
+  animation: slideIn 0.5s ease forwards;
+}
+@keyframes slideIn {
+  to { opacity:1; transform:translateX(0); }
+}
+.rank-anim-num { font-family:'Syne',sans-serif; font-size:16px; font-weight:800; text-align:center; }
+.rank-anim-num.g { color:#fbbf24; }
+.rank-anim-num.s { color:#94a3b8; }
+.rank-anim-num.b { color:#cd7f32; }
+.rank-anim-num.n { color:rgba(255,255,255,0.3); }
+.rank-anim-img { width:32px; height:32px; object-fit:contain; }
+.rank-anim-name { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff; }
+.rank-anim-pts { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:#fff; text-align:right; }
+
+/* Transition entre écrans */
+.anim-screen { opacity:1; transition:opacity 0.4s; }
+.anim-screen.fade-out { opacity:0; }
+
+/* Bouton skip */
+.skip-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 600;
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 100px;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.skip-btn:hover { background: rgba(255,255,255,0.2); }
+.skip-btn.hidden { display: none; }
 </style>
 </head>
 <body>
 
+<!-- Loader initial -->
 <div id="loader">
   <div class="l-title">Sprint Final 🏆</div>
   <div class="l-bar"><div class="l-fill"></div></div>
-  <div class="l-txt">Chargement des données…</div>
+  <div class="l-txt" id="l-txt">Chargement…</div>
 </div>
 
+<!-- Écran 1 : Mise à jour -->
+<div id="screen-update" class="anim-screen hidden">
+  <div class="emoji-bg" id="emoji-bg-update"></div>
+  <div class="anim-content">
+    <div class="upd-label">Ligue 1 · Sprint Final</div>
+    <div class="upd-title">Mise à jour 🔥</div>
+    <div class="upd-count" id="upd-count"></div>
+  </div>
+</div>
+
+<!-- Écran 2 : Résultat individuel -->
+<div id="screen-result" class="anim-screen hidden">
+  <div class="emoji-bg" id="emoji-bg-result"></div>
+  <div class="anim-content">
+    <div class="res-journee" id="res-journee"></div>
+    <div class="res-match" id="res-match"></div>
+    <div class="res-badge" id="res-badge"></div>
+    <div class="res-prono" id="res-prono"></div>
+  </div>
+</div>
+
+<!-- Écran 3 : Classement animé -->
+<div id="screen-ranking" class="anim-screen hidden">
+  <div class="emoji-bg" id="emoji-bg-ranking"></div>
+  <div class="anim-content">
+    <div class="rank-anim-title">🏆 Classement mis à jour</div>
+    <div class="rank-anim-list" id="rank-anim-list"></div>
+  </div>
+</div>
+
+<!-- Bouton skip -->
+<button class="skip-btn hidden" id="skip-btn" onclick="skipAnim()">Passer ›</button>
+
+<!-- App principale -->
 <div id="app">
   <div id="header">
     <div class="header-title">Sprint Final <span>· Ligue 1 2025/2026 · J24→J34</span></div>
@@ -344,42 +401,22 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
-// ═══════════════════════════════════════
-// BLASONS — IDs vérifiés via API
-// ═══════════════════════════════════════
-const BASE = "https://crests.football-data.org/";
-const CID = {
-  PSG:524, Lens:546, Lyon:523, OM:516, Lille:521,
-  Rennes:529, Strasbourg:576, Monaco:548,
-  Nantes:543, Nice:522, "Le Havre":533, Toulouse:511,
-  Metz:545, Lorient:525, Auxerre:519, Angers:532,
-  Brest:512, "Paris FC":1045, Marseille:516,
-};
-function crestUrl(n){ return CID[n]?BASE+CID[n]+".png":null; }
-function img(n,s,cls){
-  const u=crestUrl(n); cls=cls||"";
-  if(!u)return '<span style="font-size:'+(s*.5)+'px;opacity:.3">⚽</span>';
-  return '<img src="'+u+'" width="'+s+'" height="'+s+'" alt="'+n+'" class="'+cls+'" onerror="this.style.display=\'none\'">';
-}
+// ═══════════════════════════
+// BLASONS
+// ═══════════════════════════
+const BASE="https://crests.football-data.org/";
+const CID={PSG:524,Lens:546,Lyon:523,OM:516,Lille:521,Rennes:529,Strasbourg:576,Monaco:548,Nantes:543,Nice:522,"Le Havre":533,Toulouse:511,Metz:545,Lorient:525,Auxerre:519,Angers:532,Brest:512,"Paris FC":1045,Marseille:516};
+function crestUrl(n){return CID[n]?BASE+CID[n]+".png":null;}
+function img(n,s,cls){const u=crestUrl(n);cls=cls||"";if(!u)return'<span style="font-size:'+(s*.5)+'px;opacity:.3">⚽</span>';return'<img src="'+u+'" width="'+s+'" height="'+s+'" alt="'+n+'" class="'+cls+'" onerror="this.style.display=\'none\'">';}
 
-// ═══════════════════════════════════════
+// ═══════════════════════════
 // DONNÉES
-// ═══════════════════════════════════════
+// ═══════════════════════════
 const CLUBS=["PSG","Lens","Lyon","OM","Lille","Rennes","Strasbourg","Monaco"];
-const META={
-  PSG:       {name:"Paris SG",   color:"#3b82f6"},
-  Lens:      {name:"RC Lens",    color:"#ef4444"},
-  Lyon:      {name:"OL Lyon",    color:"#6366f1"},
-  OM:        {name:"Marseille",  color:"#0ea5e9"},
-  Lille:     {name:"LOSC",       color:"#8b5cf6"},
-  Rennes:    {name:"Rennes",     color:"#f59e0b"},
-  Strasbourg:{name:"Strasbourg", color:"#14b8a6"},
-  Monaco:    {name:"Monaco",     color:"#f43f5e"},
-};
-const ZONE_CLS  =["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf","",""];
-const ZONE_LBL  =["Champions League","Champions League","Champions League","CL Qualifs","Europa League","Conférence","",""];
+const META={PSG:{name:"Paris SG",color:"#3b82f6"},Lens:{name:"RC Lens",color:"#ef4444"},Lyon:{name:"OL Lyon",color:"#6366f1"},OM:{name:"Marseille",color:"#0ea5e9"},Lille:{name:"LOSC",color:"#8b5cf6"},Rennes:{name:"Rennes",color:"#f59e0b"},Strasbourg:{name:"Strasbourg",color:"#14b8a6"},Monaco:{name:"Monaco",color:"#f43f5e"}};
+const ZONE_CLS=["z-cl","z-cl","z-cl","z-cl4","z-el","z-conf","",""];
+const ZONE_LBL=["Champions League","Champions League","Champions League","CL Qualifs","Europa League","Conférence","",""];
 const PTS0={PSG:54,Lens:52,Lyon:45,OM:40,Lille:37,Rennes:37,Strasbourg:34,Monaco:34};
-
 const CAL={
   PSG:       [{a:"Le Havre",h:"A",m:null},{a:"Monaco",h:"H",m:"Monaco"},{a:"Nantes",h:"H",m:null},{a:"Nice",h:"A",m:null},{a:"Toulouse",h:"H",m:null},{a:"Lens",h:"A",m:"Lens"},{a:"Lyon",h:"H",m:"Lyon"},{a:"Metz",h:"A",m:null},{a:"Lorient",h:"H",m:null},{a:"Auxerre",h:"H",m:null},{a:"Paris FC",h:"A",m:null}],
   Lens:      [{a:"Strasbourg",h:"A",m:"Strasbourg"},{a:"Metz",h:"H",m:null},{a:"Lorient",h:"A",m:null},{a:"Angers",h:"H",m:null},{a:"Lille",h:"A",m:"Lille"},{a:"PSG",h:"H",m:"PSG"},{a:"Toulouse",h:"H",m:null},{a:"Brest",h:"A",m:null},{a:"Nice",h:"A",m:null},{a:"Nantes",h:"H",m:null},{a:"Lyon",h:"A",m:"Lyon"}],
@@ -390,86 +427,43 @@ const CAL={
   Strasbourg:[{a:"Lens",h:"H",m:"Lens"},{a:"Auxerre",h:"A",m:null},{a:"Paris FC",h:"H",m:null},{a:"Nantes",h:"A",m:null},{a:"Nice",h:"H",m:null},{a:"Brest",h:"H",m:null},{a:"Rennes",h:"H",m:"Rennes"},{a:"Lorient",h:"H",m:null},{a:"Toulouse",h:"A",m:null},{a:"Angers",h:"H",m:null},{a:"Monaco",h:"H",m:"Monaco"}],
   Monaco:    [{a:"Angers",h:"H",m:null},{a:"PSG",h:"A",m:"PSG"},{a:"Brest",h:"H",m:null},{a:"Lyon",h:"A",m:"Lyon"},{a:"Marseille",h:"H",m:"OM"},{a:"Paris FC",h:"A",m:null},{a:"Auxerre",h:"H",m:null},{a:"Toulouse",h:"A",m:null},{a:"Metz",h:"A",m:null},{a:"Lille",h:"H",m:"Lille"},{a:"Strasbourg",h:"A",m:"Strasbourg"}],
 };
+const JJ=[{id:"J24",d:"1 Mars"},{id:"J25",d:"8 Mars"},{id:"J26",d:"15 Mars"},{id:"J27",d:"22 Mars"},{id:"J28",d:"5 Avr."},{id:"J29",d:"12 Avr."},{id:"J30",d:"19 Avr."},{id:"J31",d:"26 Avr."},{id:"J32",d:"3 Mai"},{id:"J33",d:"10 Mai"},{id:"J34",d:"17 Mai"}];
+const DUELS=[["OM","Lyon",0],["PSG","Monaco",1],["Rennes","Lille",2],["OM","Lille",3],["Lyon","Monaco",3],["Lens","Lille",4],["OM","Monaco",4],["PSG","Lens",5],["PSG","Lyon",6],["Rennes","Strasbourg",6],["Lyon","Rennes",8],["Lille","Monaco",9],["OM","Rennes",10],["Lens","Lyon",10],["Strasbourg","Monaco",10]];
+const API_MAP={"Paris Saint-Germain FC":"PSG","Paris Saint-Germain":"PSG","Paris SG":"PSG","RC Lens":"Lens","Racing Club De Lens":"Lens","Racing Club de Lens":"Lens","Olympique Lyonnais":"Lyon","Olympique de Lyon":"Lyon","Olympique de Marseille":"OM","Olympique Marseille":"OM","Marseille":"OM","LOSC Lille":"Lille","Lille OSC":"Lille","Stade Rennais FC":"Rennes","Stade Rennais":"Rennes","Stade Rennais FC 1901":"Rennes","RC Strasbourg Alsace":"Strasbourg","RC Strasbourg":"Strasbourg","AS Monaco FC":"Monaco","AS Monaco":"Monaco"};
 
-const JJ=[
-  {id:"J24",d:"1 Mars"},{id:"J25",d:"8 Mars"},{id:"J26",d:"15 Mars"},
-  {id:"J27",d:"22 Mars"},{id:"J28",d:"5 Avr."},{id:"J29",d:"12 Avr."},
-  {id:"J30",d:"19 Avr."},{id:"J31",d:"26 Avr."},{id:"J32",d:"3 Mai"},
-  {id:"J33",d:"10 Mai"},{id:"J34",d:"17 Mai"},
-];
-
-const DUELS=[
-  ["OM","Lyon",0],["PSG","Monaco",1],["Rennes","Lille",2],
-  ["OM","Lille",3],["Lyon","Monaco",3],["Lens","Lille",4],
-  ["OM","Monaco",4],["PSG","Lens",5],["PSG","Lyon",6],
-  ["Rennes","Strasbourg",6],["Lyon","Rennes",8],
-  ["Lille","Monaco",9],["OM","Rennes",10],
-  ["Lens","Lyon",10],["Strasbourg","Monaco",10],
-];
-
-const API_MAP={
-  "Paris Saint-Germain FC":"PSG","Paris Saint-Germain":"PSG","Paris SG":"PSG",
-  "RC Lens":"Lens","Racing Club De Lens":"Lens","Racing Club de Lens":"Lens",
-  "Olympique Lyonnais":"Lyon","Olympique de Lyon":"Lyon",
-  "Olympique de Marseille":"OM","Olympique Marseille":"OM","Marseille":"OM",
-  "LOSC Lille":"Lille","Lille OSC":"Lille",
-  "Stade Rennais FC":"Rennes","Stade Rennais":"Rennes","Stade Rennais FC 1901":"Rennes",
-  "RC Strasbourg Alsace":"Strasbourg","RC Strasbourg":"Strasbourg",
-  "AS Monaco FC":"Monaco","AS Monaco":"Monaco",
-};
-
-// ═══════════════════════════════════════
+// ═══════════════════════════
 // STATE
-// ═══════════════════════════════════════
+// ═══════════════════════════
 const R={},L={};
 CLUBS.forEach(c=>{R[c]=new Array(11).fill(null);L[c]=new Array(11).fill(false);});
 
-function isMaster(club,j){
-  for(const[a,b,jj]of DUELS){
-    if(jj!==j)continue;
-    if(club===a||club===b)return CLUBS.indexOf(a)<CLUBS.indexOf(b)?club===a:club===b;
-  }
-  return true;
-}
+function isMaster(club,j){for(const[a,b,jj]of DUELS){if(jj!==j)continue;if(club===a||club===b)return CLUBS.indexOf(a)<CLUBS.indexOf(b)?club===a:club===b;}return true;}
 function calcPts(c){let p=PTS0[c];R[c].forEach(r=>{if(r==="V")p+=3;else if(r==="N")p+=1;});return p;}
 function sorted(){return[...CLUBS].sort((a,b)=>{const d=calcPts(b)-calcPts(a);return d!==0?d:PTS0[b]-PTS0[a];});}
 
-// ── localStorage robuste ──────────────────────────
 const LS_KEY="sf_prono_v2";
+const LS_KNOWN="sf_known_v2";
 
 function saveStorage(){
-  // On ne sauvegarde que les pronostics (pas les résultats réels verrouillés)
-  const d={};
-  CLUBS.forEach(c=>{
-    d[c]=R[c].map((v,i)=>L[c][i]?null:v);
-  });
-  try{ localStorage.setItem(LS_KEY,JSON.stringify(d)); }catch(e){}
+  const d={};CLUBS.forEach(c=>{d[c]=R[c].map((v,i)=>L[c][i]?null:v);});
+  try{localStorage.setItem(LS_KEY,JSON.stringify(d));}catch(e){}
 }
-
 function loadStorage(){
-  try{
-    const s=localStorage.getItem(LS_KEY);
-    if(!s)return;
-    const d=JSON.parse(s);
-    CLUBS.forEach(c=>{
-      if(!d[c])return;
-      d[c].forEach((v,i)=>{
-        // On écrase seulement si la cellule n'est pas encore verrouillée par l'API
-        if(v!==null&&!L[c][i]) R[c][i]=v;
-      });
-    });
-  }catch(e){}
+  try{const s=localStorage.getItem(LS_KEY);if(!s)return;const d=JSON.parse(s);CLUBS.forEach(c=>{if(!d[c])return;d[c].forEach((v,i)=>{if(v!==null&&!L[c][i])R[c][i]=v;});});}catch(e){}
+}
+function saveKnown(){
+  // Sauvegarder uniquement les résultats réels verrouillés
+  const d={};CLUBS.forEach(c=>{d[c]=R[c].map((v,i)=>L[c][i]?v:null);});
+  try{localStorage.setItem(LS_KNOWN,JSON.stringify(d));}catch(e){}
+}
+function loadKnown(){
+  try{const s=localStorage.getItem(LS_KNOWN);if(!s)return{};return JSON.parse(s);}catch(e){return{};}
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════
 // API
-// ═══════════════════════════════════════
-function mapTeam(n){
-  if(API_MAP[n])return API_MAP[n];
-  for(const[k,v]of Object.entries(API_MAP))
-    if(k.toLowerCase().includes(n.toLowerCase())||n.toLowerCase().includes(k.toLowerCase()))return v;
-  return null;
-}
+// ═══════════════════════════
+function mapTeam(n){if(API_MAP[n])return API_MAP[n];for(const[k,v]of Object.entries(API_MAP))if(k.toLowerCase().includes(n.toLowerCase())||n.toLowerCase().includes(k.toLowerCase()))return v;return null;}
 
 async function fetchAPI(){
   try{
@@ -477,8 +471,7 @@ async function fetchAPI(){
     if(!r.ok)return false;
     const data=await r.json();
     (data.matches||[]).forEach(m=>{
-      const j=m.matchday;
-      if(!j||j<24||m.status!=="FINISHED")return;
+      const j=m.matchday;if(!j||j<24||m.status!=="FINISHED")return;
       const jo=j-24;if(jo>10)return;
       const home=mapTeam(m.homeTeam.name),away=mapTeam(m.awayTeam.name);
       const sh=m.score?.fullTime?.home,sa=m.score?.fullTime?.away;
@@ -486,41 +479,196 @@ async function fetchAPI(){
       if(home){R[home][jo]=sh>sa?"V":sh<sa?"D":"N";L[home][jo]=true;}
       if(away){R[away][jo]=sa>sh?"V":sa<sh?"D":"N";L[away][jo]=true;}
     });
-    // Propagation miroirs réels
     DUELS.forEach(([a,b,j])=>{
-      const master=CLUBS.indexOf(a)<CLUBS.indexOf(b)?a:b;
-      const slave=master===a?b:a;
-      if(R[master][j]&&L[master][j]){
-        const inv=R[master][j]==="V"?"D":R[master][j]==="D"?"V":"N";
-        R[slave][j]=inv;L[slave][j]=true;
-      }
+      const master=CLUBS.indexOf(a)<CLUBS.indexOf(b)?a:b,slave=master===a?b:a;
+      if(R[master][j]&&L[master][j]){const inv=R[master][j]==="V"?"D":R[master][j]==="D"?"V":"N";R[slave][j]=inv;L[slave][j]=true;}
     });
     return true;
   }catch(e){return false;}
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════
+// DÉTECTION NOUVEAUX RÉSULTATS
+// ═══════════════════════════
+function findNewResults(known){
+  // Retourne [{club, jOff, result, prono}] uniquement pour les résultats
+  // réels qui n'étaient pas dans "known" (= nouvelle journée)
+  const news=[];
+  // On déduplique les duels pour ne pas afficher 2 fois le même match
+  const seen=new Set();
+  CLUBS.forEach(club=>{
+    R[club].forEach((r,jOff)=>{
+      if(!L[club][jOff])return; // pas un résultat réel
+      const knownVal=known[club]?known[club][jOff]:null;
+      if(r===knownVal)return; // déjà connu
+      // Créer une clé unique pour le match (évite doublons duel interne)
+      const key=jOff+"-"+[club,CAL[club][jOff].m].filter(Boolean).sort().join("-");
+      if(seen.has(key))return;
+      seen.add(key);
+      const prono=loadKnownProno(club,jOff);
+      news.push({club,jOff,result:r,prono});
+    });
+  });
+  // Trier par journée
+  return news.sort((a,b)=>a.jOff-b.jOff);
+}
+
+function loadKnownProno(club,jOff){
+  // Récupère le pronostic de l'utilisateur avant que le résultat arrive
+  try{const s=localStorage.getItem(LS_KEY);if(!s)return null;const d=JSON.parse(s);return d[club]?d[club][jOff]:null;}catch(e){return null;}
+}
+
+// ═══════════════════════════
+// SÉQUENCE D'ANIMATION
+// ═══════════════════════════
+let animSkipped=false;
+
+function skipAnim(){
+  animSkipped=true;
+  document.querySelectorAll(".anim-screen").forEach(s=>s.classList.add("hidden"));
+  document.getElementById("skip-btn").classList.add("hidden");
+  showApp();
+}
+
+function makeEmojiRows(emojis,containerId){
+  const c=document.getElementById(containerId);
+  c.innerHTML="";
+  for(let i=0;i<12;i++){
+    const row=document.createElement("div");
+    row.className="emoji-row";
+    row.style.animationDelay=(i*0.3)+"s";
+    // Décaler chaque ligne horizontalement
+    row.style.marginLeft=(i%2===0?"-100px":"-200px");
+    row.textContent=(emojis+" ").repeat(20);
+    c.appendChild(row);
+  }
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+async function runUpdateAnimation(newResults){
+  if(animSkipped)return;
+  document.getElementById("skip-btn").classList.remove("hidden");
+
+  // ── Écran 1 : Mise à jour ──
+  makeEmojiRows("🔥",`emoji-bg-update`);
+  const n=newResults.length;
+  document.getElementById("upd-count").textContent=
+    n+" nouveau"+(n>1?"x":"")+" résultat"+(n>1?"s":"");
+  const s1=document.getElementById("screen-update");
+  s1.classList.remove("hidden");
+  await sleep(2200);
+  if(animSkipped)return;
+  s1.classList.add("fade-out");
+  await sleep(400);
+  s1.classList.add("hidden");s1.classList.remove("fade-out");
+
+  // ── Écran 2 : Résultats un par un ──
+  const s2=document.getElementById("screen-result");
+  for(const nr of newResults){
+    if(animSkipped)return;
+    const {club,jOff,result,prono}=nr;
+    const advRaw=CAL[club][jOff].a;
+    const advName=advRaw==="Marseille"?"OM":advRaw;
+    const ha=CAL[club][jOff].h;
+    const jLabel=JJ[jOff].id+" · "+JJ[jOff].d;
+
+    // Fond emojis selon résultat
+    const emojiMap={V:"🏆🎉✨",N:"🤝➖💛",D:"💔😤🔴"};
+    makeEmojiRows(emojiMap[result]||"⚽","emoji-bg-result");
+
+    // Bâtir le contenu
+    document.getElementById("res-journee").textContent=jLabel;
+
+    // Match : club (H ou A) vs adversaire
+    const homeClub=ha==="H"?club:advName;
+    const awayClub=ha==="H"?advName:club;
+    document.getElementById("res-match").innerHTML=
+      '<div class="res-club">'+
+        (crestUrl(homeClub)?'<img src="'+crestUrl(homeClub)+'" width="64" height="64">':'<span style="font-size:40px">⚽</span>')+
+        '<span class="res-club-name">'+homeClub+'</span>'+
+      '</div>'+
+      '<div class="res-score">'+result+'</div>'+
+      '<div class="res-club">'+
+        (crestUrl(awayClub)?'<img src="'+crestUrl(awayClub)+'" width="64" height="64">':'<span style="font-size:40px">⚽</span>')+
+        '<span class="res-club-name">'+awayClub+'</span>'+
+      '</div>';
+
+    const badge=document.getElementById("res-badge");
+    const labels={V:"Victoire","N":"Nul","D":"Défaite"};
+    badge.textContent=labels[result]||result;
+    badge.className="res-badge "+(result==="V"?"win":result==="N"?"draw":"loss");
+
+    // Pronostic
+    const pronoEl=document.getElementById("res-prono");
+    if(prono){
+      const correct=prono===result;
+      pronoEl.innerHTML='Ton prono : <span class="'+(correct?"prono-right":"prono-wrong")+'">'+prono+(correct?" ✓":" ✗")+'</span>';
+    } else {
+      pronoEl.textContent="Aucun pronostic enregistré";
+    }
+
+    s2.classList.remove("hidden");
+    await sleep(2500);
+    if(animSkipped)return;
+    s2.classList.add("fade-out");
+    await sleep(400);
+    s2.classList.add("hidden");s2.classList.remove("fade-out");
+  }
+
+  // ── Écran 3 : Classement ──
+  if(animSkipped)return;
+  makeEmojiRows("🏆🥇⭐","emoji-bg-ranking");
+  const s3=document.getElementById("screen-ranking");
+  const rankList=document.getElementById("rank-anim-list");
+  rankList.innerHTML="";
+  const s=sorted();
+  s.forEach((club,i)=>{
+    const pts=calcPts(club);
+    const rank=i+1;
+    const nc=rank===1?"g":rank===2?"s":rank===3?"b":"n";
+    const zoneColors=["#2563eb","#2563eb","#2563eb","#0ea5e9","#d97706","#7c3aed","transparent","transparent"];
+    const item=document.createElement("div");
+    item.className="rank-anim-item";
+    item.style.borderLeftColor=zoneColors[i];
+    item.innerHTML=
+      '<div class="rank-anim-num '+nc+'">'+rank+'</div>'+
+      (crestUrl(club)?'<img class="rank-anim-img" src="'+crestUrl(club)+'">':'')+
+      '<div class="rank-anim-name">'+META[club].name+'</div>'+
+      '<div class="rank-anim-pts">'+pts+'</div>';
+    rankList.appendChild(item);
+    setTimeout(()=>item.classList.add("show"),i*120);
+  });
+
+  s3.classList.remove("hidden");
+  await sleep(s.length*120+1500);
+  if(animSkipped)return;
+  s3.classList.add("fade-out");
+  await sleep(400);
+  s3.classList.add("hidden");s3.classList.remove("fade-out");
+
+  document.getElementById("skip-btn").classList.add("hidden");
+  showApp();
+}
+
+function showApp(){
+  document.getElementById("loader").classList.add("gone");
+}
+
+// ═══════════════════════════
 // CALENDRIER
-// ═══════════════════════════════════════
+// ═══════════════════════════
 let openPop=null;
-document.addEventListener("click",e=>{
-  if(!e.target.closest(".cell")&&!e.target.closest(".popup"))closePop();
-});
+document.addEventListener("click",e=>{if(!e.target.closest(".cell")&&!e.target.closest(".popup"))closePop();});
 function closePop(){if(openPop){openPop.remove();openPop=null;}}
 function rc(r){return r==="V"?"win":r==="N"?"draw":r==="D"?"loss":"";}
 
 function setRes(club,j,val){
   if(L[club][j])return;
-  // Snapshot AVANT le changement pour calculer le delta
   const prev={};CLUBS.forEach(c=>prev[c]=calcPts(c));
-
   R[club][j]=val;
-  // Propagation miroir
   const mir=CAL[club][j].m;
-  if(mir&&!L[mir][j]){
-    R[mir][j]=val==="V"?"D":val==="D"?"V":val==="N"?"N":null;
-    refreshCell(mir,j);
-  }
+  if(mir&&!L[mir][j]){R[mir][j]=val==="V"?"D":val==="D"?"V":val==="N"?"N":null;refreshCell(mir,j);}
   refreshCell(club,j);
   saveStorage();
   renderRanking(true,prev);
@@ -528,49 +676,34 @@ function setRes(club,j,val){
 }
 
 function refreshCell(club,j){
-  const el=document.getElementById("c"+club+j);
-  if(!el)return;
+  const el=document.getElementById("c"+club+j);if(!el)return;
   const r=R[club][j],lk=L[club][j],mir=!isMaster(club,j);
   el.className="cell "+rc(r)+(!lk?" clickable":"")+(!lk&&mir&&!r?" mirror":"");
   el.querySelector(".c-res").textContent=r||"";
 }
 
 function buildCalendar(){
-  const grid=document.getElementById("cal-grid");
-  grid.innerHTML="";
-  // Corner
-  const corner=document.createElement("div");
-  corner.className="ch corner jlabel";
-  grid.appendChild(corner);
-  // Headers clubs
+  const grid=document.getElementById("cal-grid");grid.innerHTML="";
+  const corner=document.createElement("div");corner.className="ch corner jlabel";grid.appendChild(corner);
   CLUBS.forEach(club=>{
-    const el=document.createElement("div");
-    el.className="ch";
+    const el=document.createElement("div");el.className="ch";
     el.innerHTML=img(club,22)+'<span class="ch-name">'+club+'</span><span class="ch-pts" id="chpts-'+club+'">'+calcPts(club)+'</span>';
     grid.appendChild(el);
   });
-  // Lignes journées
   JJ.forEach((jj,jOff)=>{
-    const jl=document.createElement("div");
-    jl.className="jlabel";
+    const jl=document.createElement("div");jl.className="jlabel";
     jl.innerHTML='<span class="jn">'+jj.id+'</span><span class="jd">'+jj.d+'</span>';
     grid.appendChild(jl);
     CLUBS.forEach(club=>{
-      const cal=CAL[club][jOff];
-      const r=R[club][jOff],lk=L[club][jOff],mir=!isMaster(club,jOff);
-      const cell=document.createElement("div");
-      cell.id="c"+club+jOff;
+      const cal=CAL[club][jOff];const r=R[club][jOff],lk=L[club][jOff],mir=!isMaster(club,jOff);
+      const cell=document.createElement("div");cell.id="c"+club+jOff;
       cell.className="cell "+rc(r)+(!lk?" clickable":"")+(!lk&&mir&&!r?" mirror":"");
       const advName=cal.a==="Marseille"?"OM":cal.a;
-      cell.innerHTML=
-        '<span class="c-ha">'+(cal.h==="H"?"🏠":"✈️")+'</span>'+
-        img(advName,24,"adv-crest")+
-        '<div class="c-bottom"><span class="c-adv">'+cal.a+'</span><span class="c-res">'+(r||"")+'</span></div>';
+      cell.innerHTML='<span class="c-ha">'+(cal.h==="H"?"🏠":"✈️")+'</span>'+img(advName,24,"adv-crest")+'<div class="c-bottom"><span class="c-adv">'+cal.a+'</span><span class="c-res">'+(r||"")+'</span></div>';
       if(!lk){
         cell.addEventListener("click",e=>{
           e.stopPropagation();closePop();
-          const pop=document.createElement("div");
-          pop.className="popup";
+          const pop=document.createElement("div");pop.className="popup";
           pop.innerHTML='<button class="pb v">V</button><button class="pb n">N</button><button class="pb d">D</button><button class="pb x">✕</button>';
           pop.querySelector(".v").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"V");closePop();};
           pop.querySelector(".n").onclick=ev=>{ev.stopPropagation();setRes(club,jOff,"N");closePop();};
@@ -584,73 +717,42 @@ function buildCalendar(){
   });
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════
 // CLASSEMENT
-// ═══════════════════════════════════════
+// ═══════════════════════════
 let prevRank=[];
-
 function renderRanking(animate,prev){
   animate=animate||false;prev=prev||{};
-  const list=document.getElementById("rank-list");
-  const s=sorted();
-
+  const list=document.getElementById("rank-list");const s=sorted();
   s.forEach((club,i)=>{
-    const pts=calcPts(club);
-    let el=document.getElementById("ri-"+club);
+    const pts=calcPts(club);let el=document.getElementById("ri-"+club);
     if(!el){el=document.createElement("div");el.id="ri-"+club;list.appendChild(el);}
-
-    const rank=i+1;
-    const nc=rank===1?"g":rank===2?"s":rank===3?"b":"";
+    const rank=i+1,nc=rank===1?"g":rank===2?"s":rank===3?"b":"";
     el.className="ri "+(ZONE_CLS[i]||"");
-    el.innerHTML=
-      '<div class="ri-num '+nc+'">'+rank+'</div>'+
-      img(club,26)+
-      '<div class="ri-info">'+
-        '<div class="ri-name">'+META[club].name+'</div>'+
-        '<div class="ri-zone">'+(ZONE_LBL[i]||"")+'</div>'+
-      '</div>'+
-      '<div class="ri-pts" id="rp-'+club+'">'+pts+'</div>';
-
-    // Animation +/- pts
+    el.innerHTML='<div class="ri-num '+nc+'">'+rank+'</div>'+img(club,26)+'<div class="ri-info"><div class="ri-name">'+META[club].name+'</div><div class="ri-zone">'+(ZONE_LBL[i]||"")+'</div></div><div class="ri-pts" id="rp-'+club+'">'+pts+'</div>';
     const diff=animate&&prev[club]!==undefined?pts-prev[club]:0;
     if(diff!==0){
       const pEl=document.getElementById("rp-"+club);
-      pEl.classList.remove("bump-up","bump-down");
-      void pEl.offsetWidth;
-      pEl.classList.add(diff>0?"bump-up":"bump-down");
-      const b=document.createElement("span");
-      b.className="badge "+(diff>0?"pos":"neg");
-      b.textContent=(diff>0?"+":"")+diff;
-      pEl.appendChild(b);
-      setTimeout(()=>b.remove(),1900);
+      pEl.classList.remove("bump-up","bump-down");void pEl.offsetWidth;pEl.classList.add(diff>0?"bump-up":"bump-down");
+      const b=document.createElement("span");b.className="badge "+(diff>0?"pos":"neg");b.textContent=(diff>0?"+":"")+diff;
+      pEl.appendChild(b);setTimeout(()=>b.remove(),1900);
     }
-
-    // Glissement si changement de position
     const pi=prevRank.indexOf(club);
     if(animate&&pi!==-1&&pi!==i){
-      const dy=(pi-i)*41;
-      el.style.transition="none";el.style.transform="translateY("+dy+"px)";
-      requestAnimationFrame(()=>{
-        el.style.transition="transform .55s cubic-bezier(0.34,1.56,0.64,1)";
-        el.style.transform="translateY(0)";
-      });
+      const dy=(pi-i)*41;el.style.transition="none";el.style.transform="translateY("+dy+"px)";
+      requestAnimationFrame(()=>{el.style.transition="transform .55s cubic-bezier(0.34,1.56,0.64,1)";el.style.transform="translateY(0)";});
     }
   });
-
   s.forEach(club=>list.appendChild(document.getElementById("ri-"+club)));
-  CLUBS.forEach(c=>{
-    const el=document.getElementById("chpts-"+c);
-    if(el)el.textContent=calcPts(c);
-  });
+  CLUBS.forEach(c=>{const el=document.getElementById("chpts-"+c);if(el)el.textContent=calcPts(c);});
   prevRank=s;
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════
 // GRAPHIQUE
-// ═══════════════════════════════════════
+// ═══════════════════════════
 let chart=null;
 const COLORS={PSG:"#3b82f6",Lens:"#ef4444",Lyon:"#6366f1",OM:"#0ea5e9",Lille:"#8b5cf6",Rennes:"#f59e0b",Strasbourg:"#14b8a6",Monaco:"#f43f5e"};
-
 function chartData(){
   const labels=["J23",...JJ.map(j=>j.id)];
   const datasets=CLUBS.map(club=>{
@@ -660,54 +762,32 @@ function chartData(){
   });
   return{labels,datasets};
 }
-
 function initChart(){
   const ctx=document.getElementById("pts-chart").getContext("2d");
   const{labels,datasets}=chartData();
-  chart=new Chart(ctx,{
-    type:"line",data:{labels,datasets},
-    options:{
-      responsive:true,maintainAspectRatio:false,animation:{duration:300},
-      interaction:{mode:"index",intersect:false},
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:"#fff",borderColor:COLORS.border,borderWidth:1,
-          titleColor:"#1a1a1a",bodyColor:"rgba(26,26,26,0.6)",padding:8,
-          callbacks:{label:c=>" "+c.dataset.label+": "+c.raw+"pts"}
-        }
-      },
-      scales:{
-        x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"rgba(26,26,26,0.4)",font:{size:9}}},
-        y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"rgba(26,26,26,0.4)",font:{size:9}}}
-      }
-    }
-  });
+  chart=new Chart(ctx,{type:"line",data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},interaction:{mode:"index",intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:"#fff",borderColor:"rgba(0,0,0,0.1)",borderWidth:1,titleColor:"#1a1a1a",bodyColor:"rgba(26,26,26,0.6)",padding:8,callbacks:{label:c=>" "+c.dataset.label+": "+c.raw+"pts"}}},scales:{x:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"rgba(26,26,26,0.4)",font:{size:9}}},y:{grid:{color:"rgba(0,0,0,0.04)"},ticks:{color:"rgba(26,26,26,0.4)",font:{size:9}}}}}});
   const leg=document.getElementById("chart-legend");
   CLUBS.forEach(c=>{leg.innerHTML+='<div class="leg">'+img(c,12)+" "+META[c].name+"</div>";});
 }
+function updateChart(){if(!chart)return;const{labels,datasets}=chartData();chart.data.labels=labels;chart.data.datasets=datasets;chart.update("active");}
 
-function updateChart(){
-  if(!chart)return;
-  const{labels,datasets}=chartData();
-  chart.data.labels=labels;chart.data.datasets=datasets;chart.update("active");
-}
-
-// ═══════════════════════════════════════
-// INIT — ordre critique pour la mémoire
-// ═══════════════════════════════════════
+// ═══════════════════════════
+// INIT
+// ═══════════════════════════
 async function init(){
-  // 1. Charger les pronostics sauvegardés EN PREMIER
-  loadStorage();
+  document.getElementById("l-txt").textContent="Récupération des résultats…";
 
-  // 2. Appeler l'API (écrase uniquement les résultats réels)
+  // 1. Charger pronostics + résultats connus
+  loadStorage();
+  const known=loadKnown();
+
+  // 2. Appeler l'API
   const ok=await fetchAPI();
 
-  // 3. Recharger les pronostics pour les journées non verrouillées
-  //    (l'API peut avoir écrasé certaines cellules → on remet les pronostics)
+  // 3. Recharger pronostics (sans écraser les vrais résultats)
   loadStorage();
 
-  // 4. Construire l'interface
+  // 4. Construire l'UI
   buildCalendar();
   renderRanking(false,{});
   initChart();
@@ -717,7 +797,19 @@ async function init(){
     (ok?"API en direct · ":"Hors ligne · ")+
     now.toLocaleDateString("fr-FR")+" "+now.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
 
-  setTimeout(()=>document.getElementById("loader").classList.add("gone"),1300);
+  // 5. Chercher les nouveaux résultats par rapport à la dernière visite
+  const newResults=ok?findNewResults(known):[];
+
+  // 6. Sauvegarder les résultats connus MAINTENANT pour la prochaine visite
+  saveKnown();
+
+  // 7. Séquence d'animation si nouveaux résultats, sinon afficher direct
+  if(newResults.length>0){
+    document.getElementById("loader").classList.add("gone");
+    await runUpdateAnimation(newResults);
+  } else {
+    setTimeout(()=>showApp(),1300);
+  }
 }
 init();
 </script>
